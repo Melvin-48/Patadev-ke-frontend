@@ -1,0 +1,1 @@
+// TODO: Define Bid, BidStatus types
