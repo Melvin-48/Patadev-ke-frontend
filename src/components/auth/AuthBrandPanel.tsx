@@ -12,14 +12,14 @@ export default function AuthBrandPanel({
   return (
     <div className="relative h-full w-full flex flex-col justify-between p-10 lg:p-16 overflow-hidden select-none">
       
-      {/* ────── Image Background + Sleek Overlay Gradient ────── */}
+      {/* ────── Real Asset Background (Hero Section Asset) + Overlay ────── */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/assets/images/auth-bg.png"
-          alt="PataDev Software Marketplace"
+          src="/assets/images/landing/patadev-hero.png"
+          alt="PataDev Ke Software Marketplace"
           className="w-full h-full object-cover object-center transform scale-105"
         />
-        {/* Dark Royal Navy Gradient Overlay for optimal text legibility */}
+        {/* Dark Royal Navy Gradient Overlay for optimal contrast and brand harmony */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#07152F] via-[#07152F]/75 to-[#07152F]/40 backdrop-blur-[2px]" />
       </div>
 
