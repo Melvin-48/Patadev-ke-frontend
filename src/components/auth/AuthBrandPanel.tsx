@@ -10,49 +10,39 @@ export default function AuthBrandPanel({
   footerText = 'Where ideas become projects.',
 }: AuthBrandPanelProps) {
   return (
-    <div className="relative h-full w-full bg-gradient-to-br from-blue-50/80 via-slate-50 to-indigo-50/60 p-10 lg:p-16 flex flex-col justify-between overflow-hidden border-l border-slate-200/80 select-none">
+    <div className="relative h-full w-full flex flex-col justify-between p-10 lg:p-16 overflow-hidden select-none">
       
-      {/* ────── Soft Ambient Glow Orbs & Light Glassmorphism Gradients ────── */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div
-          className="absolute -top-32 -right-32 w-[550px] h-[550px] rounded-full"
-          style={{
-            background: 'radial-gradient(circle, rgba(23,105,255,0.08) 0%, transparent 70%)',
-            filter: 'blur(90px)',
-          }}
+      {/* ────── Image Background + Sleek Overlay Gradient ────── */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="/assets/images/auth-bg.png"
+          alt="PataDev Software Marketplace"
+          className="w-full h-full object-cover object-center transform scale-105"
         />
-        <div
-          className="absolute -bottom-32 -left-32 w-[550px] h-[550px] rounded-full"
-          style={{
-            background: 'radial-gradient(circle, rgba(99,102,241,0.07) 0%, transparent 70%)',
-            filter: 'blur(90px)',
-          }}
-        />
-        {/* Subtle Decorative Glass Curves */}
-        <div className="absolute top-[20%] right-[-10%] w-[450px] h-[450px] rounded-full border border-primary/10 bg-white/20 backdrop-blur-md" />
-        <div className="absolute bottom-[10%] left-[-15%] w-[550px] h-[550px] rounded-full border border-indigo-200/30 bg-indigo-50/20 backdrop-blur-md" />
+        {/* Dark Royal Navy Gradient Overlay for optimal text legibility */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#07152F] via-[#07152F]/75 to-[#07152F]/40 backdrop-blur-[2px]" />
       </div>
 
-      {/* Top Spacer / Tag */}
+      {/* Top Tagline */}
       <div className="relative z-10">
-        <span className="text-xs font-semibold tracking-wider text-[#64748B] uppercase">
+        <span className="text-xs font-bold tracking-widest text-blue-300 uppercase">
           PataDev Ke
         </span>
       </div>
 
-      {/* Central Brand Headline & Description (Directly on Glassmorphic Panel) */}
+      {/* Central Brand Headline & Description */}
       <div className="relative z-10 my-auto py-12 max-w-md">
-        <h2 className="text-3xl lg:text-4xl xl:text-5xl font-extrabold text-[#07152F] tracking-tight leading-[1.15] whitespace-pre-line mb-6">
+        <h2 className="text-3xl lg:text-4xl xl:text-5xl font-extrabold text-white tracking-tight leading-[1.15] whitespace-pre-line mb-6 drop-shadow-sm">
           {headline}
         </h2>
         
-        <p className="text-sm lg:text-base text-[#64748B] font-medium leading-relaxed max-w-sm">
+        <p className="text-sm lg:text-base text-slate-200 font-medium leading-relaxed max-w-sm drop-shadow-xs">
           {subheadline}
         </p>
       </div>
 
       {/* Bottom Subtle Message */}
-      <div className="relative z-10 pt-4 border-t border-slate-200/60 text-xs text-[#64748B] font-medium">
+      <div className="relative z-10 pt-4 border-t border-white/15 text-xs text-slate-300 font-medium">
         {footerText}
       </div>
 
