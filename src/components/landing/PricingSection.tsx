@@ -1,161 +1,264 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Check, ShieldCheck } from 'lucide-react';
+import { Check, ShieldCheck } from 'lucide-react';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
 import { cn } from '../../lib/utils';
 
 export default function PricingSection() {
+  const [billingCycle, setBillingCycle] = useState<'annual' | 'monthly'>('annual');
   const { ref, isVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.1 });
 
   return (
-    <section id="pricing" className="relative w-full py-16 lg:py-24">
+    <section id="pricing" className="relative w-full py-16 lg:py-24 overflow-hidden">
       <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8">
         
         {/* Section Header */}
         <div
           className={cn(
-            'flex flex-col items-center text-center gap-3 mb-12 transition-all duration-700 ease-out',
+            'flex flex-col items-center text-center gap-3 mb-10 transition-all duration-700 ease-out',
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8',
           )}
         >
-          <div className="font-mono text-xs uppercase tracking-[0.25em] font-semibold text-primary">
-            TRANSPARENT FEES
-          </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#07152F] tracking-tight">
-            Simple & Fair Pricing
+            Choose Your Plan
           </h2>
           <p className="text-[#64748B] text-base lg:text-lg max-w-2xl">
-            No hidden subscription fees. Pay only when milestone deliverables are reviewed and approved.
+            Affordable and adaptable pricing to suit your goals.
           </p>
+
+          {/* Billing Cycle Pill Switcher */}
+          <div className="inline-flex items-center p-1.5 rounded-full bg-blue-50/80 border border-blue-100/90 shadow-sm mt-4">
+            <button
+              type="button"
+              onClick={() => setBillingCycle('annual')}
+              className={cn(
+                'flex items-center gap-2 px-5 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-200',
+                billingCycle === 'annual'
+                  ? 'bg-white text-[#07152F] shadow-sm'
+                  : 'text-[#64748B] hover:text-[#07152F]',
+              )}
+            >
+              <span>Bill annually</span>
+              <span className="px-2 py-0.5 rounded-full bg-blue-100 text-primary text-[10px] font-extrabold uppercase">
+                10% OFF
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setBillingCycle('monthly')}
+              className={cn(
+                'px-5 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-200',
+                billingCycle === 'monthly'
+                  ? 'bg-white text-[#07152F] shadow-sm'
+                  : 'text-[#64748B] hover:text-[#07152F]',
+              )}
+            >
+              Bill monthly
+            </button>
+          </div>
         </div>
 
-        {/* Pricing Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        {/* 3-Card Grid (Basic, Pro / Recommended, Enterprise) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch max-w-6xl mx-auto pt-4">
           
-          {/* Card 1: Businesses */}
+          {/* ────── CARD 1: BASIC ────── */}
           <div
             className={cn(
-              'p-8 sm:p-10 rounded-3xl backdrop-blur-xl border border-white/70 shadow-2xl flex flex-col justify-between transition-all duration-700 ease-out hover:-translate-y-1.5',
+              'p-8 rounded-3xl bg-white/90 backdrop-blur-xl border border-white/80 shadow-xl flex flex-col justify-between transition-all duration-700 ease-out hover:-translate-y-1.5',
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10',
             )}
-            style={{ background: 'rgba(255, 255, 255, 0.70)' }}
           >
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider mb-4">
-                For Businesses
-              </div>
-
-              <h3 className="text-2xl font-bold text-[#07152F] mb-2">
-                Client Escrow
+              <h3 className="text-xl font-bold text-[#07152F] mb-1">
+                Basic
               </h3>
-              <p className="text-xs text-[#64748B] mb-6">
-                Post projects for free and hire verified Kenyan tech talent.
+              <p className="text-xs text-[#64748B] mb-6 leading-relaxed">
+                For individuals and small startups getting started with local devs.
               </p>
 
-              <div className="flex items-baseline gap-1 mb-6">
-                <span className="text-4xl sm:text-5xl font-extrabold text-[#07152F] tracking-tight">
-                  0%
+              <div className="flex items-baseline gap-1 pb-6 mb-6 border-b border-slate-100">
+                <span className="text-4xl font-extrabold text-[#07152F] tracking-tight">
+                  {billingCycle === 'annual' ? 'KES 0' : 'KES 0'}
                 </span>
                 <span className="text-xs font-semibold text-[#64748B]">
-                  Posting Fee (3% Escrow release)
+                  /month
                 </span>
               </div>
 
-              <ul className="flex flex-col gap-3 text-xs sm:text-sm text-[#475569] font-medium mb-8">
-                <li className="flex items-center gap-2.5">
-                  <Check size={16} className="text-emerald-500 shrink-0" />
-                  <span>Unlimited free project postings</span>
+              <div className="text-xs font-bold uppercase tracking-wider text-[#07152F] mb-4">
+                What&apos;s included:
+              </div>
+
+              <ul className="flex flex-col gap-3 text-xs text-[#475569] font-medium mb-8">
+                <li className="flex items-start gap-2.5">
+                  <Check size={16} className="text-primary shrink-0 mt-0.5" />
+                  <span>Post up to 2 active projects</span>
                 </li>
-                <li className="flex items-center gap-2.5">
-                  <Check size={16} className="text-emerald-500 shrink-0" />
-                  <span>Free proposal & bid comparisons</span>
+                <li className="flex items-start gap-2.5">
+                  <Check size={16} className="text-primary shrink-0 mt-0.5" />
+                  <span>Standard developer proposals</span>
                 </li>
-                <li className="flex items-center gap-2.5">
-                  <Check size={16} className="text-emerald-500 shrink-0" />
-                  <span>100% Escrow money-back guarantee</span>
+                <li className="flex items-start gap-2.5">
+                  <Check size={16} className="text-primary shrink-0 mt-0.5" />
+                  <span>Basic milestone escrow holding</span>
                 </li>
-                <li className="flex items-center gap-2.5">
-                  <Check size={16} className="text-emerald-500 shrink-0" />
-                  <span>Dedicated dispute resolution team</span>
+                <li className="flex items-start gap-2.5">
+                  <Check size={16} className="text-primary shrink-0 mt-0.5" />
+                  <span>Direct client messaging</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <Check size={16} className="text-primary shrink-0 mt-0.5" />
+                  <span>Email support</span>
                 </li>
               </ul>
             </div>
 
             <Link
               to="/register"
-              className="w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-xl bg-[#07152F] text-white text-sm font-semibold hover:bg-primary transition-colors shadow-md"
+              className="w-full inline-flex items-center justify-center py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 text-[#07152F] text-xs font-bold transition-colors"
             >
-              <span>Post a Project Free</span>
-              <ArrowRight size={15} />
+              Get started
             </Link>
           </div>
 
-          {/* Card 2: Developers */}
+          {/* ────── CARD 2: PRO (RECOMMENDED / FEATURED) ────── */}
           <div
             className={cn(
-              'p-8 sm:p-10 rounded-3xl backdrop-blur-xl border border-white/70 shadow-2xl flex flex-col justify-between transition-all duration-700 ease-out hover:-translate-y-1.5',
+              'relative p-8 rounded-3xl bg-white backdrop-blur-xl border-2 border-primary shadow-2xl shadow-primary/20 flex flex-col justify-between transition-all duration-700 ease-out md:-mt-4 md:mb-[-16px]',
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10',
             )}
-            style={{
-              background: 'rgba(255, 255, 255, 0.70)',
-              transitionDelay: isVisible ? '150ms' : '0ms',
-            }}
+            style={{ transitionDelay: isVisible ? '120ms' : '0ms' }}
           >
-            <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-600 text-xs font-semibold uppercase tracking-wider mb-4">
-                For Developers
-              </div>
+            {/* Recommended Pill Badge */}
+            <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-blue-100 border border-blue-200 text-primary text-[11px] font-extrabold uppercase tracking-wider shadow-xs">
+              Recommended for you
+            </div>
 
-              <h3 className="text-2xl font-bold text-[#07152F] mb-2">
-                Developer Payouts
+            <div>
+              <h3 className="text-xl font-bold text-[#07152F] mb-1 pt-2">
+                Pro
               </h3>
-              <p className="text-xs text-[#64748B] mb-6">
-                Submit bids for free and build with guaranteed milestone backing.
+              <p className="text-xs text-[#64748B] mb-6 leading-relaxed">
+                For growing teams that need vetted talent and milestone protection.
               </p>
 
-              <div className="flex items-baseline gap-1 mb-6">
-                <span className="text-4xl sm:text-5xl font-extrabold text-[#07152F] tracking-tight">
-                  5%
+              <div className="flex items-baseline gap-1 pb-6 mb-6 border-b border-slate-100">
+                <span className="text-4xl font-extrabold text-[#07152F] tracking-tight">
+                  {billingCycle === 'annual' ? 'KES 2,500' : 'KES 2,900'}
                 </span>
                 <span className="text-xs font-semibold text-[#64748B]">
-                  Payout Commission
+                  /month
                 </span>
               </div>
 
-              <ul className="flex flex-col gap-3 text-xs sm:text-sm text-[#475569] font-medium mb-8">
-                <li className="flex items-center gap-2.5">
-                  <Check size={16} className="text-emerald-500 shrink-0" />
-                  <span>Free proposal & bid submissions</span>
+              <div className="text-xs font-bold uppercase tracking-wider text-[#07152F] mb-4">
+                What&apos;s included:
+              </div>
+
+              <ul className="flex flex-col gap-3 text-xs text-[#475569] font-medium mb-8">
+                <li className="flex items-start gap-2.5">
+                  <Check size={16} className="text-primary shrink-0 mt-0.5" />
+                  <span>Unlimited project postings</span>
                 </li>
-                <li className="flex items-center gap-2.5">
-                  <Check size={16} className="text-emerald-500 shrink-0" />
-                  <span>Guaranteed escrow payout backing</span>
+                <li className="flex items-start gap-2.5">
+                  <Check size={16} className="text-primary shrink-0 mt-0.5" />
+                  <span>Vetted senior developer matching</span>
                 </li>
-                <li className="flex items-center gap-2.5">
-                  <Check size={16} className="text-emerald-500 shrink-0" />
+                <li className="flex items-start gap-2.5">
+                  <Check size={16} className="text-primary shrink-0 mt-0.5" />
+                  <span>Full milestone escrow protection</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <Check size={16} className="text-primary shrink-0 mt-0.5" />
                   <span>Instant M-Pesa & Bank transfers</span>
                 </li>
-                <li className="flex items-center gap-2.5">
-                  <Check size={16} className="text-emerald-500 shrink-0" />
-                  <span>Verified developer profile badge</span>
+                <li className="flex items-start gap-2.5">
+                  <Check size={16} className="text-primary shrink-0 mt-0.5" />
+                  <span>Dispute shield & code verification</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <Check size={16} className="text-primary shrink-0 mt-0.5" />
+                  <span>Priority 24/7 support</span>
                 </li>
               </ul>
             </div>
 
             <Link
               to="/register"
-              className="w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-colors shadow-md"
+              className="w-full inline-flex items-center justify-center py-3.5 rounded-2xl text-white text-xs font-bold transition-all shadow-lg hover:shadow-xl"
+              style={{ background: '#07152F' }}
             >
-              <span>Join as Developer</span>
-              <ArrowRight size={15} />
+              Start with Pro
+            </Link>
+          </div>
+
+          {/* ────── CARD 3: ENTERPRISE ────── */}
+          <div
+            className={cn(
+              'p-8 rounded-3xl bg-white/90 backdrop-blur-xl border border-white/80 shadow-xl flex flex-col justify-between transition-all duration-700 ease-out hover:-translate-y-1.5',
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10',
+            )}
+            style={{ transitionDelay: isVisible ? '240ms' : '0ms' }}
+          >
+            <div>
+              <h3 className="text-xl font-bold text-[#07152F] mb-1">
+                Enterprise
+              </h3>
+              <p className="text-xs text-[#64748B] mb-6 leading-relaxed">
+                For large organizations with custom dev squads and SLA needs.
+              </p>
+
+              <div className="flex items-baseline gap-1 pb-6 mb-6 border-b border-slate-100">
+                <span className="text-4xl font-extrabold text-[#07152F] tracking-tight">
+                  Custom
+                </span>
+                <span className="text-xs font-semibold text-[#64748B]">
+                  /quote
+                </span>
+              </div>
+
+              <div className="text-xs font-bold uppercase tracking-wider text-[#07152F] mb-4">
+                What&apos;s included:
+              </div>
+
+              <ul className="flex flex-col gap-3 text-xs text-[#475569] font-medium mb-8">
+                <li className="flex items-start gap-2.5">
+                  <Check size={16} className="text-primary shrink-0 mt-0.5" />
+                  <span>Dedicated account & project manager</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <Check size={16} className="text-primary shrink-0 mt-0.5" />
+                  <span>Custom API integrations & SLA guarantee</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <Check size={16} className="text-primary shrink-0 mt-0.5" />
+                  <span>Dedicated dev squad allocation</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <Check size={16} className="text-primary shrink-0 mt-0.5" />
+                  <span>Corporate invoicing & custom billing</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <Check size={16} className="text-primary shrink-0 mt-0.5" />
+                  <span>Security audit & onboarding support</span>
+                </li>
+              </ul>
+            </div>
+
+            <Link
+              to="/register"
+              className="w-full inline-flex items-center justify-center py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 text-[#07152F] text-xs font-bold transition-colors"
+            >
+              Contact Sales
             </Link>
           </div>
 
         </div>
 
-        {/* Security Assurance Banner */}
-        <div className="mt-12 text-center flex items-center justify-center gap-2 text-xs font-semibold text-[#64748B]">
+        {/* Security Guarantee Note */}
+        <div className="mt-14 text-center flex items-center justify-center gap-2 text-xs font-semibold text-[#64748B]">
           <ShieldCheck size={16} className="text-emerald-500" />
-          <span>All transactions protected by PataDev Escrow Vault</span>
+          <span>All plans backed by 100% PataDev Escrow Vault Guarantee</span>
         </div>
 
       </div>
