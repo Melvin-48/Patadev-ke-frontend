@@ -157,7 +157,7 @@ export default function ContactSection() {
             )}
           </div>
 
-          {/* Right Direct Approach Info & Map Visual (5/12) */}
+          {/* Right Direct Approach Info & Google Maps Card (5/12) */}
           <div
             className={cn(
               'lg:col-span-5 flex flex-col justify-between h-full transition-all duration-700 ease-out',
@@ -191,6 +191,16 @@ export default function ContactSection() {
                   </span>
                 </div>
 
+                {/* Location */}
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                    <MapPin size={18} />
+                  </div>
+                  <span className="text-sm font-bold text-[#07152F]">
+                    Eldoret, Uasin Gishu County, Kenya
+                  </span>
+                </div>
+
                 {/* Working Hours */}
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
@@ -203,30 +213,19 @@ export default function ContactSection() {
               </div>
             </div>
 
-            {/* Location Map Visual Card */}
-            <div className="rounded-3xl border border-white bg-white/80 backdrop-blur-xl shadow-xl overflow-hidden h-64 relative flex flex-col justify-end p-6 group">
-              {/* Decorative Subtle Map Mesh Background */}
-              <div
-                className="absolute inset-0 opacity-40 mix-blend-multiply bg-cover bg-center"
-                style={{
-                  backgroundImage: `radial-gradient(#1769FF 0.75px, transparent 0.75px)`,
-                  backgroundSize: '16px 16px',
-                }}
+            {/* Interactive Google Maps Embed Container */}
+            <div className="rounded-3xl border border-white bg-white/90 backdrop-blur-xl shadow-xl overflow-hidden h-72 relative group">
+              <iframe
+                title="PataDev Location - Eldoret, Uasin Gishu"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127670.3670154877!2d35.2152634!3d0.5142775!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x178101ae37f4f091%3A0x6b1128362624cf5b!2sEldoret!5e0!3m2!1sen!2ske!4v1700000000000!5m2!1sen!2ske"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={false}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="w-full h-full filter saturate-[0.85] contrast-[1.05]"
               />
-
-              <div className="relative z-10 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-primary text-white flex items-center justify-center shadow-lg shrink-0">
-                  <MapPin size={20} />
-                </div>
-                <div>
-                  <div className="text-xs font-bold uppercase tracking-wider text-primary">
-                    HQ Location
-                  </div>
-                  <div className="text-sm font-extrabold text-[#07152F]">
-                    Nairobi Tech Innovation Hub, Kenya
-                  </div>
-                </div>
-              </div>
             </div>
 
           </div>
