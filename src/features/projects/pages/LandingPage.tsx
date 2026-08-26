@@ -1,5 +1,7 @@
 import LandingNavbar from '../../../components/landing/LandingNavbar';
 import HeroSection from '../../../components/landing/HeroSection';
+import StatsSection from '../../../components/landing/StatsSection';
+import HowItWorksSection from '../../../components/landing/HowItWorksSection';
 
 /**
  * LandingPage — public home page.
@@ -7,13 +9,12 @@ import HeroSection from '../../../components/landing/HeroSection';
  * The outer wrapper provides the glassmorphism canvas:
  * a multi-layer gradient + fixed colour blobs that every glass
  * surface on the page floats over.
- *
- * Future sections should be appended below <HeroSection />.
  */
 export default function LandingPage() {
   return (
     /* ── Page-level glassmorphism canvas ── */
-    <div className="relative min-h-screen overflow-x-hidden"
+    <div
+      className="relative min-h-screen overflow-x-hidden"
       style={{
         background:
           'linear-gradient(150deg, #C7DCFF 0%, #D6E8FF 18%, #EAF2FF 40%, #F0F6FF 65%, #E8F0FE 100%)',
@@ -59,7 +60,8 @@ export default function LandingPage() {
       <div className="relative z-10">
         <LandingNavbar />
         <HeroSection />
-        {/* Additional landing-page sections will be composed here by the next agent */}
+        <StatsSection />
+        <HowItWorksSection />
       </div>
     </div>
   );
