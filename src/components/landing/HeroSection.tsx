@@ -77,9 +77,9 @@ export default function HeroSection() {
           {/* ─────────── LEFT COLUMN (6/12) ─────────── */}
           <div className="lg:col-span-6 flex flex-col gap-6 animate-fade-up">
 
-            {/* Eyebrow Pill Badge */}
-            <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-blue-50/80 border border-blue-100/80 text-xs font-semibold text-[#1E3A8A] w-fit">
-              Trusted Platform
+            {/* Clean Monospace Company Name Eyebrow (No Card/Background) */}
+            <div className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-primary">
+              PATADEV KE MARKETPLACE
             </div>
 
             {/* Main Headline with Typewriter Animation */}
@@ -153,17 +153,10 @@ export default function HeroSection() {
 
         </div>
 
-        {/* ─────────── BOTTOM PARTNERS BAR (Finmex reference matching) ─────────── */}
-        <div className="mt-20 sm:mt-24 pt-10 border-t border-slate-200/60 animate-fade-up">
-          <p className="text-center text-sm font-semibold text-[#07152F] mb-8">
-            Used by the best platforms and teams around Kenya:
-          </p>
-
-          {/* Partner logos ticker */}
-          <div className="relative w-full overflow-hidden py-3">
-            <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-surface to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-surface to-transparent z-10 pointer-events-none" />
-
+        {/* ─────────── BOTTOM PARTNERS BAR (Clean transparent marquee, no text heading) ─────────── */}
+        <div className="mt-20 sm:mt-24 pt-8 animate-fade-up">
+          {/* Transparent marquee ticker */}
+          <div className="relative w-full overflow-hidden py-3 bg-transparent border-none">
             <div className="animate-marquee-track items-center gap-12 sm:gap-16">
               {marqueePartners.map((partner, idx) => (
                 <div
