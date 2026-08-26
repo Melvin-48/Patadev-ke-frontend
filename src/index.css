@@ -60,6 +60,15 @@
     50% { opacity: 0; }
   }
 
+  @keyframes progress {
+    0% {
+      width: 0%;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+
   .animate-marquee-track {
     display: flex;
     width: max-content;
