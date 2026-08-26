@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AlertCircle, Loader2, CheckCircle2 } from 'lucide-react';
+import { KeyRound, AlertCircle, Loader2, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '../../../contexts/AuthContext';
 import { cn } from '../../../lib/utils';
 import AuthLayout from '../../../components/auth/AuthLayout';
@@ -49,6 +49,7 @@ export default function ForgotPasswordPage() {
     <AuthLayout
       title="Forgot your password?"
       description="Enter your email address and we'll send you a link to reset your password."
+      icon={<KeyRound size={20} />}
       brandHeadline="Build better.
 Connect smarter."
       brandSubheadline="Where businesses find skilled developers and developers find meaningful projects."
@@ -77,7 +78,7 @@ Connect smarter."
           <div className="pt-2">
             <Link
               to="/login"
-              className="w-full inline-flex items-center justify-center py-2.5 px-4 rounded-lg font-bold text-white bg-[#07152F] hover:bg-[#0E2042] transition-all text-xs"
+              className="w-full inline-flex items-center justify-center py-2.5 px-4 rounded-lg font-bold text-white bg-[#1769FF] hover:bg-blue-600 transition-all text-xs"
             >
               Back to login
             </Link>
@@ -126,10 +127,10 @@ Connect smarter."
               type="submit"
               disabled={isLoading}
               className={cn(
-                'w-full inline-flex items-center justify-center py-2.5 px-4 rounded-lg font-bold text-white transition-all duration-150 text-xs mt-1',
+                'w-full inline-flex items-center justify-center py-2.5 px-4 rounded-lg font-bold text-white shadow-sm transition-all duration-150 text-xs mt-1',
                 isLoading
                   ? 'bg-primary/70 cursor-not-allowed'
-                  : 'bg-[#07152F] hover:bg-[#0E2042] active:scale-[0.99]',
+                  : 'bg-[#1769FF] hover:bg-blue-600 active:scale-[0.99]',
               )}
             >
               {isLoading ? (

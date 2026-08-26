@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, AlertCircle, Loader2 } from 'lucide-react';
+import { LogIn, Eye, EyeOff, AlertCircle, Loader2 } from 'lucide-react';
 import { useAuth } from '../../../contexts/AuthContext';
 import { cn } from '../../../lib/utils';
 import AuthLayout from '../../../components/auth/AuthLayout';
@@ -56,6 +56,7 @@ export default function LoginPage() {
     <AuthLayout
       title="Welcome back"
       description="Sign in to your PataDev account."
+      icon={<LogIn size={20} />}
       brandHeadline="Build better.
 Connect smarter."
       brandSubheadline="Where businesses find skilled developers and developers find meaningful projects."
@@ -164,10 +165,10 @@ Connect smarter."
           type="submit"
           disabled={isLoading}
           className={cn(
-            'w-full inline-flex items-center justify-center py-2.5 px-4 rounded-lg font-bold text-white transition-all duration-150 text-sm mt-1',
+            'w-full inline-flex items-center justify-center py-2.5 px-4 rounded-lg font-bold text-white shadow-sm transition-all duration-150 text-sm mt-1',
             isLoading
               ? 'bg-primary/70 cursor-not-allowed'
-              : 'bg-[#07152F] hover:bg-[#0E2042] active:scale-[0.99]',
+              : 'bg-[#1769FF] hover:bg-blue-600 active:scale-[0.99]',
           )}
         >
           {isLoading ? (
