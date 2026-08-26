@@ -10,7 +10,7 @@ export default function AuthBrandPanel({
   footerText = 'Where ideas become projects.',
 }: AuthBrandPanelProps) {
   return (
-    <div className="relative h-full w-full flex flex-col justify-between p-10 lg:p-16 overflow-hidden select-none">
+    <div className="relative h-full w-full flex flex-col justify-between p-10 lg:p-16 overflow-hidden select-none text-white">
       
       {/* ────── Hero Image Background + Contrast Overlay ────── */}
       <div className="absolute inset-0 z-0">
@@ -32,13 +32,13 @@ export default function AuthBrandPanel({
           {headline}
         </h2>
         
-        <p className="text-sm lg:text-base text-slate-100 font-semibold leading-relaxed max-w-sm drop-shadow-sm">
+        <p className="text-sm lg:text-base text-white font-semibold leading-relaxed max-w-sm drop-shadow-sm opacity-95">
           {subheadline}
         </p>
       </div>
 
       {/* Bottom Subtle Message */}
-      <div className="relative z-10 pt-4 border-t border-white/20 text-xs text-slate-200 font-medium drop-shadow-xs">
+      <div className="relative z-10 pt-4 border-t border-white/20 text-xs text-white font-medium drop-shadow-xs opacity-90">
         {footerText}
       </div>
 
