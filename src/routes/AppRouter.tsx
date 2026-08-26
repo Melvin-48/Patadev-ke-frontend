@@ -44,8 +44,10 @@ export default function AppRouter() {
       {/* Client Routes */}
       <Route element={<ProtectedRoute allowedRoles={['CLIENT', 'ADMIN']} />}>
         <Route element={<ClientLayout />}>
+          <Route path="/dashboard" element={<ClientDashboard />} />
           <Route path="/client/dashboard" element={<ClientDashboard />} />
           <Route path="/client/projects/new" element={<PostProjectPage />} />
+          <Route path="/dashboard/projects/new" element={<PostProjectPage />} />
         </Route>
       </Route>
 
