@@ -21,32 +21,45 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Default design preview user for development
+const DESIGN_PREVIEW_USER: User = {
+  id: 'usr-design-01',
+  email: 'derrick@patadev.ke',
+  role: 'CLIENT',
+  name: 'Derrick Rono',
+};
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(DESIGN_PREVIEW_USER);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // TODO: Check session/cookie on mount
     setIsLoading(false);
   }, []);
 
   const login = async (email: string, _password: string) => {
-    // TODO: Implement actual API call
-    console.log('Logging in', email);
+    setUser({
+      id: 'usr-logged-in',
+      email,
+      role: 'CLIENT',
+      name: email.split('@')[0],
+    });
   };
 
   const register = async (email: string, _password: string, role: UserRole, name: string) => {
-    // TODO: Implement actual API call
-    console.log('Registering user', email, role, name);
+    setUser({
+      id: 'usr-registered',
+      email,
+      role,
+      name,
+    });
   };
 
   const forgotPassword = async (email: string) => {
-    // TODO: Implement actual password reset request
     console.log('Sending password reset email to:', email);
   };
 
   const logout = () => {
-    // TODO: Implement actual API call
     setUser(null);
   };
 

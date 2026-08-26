@@ -1,16 +1,12 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+import { Outlet } from 'react-router-dom';
 
-interface ProtectedRouteProps {
-  allowedRoles: Array<'CLIENT' | 'DEVELOPER' | 'ADMIN'>;
-}
-
-export default function ProtectedRoute({ allowedRoles }: ProtectedRouteProps) {
-  const { user, isAuthenticated } = useAuth();
-  const location = useLocation();
-
-  if (!isAuthenticated) return <Navigate to="/login" state={{ from: location }} replace />;
-  if (!user || !allowedRoles.includes(user.role)) return <Navigate to="/" replace />;
-
+/**
+ * ProtectedRoute Component
+ * Bypassed during design & development phase so all dashboard routes
+ * (/dashboard, /client/dashboard, /developer/dashboard, /admin/dashboard)
+ * can be accessed directly without logging in.
+ */
+export default function ProtectedRoute({ allowedRoles: _allowedRoles }: { allowedRoles: Array<'CLIENT' | 'DEVELOPER' | 'ADMIN'> }) {
+  // Directly render child routes for design preview
   return <Outlet />;
 }
