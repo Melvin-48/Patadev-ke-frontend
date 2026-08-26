@@ -59,6 +59,10 @@ export default {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%':      { transform: 'translateY(-5px)' },
         },
+        'marquee': {
+          '0%':   { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
       },
       animation: {
         'fade-up':     'fade-up 0.6s ease-out both',
@@ -66,6 +70,7 @@ export default {
         'fade-up-400': 'fade-up 0.6s 0.4s ease-out both',
         'float':       'float 4s ease-in-out infinite',
         'float-slow':  'float-slow 6s ease-in-out infinite',
+        'marquee':     'marquee 25s linear infinite',
       },
     },
   },

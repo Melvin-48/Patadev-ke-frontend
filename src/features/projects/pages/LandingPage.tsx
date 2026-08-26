@@ -1,14 +1,16 @@
 import LandingNavbar from '../../../components/landing/LandingNavbar';
 import HeroSection from '../../../components/landing/HeroSection';
-import StatsSection from '../../../components/landing/StatsSection';
 import HowItWorksSection from '../../../components/landing/HowItWorksSection';
+import StatsSection from '../../../components/landing/StatsSection';
 
 /**
  * LandingPage — public home page.
  *
- * The outer wrapper provides the glassmorphism canvas:
- * a multi-layer gradient + fixed colour blobs that every glass
- * surface on the page floats over.
+ * Structure:
+ * 1. LandingNavbar (fixed floating pill on scroll)
+ * 2. HeroSection (centered hero with typewriter animation & integrated bottom partners ticker)
+ * 3. HowItWorksSection (client/dev workflow tabs)
+ * 4. StatsSection (animated metric count-up counters)
  */
 export default function LandingPage() {
   return (
@@ -60,8 +62,8 @@ export default function LandingPage() {
       <div className="relative z-10">
         <LandingNavbar />
         <HeroSection />
-        <StatsSection />
         <HowItWorksSection />
+        <StatsSection />
       </div>
     </div>
   );
