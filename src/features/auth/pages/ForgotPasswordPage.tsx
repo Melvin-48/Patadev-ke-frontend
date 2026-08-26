@@ -1,151 +1,228 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Code2, Mail, ArrowLeft, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Code2, Mail, ArrowRight, ArrowLeft, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
+import { useAuth } from '../../../contexts/AuthContext';
+import { cn } from '../../../lib/utils';
 
 export default function ForgotPasswordPage() {
+  const { forgotPassword } = useAuth();
+
   const [email, setEmail] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [fieldError, setFieldError] = useState<string | undefined>();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) {
-      setError('Please enter your registered email address.');
-      return;
+  const validate = () => {
+    if (!email.trim()) {
+      setFieldError('Email address is required.');
+      return false;
     }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setFieldError('Please enter a valid email address.');
+      return false;
+    }
+    setFieldError(undefined);
+    return true;
+  };
 
-    setIsLoading(true);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setError(null);
 
-    // Simulate password reset email dispatch
-    setTimeout(() => {
+    if (!validate()) return;
+
+    try {
+      setIsLoading(true);
+      await forgotPassword(email);
+      setIsSubmitted(true);
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Unable to send the reset link. Please try again.';
+      setError(errorMessage);
+    } finally {
       setIsLoading(false);
-      setSubmitted(true);
-    }, 1000);
+    }
   };
 
   return (
     <div
-      className="relative min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8 overflow-hidden bg-[#070D19]"
+      className="relative min-h-screen w-full flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8 bg-[#FAFCFF] overflow-hidden font-sans"
       style={{
         backgroundImage: `
-          linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-          linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px)
+          radial-gradient(circle at 50% 20%, rgba(23, 105, 255, 0.06) 0%, transparent 60%),
+          radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.04) 0%, transparent 50%)
         `,
-        backgroundSize: '40px 40px',
       }}
     >
+      {/* Soft Ambient Background Blur Blobs */}
       <div aria-hidden="true" className="pointer-events-none fixed inset-0 overflow-hidden">
         <div
-          className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full"
+          className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full"
           style={{
-            background: 'radial-gradient(circle, rgba(99,102,241,0.2) 0%, transparent 70%)',
-            filter: 'blur(90px)',
+            background: 'radial-gradient(circle, rgba(23,105,255,0.07) 0%, transparent 70%)',
+            filter: 'blur(100px)',
           }}
         />
         <div
-          className="absolute -bottom-32 -right-32 w-[500px] h-[500px] rounded-full"
+          className="absolute -bottom-40 -left-40 w-[600px] h-[600px] rounded-full"
           style={{
-            background: 'radial-gradient(circle, rgba(23,105,255,0.25) 0%, transparent 70%)',
-            filter: 'blur(90px)',
+            background: 'radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 70%)',
+            filter: 'blur(100px)',
           }}
         />
       </div>
 
-      <div className="relative z-10 w-full max-w-xl rounded-3xl bg-white shadow-2xl border border-white/20 overflow-hidden p-8 sm:p-12 text-[#07152F]">
+      <div className="relative z-10 w-full max-w-[440px] flex flex-col items-center">
         
-        {/* Brand Header */}
-        <div className="flex items-center justify-between mb-8">
-          <Link to="/" className="flex items-center gap-2 group">
-            <span className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-200">
-              <Code2 size={18} strokeWidth={2.5} />
-            </span>
-            <span className="font-bold text-lg text-[#07152F] tracking-tight">
-              PataDev <span className="text-primary">Ke</span>
-            </span>
-          </Link>
+        {/* Branding Logo: </> PataDev Ke */}
+        <Link
+          to="/"
+          className="flex items-center gap-2.5 group mb-8 transition-transform hover:scale-105"
+          aria-label="PataDev Ke Home"
+        >
+          <span className="w-10 h-10 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-200 shadow-xs">
+            <Code2 size={20} strokeWidth={2.5} />
+          </span>
+          <span className="font-semibold text-2xl text-[#07152F] tracking-tight">
+            PataDev <span className="text-primary">Ke</span>
+          </span>
+        </Link>
 
-          <Link
-            to="/login"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#64748B] hover:text-primary transition-colors"
-          >
-            <ArrowLeft size={14} />
-            <span>Back to login</span>
-          </Link>
-        </div>
+        {/* Password Reset Card */}
+        <div className="w-full bg-white/90 backdrop-blur-xl shadow-2xl shadow-slate-200/60 rounded-3xl p-8 sm:p-10 border border-slate-200/60 transition-all text-center">
+          
+          {isSubmitted ? (
+            /* ────── SUCCESS STATE ────── */
+            <div className="space-y-6 animate-fadeIn">
+              {/* Soft Green Icon Badge */}
+              <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center mx-auto shadow-xs">
+                <CheckCircle2 size={26} strokeWidth={2} />
+              </div>
 
-        {/* Title */}
-        <div className="text-center mb-8">
-          <h1 className="text-2xl font-extrabold text-[#07152F] tracking-tight mb-2">
-            Reset Password
-          </h1>
-          <p className="text-xs sm:text-sm text-[#64748B]">
-            Enter your account email and we&apos;ll send you a password reset link.
-          </p>
-        </div>
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-extrabold text-[#07152F] tracking-tight">
+                  Check your email
+                </h1>
+                <p className="text-xs sm:text-sm text-[#64748B] font-medium mt-2 leading-relaxed max-w-[340px] mx-auto">
+                  If an account exists with that email address, we&apos;ve sent instructions to reset your password.
+                </p>
+              </div>
 
-        {error && (
-          <div className="mb-6 p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-600 text-xs font-semibold flex items-center gap-2">
-            <AlertCircle size={16} className="shrink-0" />
-            <span>{error}</span>
-          </div>
-        )}
-
-        {submitted ? (
-          <div className="text-center py-6 space-y-4">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
-              <CheckCircle2 size={24} />
-            </div>
-            <h2 className="text-lg font-bold text-[#07152F]">
-              Check your email
-            </h2>
-            <p className="text-xs text-[#64748B] max-w-sm mx-auto">
-              We&apos;ve sent a password recovery link to <span className="font-bold text-[#07152F]">{email}</span>.
-            </p>
-            <div className="pt-4">
-              <Link
-                to="/login"
-                className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-primary text-white text-xs font-bold shadow-md hover:bg-blue-600 transition-all"
-              >
-                Return to Login
-              </Link>
-            </div>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-xs font-semibold text-[#07152F] mb-1.5 text-left"
-              >
-                Address email
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                  <Mail size={17} />
-                </div>
-                <input
-                  id="email"
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="name@company.com"
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#F8FAFC] border border-slate-200 text-sm font-medium text-[#07152F] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:bg-white transition-all"
-                />
+              <div className="pt-2">
+                <Link
+                  to="/login"
+                  className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-full font-bold text-white shadow-lg shadow-primary/25 bg-[#1769FF] hover:bg-blue-600 transition-all text-sm"
+                >
+                  <ArrowLeft size={16} strokeWidth={2.5} />
+                  <span>Back to Login</span>
+                </Link>
               </div>
             </div>
+          ) : (
+            /* ────── FORM STATE ────── */
+            <div>
+              {/* Soft Blue Icon Cue Badge */}
+              <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mx-auto mb-4 shadow-xs">
+                <Mail size={22} strokeWidth={2} />
+              </div>
 
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full py-3.5 rounded-xl font-bold text-white shadow-lg bg-[#1769FF] hover:bg-blue-600 shadow-primary/25 transition-all text-sm mt-2"
-            >
-              {isLoading ? 'Sending Link...' : 'Send Reset Link'}
-            </button>
-          </form>
-        )}
+              {/* Heading & Supporting Text */}
+              <div className="mb-6">
+                <h1 className="text-2xl sm:text-3xl font-extrabold text-[#07152F] tracking-tight">
+                  Forgot your password?
+                </h1>
+                <p className="text-xs sm:text-sm text-[#64748B] font-medium mt-1.5 leading-relaxed max-w-[340px] mx-auto">
+                  Enter your email address and we&apos;ll send you a link to reset your password.
+                </p>
+              </div>
+
+              {/* Error Alert Banner */}
+              {error && (
+                <div className="mb-5 p-3.5 rounded-2xl bg-red-50 border border-red-200 text-red-600 text-xs font-semibold flex items-center gap-2.5 text-left">
+                  <AlertCircle size={16} className="shrink-0 text-red-500" />
+                  <span>{error}</span>
+                </div>
+              )}
+
+              {/* Form */}
+              <form onSubmit={handleSubmit} noValidate className="space-y-5">
+                
+                {/* Email Field */}
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="block text-xs font-bold text-[#07152F] mb-1.5 text-left"
+                  >
+                    Email address
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                      <Mail size={17} />
+                    </div>
+                    <input
+                      id="email"
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        if (fieldError) setFieldError(undefined);
+                      }}
+                      placeholder="you@example.com"
+                      className={cn(
+                        'w-full pl-10 pr-4 py-3 rounded-xl bg-white border text-sm font-medium text-[#07152F] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all',
+                        fieldError ? 'border-red-300 ring-1 ring-red-300' : 'border-slate-200',
+                      )}
+                    />
+                  </div>
+                  {fieldError && (
+                    <p className="mt-1 text-[11px] font-medium text-red-500 text-left">
+                      {fieldError}
+                    </p>
+                  )}
+                </div>
+
+                {/* Primary CTA Button */}
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className={cn(
+                    'w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-full font-bold text-white shadow-lg shadow-primary/25 transition-all duration-200 text-sm mt-2',
+                    isLoading
+                      ? 'bg-primary/70 cursor-not-allowed'
+                      : 'bg-[#1769FF] hover:bg-blue-600 active:scale-[0.99]',
+                  )}
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />
+                      <span>Sending Link...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Send Reset Link</span>
+                      <ArrowRight size={16} strokeWidth={2.5} />
+                    </>
+                  )}
+                </button>
+
+              </form>
+
+              {/* Back to Login Link */}
+              <div className="mt-6 pt-2">
+                <Link
+                  to="/login"
+                  className="inline-flex items-center justify-center gap-1.5 text-xs font-medium text-[#64748B] hover:text-primary transition-colors"
+                >
+                  <ArrowLeft size={14} />
+                  <span>Back to Login</span>
+                </Link>
+              </div>
+
+            </div>
+          )}
+
+        </div>
 
       </div>
     </div>
