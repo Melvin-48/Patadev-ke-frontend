@@ -28,17 +28,18 @@ export default function AboutUsSection() {
 
   return (
     <section id="about" className="relative w-full py-16 lg:py-24">
-      <div ref={ref} className="max-w-6xl mx-auto px-6 lg:px-8">
+      <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8">
         
-        {/* Main Glass Card Container matching PataDev Theme */}
+        {/* Full-width Wider Glassmorphic Card Container */}
         <div
           className={cn(
-            'relative rounded-[36px] bg-white/85 backdrop-blur-xl border border-white p-8 sm:p-12 lg:p-16 shadow-2xl transition-all duration-700 ease-out',
+            'relative rounded-[36px] backdrop-blur-2xl border border-white/70 p-8 sm:p-14 lg:p-20 shadow-2xl transition-all duration-700 ease-out',
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8',
           )}
+          style={{ background: 'rgba(255, 255, 255, 0.65)' }}
         >
           {/* Top Section: Left Text Content vs Right Layered Image Cards */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
 
             {/* Left Text Column (7/12) */}
             <div className="lg:col-span-7 flex flex-col gap-6">
@@ -47,36 +48,36 @@ export default function AboutUsSection() {
                 ABOUT PATADEV KE
               </div>
 
-              <h2 className="text-4xl sm:text-5xl font-bold text-[#07152F] tracking-tight">
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#07152F] tracking-tight">
                 Empowering Kenya&apos;s Tech Ecosystem
               </h2>
 
-              <p className="text-sm sm:text-base text-[#475569] leading-relaxed font-normal">
+              <p className="text-base sm:text-lg text-[#475569] leading-relaxed font-normal">
                 At PataDev, we believe software development is more than writing code—it&apos;s about empowering Kenyan businesses with vetted local tech talent and guaranteed milestone escrow protection.
               </p>
 
-              <p className="text-sm sm:text-base text-[#475569] leading-relaxed font-normal">
+              <p className="text-base sm:text-lg text-[#475569] leading-relaxed font-normal">
                 With expert developer matching, milestone-driven escrow vaults, and dedicated dispute resolution, we make software projects effortless, transparent, and completely risk-free.
               </p>
 
-              {/* Primary Blue Pill CTA Button (PataDev Theme Matching) */}
+              {/* Primary Blue Pill CTA Button */}
               <div className="pt-2">
                 <Link
                   to="/register"
-                  className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-2xl font-bold text-white shadow-xl shadow-primary/25 hover:bg-primary/90 transition-all duration-200 text-sm"
+                  className="inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl font-bold text-white shadow-xl shadow-primary/25 hover:bg-primary/90 transition-all duration-200 text-base"
                   style={{ background: '#1769FF' }}
                 >
                   <span>Post a Project</span>
-                  <ArrowRight size={16} strokeWidth={2.5} />
+                  <ArrowRight size={17} strokeWidth={2.5} />
                 </Link>
               </div>
             </div>
 
             {/* Right Column: Layered Overlapping Image Cards (5/12) */}
-            <div className="lg:col-span-5 relative flex justify-center lg:justify-end items-center min-h-[300px] sm:min-h-[340px] pt-4 lg:pt-0">
+            <div className="lg:col-span-5 relative flex justify-center lg:justify-end items-center min-h-[320px] sm:min-h-[380px] pt-4 lg:pt-0">
               
               {/* Back Image Card */}
-              <div className="w-56 h-56 sm:w-68 sm:h-68 rounded-3xl overflow-hidden shadow-xl border-4 border-white bg-slate-100">
+              <div className="w-64 h-64 sm:w-76 sm:h-76 rounded-3xl overflow-hidden shadow-xl border-4 border-white/90 bg-slate-100">
                 <img
                   src="/assets/images/landing/patadev-hero.png"
                   alt="Developer team in Kenya"
@@ -85,7 +86,7 @@ export default function AboutUsSection() {
               </div>
 
               {/* Front Overlapping Rotated Card */}
-              <div className="absolute top-6 right-2 sm:right-6 w-48 h-48 sm:w-56 sm:h-56 rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-100 rotate-6 transition-transform duration-300 hover:rotate-3">
+              <div className="absolute top-6 right-2 sm:right-6 w-52 h-52 sm:w-64 sm:h-64 rounded-3xl overflow-hidden shadow-2xl border-4 border-white/90 bg-slate-100 rotate-6 transition-transform duration-300 hover:rotate-3">
                 <img
                   src="/assets/images/profiles/profile-2.jpg"
                   alt="Kenyan software engineer coding"
@@ -97,13 +98,13 @@ export default function AboutUsSection() {
 
           </div>
 
-          {/* Bottom Metrics Row (PataDev Theme Color Accents) */}
-          <div className="mt-14 sm:mt-16 pt-10 border-t border-slate-200/60 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          {/* Bottom Metrics Row (Glass Divider Accent) */}
+          <div className="mt-16 sm:mt-20 pt-12 border-t border-slate-300/40 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {ABOUT_METRICS.map((metric, idx) => (
               <div key={idx} className="flex flex-col items-center justify-center">
-                <div className="text-3xl sm:text-4xl font-extrabold text-[#07152F] tracking-tight mb-1">
+                <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#07152F] tracking-tight mb-1">
                   {metric.prefix && (
-                    <span className="text-lg font-bold text-primary mr-1">
+                    <span className="text-lg sm:text-xl font-bold text-primary mr-1">
                       {metric.prefix}
                     </span>
                   )}
