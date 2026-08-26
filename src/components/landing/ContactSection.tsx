@@ -42,7 +42,7 @@ export default function ContactSection() {
           </p>
         </div>
 
-        {/* 2-Column Grid (Left Form Card 7/12, Right Direct Contact & Map 5/12) */}
+        {/* 2-Column Grid (Left Form Card 7/12, Right Direct Contact Info 5/12) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           
           {/* Left Form Card (7/12) */}
@@ -157,10 +157,10 @@ export default function ContactSection() {
             )}
           </div>
 
-          {/* Right Direct Approach Info & Google Maps Card (5/12) */}
+          {/* Right Direct Approach Info Card (5/12) */}
           <div
             className={cn(
-              'lg:col-span-5 flex flex-col justify-between h-full transition-all duration-700 ease-out',
+              'lg:col-span-5 p-8 sm:p-10 rounded-3xl bg-white/90 backdrop-blur-xl border border-white shadow-xl flex flex-col justify-between transition-all duration-700 ease-out',
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10',
             )}
             style={{ transitionDelay: isVisible ? '120ms' : '0ms' }}
@@ -170,62 +170,71 @@ export default function ContactSection() {
                 Prefer a Direct Approach?
               </h3>
 
-              <div className="space-y-5 mb-8">
+              <div className="space-y-6">
                 {/* Phone */}
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                    <Phone size={18} />
+                  <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                    <Phone size={20} />
                   </div>
-                  <span className="text-sm font-bold text-[#07152F]">
-                    +254 (0) 700 000 000
-                  </span>
+                  <div>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
+                      Phone Number
+                    </span>
+                    <span className="text-sm sm:text-base font-bold text-[#07152F]">
+                      +254 (0) 700 000 000
+                    </span>
+                  </div>
                 </div>
 
                 {/* Email */}
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                    <Mail size={18} />
+                  <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                    <Mail size={20} />
                   </div>
-                  <span className="text-sm font-bold text-[#07152F]">
-                    contact@patadev.ke
-                  </span>
+                  <div>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
+                      Email Address
+                    </span>
+                    <span className="text-sm sm:text-base font-bold text-[#07152F]">
+                      contact@patadev.ke
+                    </span>
+                  </div>
                 </div>
 
                 {/* Location */}
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                    <MapPin size={18} />
+                  <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                    <MapPin size={20} />
                   </div>
-                  <span className="text-sm font-bold text-[#07152F]">
-                    Eldoret, Uasin Gishu County, Kenya
-                  </span>
+                  <div>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
+                      Office Location
+                    </span>
+                    <span className="text-sm sm:text-base font-bold text-[#07152F]">
+                      Eldoret, Uasin Gishu County, Kenya
+                    </span>
+                  </div>
                 </div>
 
                 {/* Working Hours */}
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                    <Clock size={18} />
+                  <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                    <Clock size={20} />
                   </div>
-                  <span className="text-sm font-bold text-[#07152F]">
-                    Monday to Friday, 9 AM – 6 PM (EAT)
-                  </span>
+                  <div>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
+                      Working Hours
+                    </span>
+                    <span className="text-sm sm:text-base font-bold text-[#07152F]">
+                      Monday to Friday, 9 AM – 6 PM (EAT)
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Interactive Google Maps Embed Container */}
-            <div className="rounded-3xl border border-white bg-white/90 backdrop-blur-xl shadow-xl overflow-hidden h-72 relative group">
-              <iframe
-                title="PataDev Location - Eldoret, Uasin Gishu"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127670.3670154877!2d35.2152634!3d0.5142775!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x178101ae37f4f091%3A0x6b1128362624cf5b!2sEldoret!5e0!3m2!1sen!2ske!4v1700000000000!5m2!1sen!2ske"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={false}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="w-full h-full filter saturate-[0.85] contrast-[1.05]"
-              />
+            <div className="mt-8 pt-6 border-t border-slate-100 text-xs font-medium text-slate-500">
+              Response time: Usually within 2 business hours.
             </div>
 
           </div>
