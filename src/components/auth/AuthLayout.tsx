@@ -46,28 +46,28 @@ export default function AuthLayout({
           />
         </div>
 
-        {/* Content Container Constrained to 420px-460px */}
+        {/* Content Container Constrained to 440px */}
         <div className="relative z-10 w-full max-w-[440px] mx-auto my-auto py-6">
           
-          {/* Top Logo */}
-          <div className="mb-6">
-            <Link
-              to="/"
-              className="inline-flex items-center gap-2.5 group transition-transform hover:scale-105"
-              aria-label="PataDev Ke Home"
-            >
-              <span className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-200 shadow-xs">
-                <Code2 size={19} strokeWidth={2.5} />
-              </span>
-              <span className="font-extrabold text-xl text-[#07152F] tracking-tight">
-                PataDev <span className="text-primary">Ke</span>
-              </span>
-            </Link>
-          </div>
-
-          {/* Form Wrapper Glass Card */}
+          {/* Form Wrapper Glass Card (Contains PataDev Ke Logo) */}
           <div className="bg-white/90 backdrop-blur-xl shadow-xl shadow-slate-200/50 rounded-3xl p-7 sm:p-9 border border-slate-200/80">
             
+            {/* Logo INSIDE the Form Card */}
+            <div className="mb-6">
+              <Link
+                to="/"
+                className="inline-flex items-center gap-2.5 group transition-transform hover:scale-105"
+                aria-label="PataDev Ke Home"
+              >
+                <span className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-200 shadow-xs">
+                  <Code2 size={19} strokeWidth={2.5} />
+                </span>
+                <span className="font-extrabold text-xl text-[#07152F] tracking-tight">
+                  PataDev <span className="text-primary">Ke</span>
+                </span>
+              </Link>
+            </div>
+
             {/* Optional Auth Icon */}
             {icon && (
               <div className="w-11 h-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4">
