@@ -1,6 +1,7 @@
 import LandingNavbar from '../../../components/landing/LandingNavbar';
 import HeroSection from '../../../components/landing/HeroSection';
 import HowItWorksSection from '../../../components/landing/HowItWorksSection';
+import WhoItsForSection from '../../../components/landing/WhoItsForSection';
 import StatsSection from '../../../components/landing/StatsSection';
 import FeaturedProjectsSection from '../../../components/landing/FeaturedProjectsSection';
 import LandingFooter from '../../../components/landing/LandingFooter';
@@ -12,9 +13,10 @@ import LandingFooter from '../../../components/landing/LandingFooter';
  * 1. LandingNavbar (fixed floating pill on scroll)
  * 2. HeroSection (centered hero with typewriter animation & integrated bottom partners ticker)
  * 3. HowItWorksSection (client/dev workflow tabs)
- * 4. StatsSection (animated metric count-up counters)
- * 5. FeaturedProjectsSection (live marketplace preview cards)
- * 6. LandingFooter (CTA banner & footer navigation)
+ * 4. WhoItsForSection (dual business/developer benefit cards)
+ * 5. StatsSection (animated metric count-up counters)
+ * 6. FeaturedProjectsSection (live marketplace preview cards)
+ * 7. LandingFooter (CTA banner & footer navigation)
  */
 export default function LandingPage() {
   return (
@@ -67,6 +69,7 @@ export default function LandingPage() {
         <LandingNavbar />
         <HeroSection />
         <HowItWorksSection />
+        <WhoItsForSection />
         <StatsSection />
         <FeaturedProjectsSection />
         <LandingFooter />
