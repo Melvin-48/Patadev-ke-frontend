@@ -21,7 +21,7 @@ export default function WhoItsForSection() {
   const { ref, isVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.1 });
 
   return (
-    <section id="who-its-for" className="relative w-full py-16 lg:py-24">
+    <section id="for-developers" className="relative w-full py-16 lg:py-24">
       <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8">
         
         {/* Section Header */}

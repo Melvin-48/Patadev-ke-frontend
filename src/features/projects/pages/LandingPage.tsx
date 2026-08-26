@@ -2,6 +2,8 @@ import LandingNavbar from '../../../components/landing/LandingNavbar';
 import HeroSection from '../../../components/landing/HeroSection';
 import HowItWorksSection from '../../../components/landing/HowItWorksSection';
 import WhoItsForSection from '../../../components/landing/WhoItsForSection';
+import PricingSection from '../../../components/landing/PricingSection';
+import AboutUsSection from '../../../components/landing/AboutUsSection';
 import StatsSection from '../../../components/landing/StatsSection';
 import FeaturedProjectsSection from '../../../components/landing/FeaturedProjectsSection';
 import LandingFooter from '../../../components/landing/LandingFooter';
@@ -9,14 +11,16 @@ import LandingFooter from '../../../components/landing/LandingFooter';
 /**
  * LandingPage — public home page.
  *
- * Structure:
- * 1. LandingNavbar (fixed floating pill on scroll)
- * 2. HeroSection (centered hero with typewriter animation & integrated bottom partners ticker)
- * 3. HowItWorksSection (client/dev workflow tabs)
- * 4. WhoItsForSection (dual business/developer benefit cards)
- * 5. StatsSection (animated metric count-up counters)
- * 6. FeaturedProjectsSection (live marketplace preview cards)
- * 7. LandingFooter (CTA banner & footer navigation)
+ * Sequence aligned with navbar items:
+ * 1. Home (HeroSection - id="home")
+ * 2. Find Projects (Nav link routes directly to /projects page)
+ * 3. How It Works (HowItWorksSection - id="how-it-works")
+ * 4. For Developers (WhoItsForSection - id="for-developers")
+ * 5. Pricing (PricingSection - id="pricing")
+ * 6. About Us (AboutUsSection - id="about")
+ * 7. StatsSection
+ * 8. FeaturedProjectsSection
+ * 9. LandingFooter
  */
 export default function LandingPage() {
   return (
@@ -70,6 +74,8 @@ export default function LandingPage() {
         <HeroSection />
         <HowItWorksSection />
         <WhoItsForSection />
+        <PricingSection />
+        <AboutUsSection />
         <StatsSection />
         <FeaturedProjectsSection />
         <LandingFooter />

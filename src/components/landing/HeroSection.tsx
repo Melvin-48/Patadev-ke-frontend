@@ -62,7 +62,7 @@ export default function HeroSection() {
   const marqueePartners = [...PARTNERS, ...PARTNERS, ...PARTNERS];
 
   return (
-    <section className="relative w-full overflow-hidden text-center" aria-labelledby="hero-heading">
+    <section id="home" className="relative w-full overflow-hidden text-center" aria-labelledby="hero-heading">
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-24 sm:pt-32 pb-16">
         
         {/* Centered Main Hero Block */}
