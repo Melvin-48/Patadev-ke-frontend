@@ -23,7 +23,7 @@ export default function LandingNavbar() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -37,10 +37,10 @@ export default function LandingNavbar() {
   return (
     <header
       className={cn(
-        'sticky top-0 z-50 w-full transition-all duration-200',
+        'sticky top-0 z-50 w-full transition-all duration-300 ease-in-out',
         scrolled
-          ? 'bg-white/10 backdrop-blur-sm shadow-[0_1px_12px_rgba(7,21,47,0.06)]'
-          : 'bg-transparent',
+          ? 'bg-white/85 backdrop-blur-md shadow-sm border-b border-slate-200/40 py-0.5'
+          : 'bg-transparent py-1',
       )}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -49,11 +49,11 @@ export default function LandingNavbar() {
           {/* ── Logo ── */}
           <Link
             to="/"
-            className="flex items-center gap-2 flex-shrink-0"
+            className="flex items-center gap-2 flex-shrink-0 group"
             aria-label="PataDev Ke — home"
           >
-            <span className="w-7 h-7 rounded-md bg-primary/10 flex items-center justify-center">
-              <Code2 size={16} className="text-primary" strokeWidth={2.5} />
+            <span className="w-7 h-7 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors duration-200">
+              <Code2 size={16} className="text-primary group-hover:text-white transition-colors duration-200" strokeWidth={2.5} />
             </span>
             <span className="font-semibold text-[#07152F] text-[15px] tracking-tight">
               PataDev <span className="text-primary">Ke</span>
@@ -64,11 +64,10 @@ export default function LandingNavbar() {
           <nav className="hidden lg:flex items-center gap-6" aria-label="Main navigation">
             {NAV_ITEMS.map(({ label, to, isHash }) =>
               isHash ? (
-                /* Hash links — no active state possible, just consistent style */
                 <a
                   key={label}
                   href={to}
-                  className="text-sm text-[#64748B] hover:text-[#07152F] transition-colors duration-150"
+                  className="text-sm font-medium text-[#64748B] hover:text-primary transition-colors duration-150"
                 >
                   {label}
                 </a>
@@ -81,8 +80,8 @@ export default function LandingNavbar() {
                     cn(
                       'text-sm font-medium transition-colors duration-150',
                       isActive
-                        ? 'text-primary'           /* active: blue text only, NO border/pill/bg */
-                        : 'text-[#64748B] hover:text-[#07152F]',
+                        ? 'text-primary'
+                        : 'text-[#64748B] hover:text-primary',
                     )
                   }
                 >
@@ -102,7 +101,7 @@ export default function LandingNavbar() {
             </Link>
             <Link
               to="/register"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold bg-primary text-white shadow-sm transition-colors"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold bg-primary text-white shadow-sm hover:bg-primary/90 transition-all duration-200 shadow-primary/20"
               style={{ background: '#1769FF' }}
             >
               Sign Up
@@ -132,7 +131,7 @@ export default function LandingNavbar() {
         )}
       >
         <nav
-          className="px-6 py-4 flex flex-col gap-0.5"
+          className="px-6 py-4 flex flex-col gap-0.5 bg-white/95 backdrop-blur-lg border-b border-slate-200/50"
           aria-label="Mobile navigation"
         >
           {NAV_ITEMS.map(({ label, to, isHash }) =>
@@ -141,7 +140,7 @@ export default function LandingNavbar() {
                 key={label}
                 href={to}
                 onClick={() => setMenuOpen(false)}
-                className="py-2.5 text-sm text-[#64748B] hover:text-[#07152F] transition-colors"
+                className="py-2.5 text-sm font-medium text-[#64748B] hover:text-primary transition-colors"
               >
                 {label}
               </a>
@@ -154,7 +153,7 @@ export default function LandingNavbar() {
                 className={({ isActive }) =>
                   cn(
                     'py-2.5 text-sm font-medium transition-colors',
-                    isActive ? 'text-primary' : 'text-[#64748B] hover:text-[#07152F]',
+                    isActive ? 'text-primary' : 'text-[#64748B] hover:text-primary',
                   )
                 }
               >

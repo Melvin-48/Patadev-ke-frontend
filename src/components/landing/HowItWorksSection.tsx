@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { FilePlus2, Users, ShieldCheck, CheckCircle2, Search, Send, Code2, Wallet } from 'lucide-react';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 import { cn } from '../../lib/utils';
 
 type Role = 'clients' | 'developers';
@@ -68,15 +69,21 @@ const DEV_STEPS = [
 
 export default function HowItWorksSection() {
   const [activeRole, setActiveRole] = useState<Role>('clients');
+  const { ref, isVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.1 });
 
   const steps = activeRole === 'clients' ? CLIENT_STEPS : DEV_STEPS;
 
   return (
     <section id="how-it-works" className="relative w-full py-16 lg:py-24">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8">
 
         {/* Section Header */}
-        <div className="flex flex-col items-center text-center gap-4 mb-12">
+        <div
+          className={cn(
+            'flex flex-col items-center text-center gap-4 mb-12 transition-all duration-700 ease-out',
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8',
+          )}
+        >
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider">
             Simple & Transparent
           </div>
@@ -114,15 +121,21 @@ export default function HowItWorksSection() {
           </div>
         </div>
 
-        {/* Step Cards Grid */}
+        {/* Step Cards Grid with Staggered Scroll Reveal */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
-          {steps.map((item) => {
+          {steps.map((item, idx) => {
             const Icon = item.icon;
             return (
               <div
                 key={item.step}
-                className="relative flex flex-col justify-between p-6 rounded-3xl backdrop-blur-xl border border-white/50 shadow-xl shadow-navy/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-white/80 group"
-                style={{ background: 'rgba(255, 255, 255, 0.45)' }}
+                className={cn(
+                  'relative flex flex-col justify-between p-6 rounded-3xl backdrop-blur-xl border border-white/50 shadow-xl shadow-navy/5 transition-all duration-700 ease-out hover:-translate-y-1.5 hover:shadow-2xl hover:border-white/80 group',
+                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10',
+                )}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.45)',
+                  transitionDelay: isVisible ? `${idx * 120}ms` : '0ms',
+                }}
               >
                 <div>
                   {/* Step Header */}
