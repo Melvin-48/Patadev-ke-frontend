@@ -21,7 +21,7 @@ export default function HeroSection() {
       aria-labelledby="hero-heading"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center py-8 sm:py-10 lg:py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center pt-24 sm:pt-28 pb-8 sm:pb-10 lg:pb-12">
 
           {/* ─────────── LEFT — Text, floating directly on gradient ─────────── */}
           <div className="flex flex-col gap-6 animate-fade-up">
