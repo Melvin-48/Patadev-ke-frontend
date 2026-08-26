@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { KeyRound, AlertCircle, Loader2, CheckCircle2 } from 'lucide-react';
+import { AlertCircle, Loader2, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '../../../contexts/AuthContext';
 import { cn } from '../../../lib/utils';
 import AuthLayout from '../../../components/auth/AuthLayout';
@@ -49,7 +49,6 @@ export default function ForgotPasswordPage() {
     <AuthLayout
       title="Forgot your password?"
       description="Enter your email address and we'll send you a link to reset your password."
-      icon={<KeyRound size={20} />}
       brandHeadline="Build better.
 Connect smarter."
       brandSubheadline="Where businesses find skilled developers and developers find meaningful projects."

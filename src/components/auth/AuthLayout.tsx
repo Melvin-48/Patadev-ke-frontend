@@ -6,7 +6,6 @@ import AuthBrandPanel from './AuthBrandPanel';
 interface AuthLayoutProps {
   title: string;
   description: string;
-  icon?: ReactNode;
   brandHeadline?: string;
   brandSubheadline?: string;
   children: ReactNode;
@@ -16,7 +15,6 @@ interface AuthLayoutProps {
 export default function AuthLayout({
   title,
   description,
-  icon,
   brandHeadline,
   brandSubheadline,
   children,
@@ -46,11 +44,11 @@ export default function AuthLayout({
           />
         </div>
 
-        {/* Content Container Constrained to 440px */}
-        <div className="relative z-10 w-full max-w-[440px] mx-auto my-auto py-6">
+        {/* Content Container Expands to Occupy Most of the Left Panel (Max-w 580px) */}
+        <div className="relative z-10 w-full max-w-[580px] mx-auto my-auto py-6">
           
           {/* Form Wrapper Glass Card (Contains PataDev Ke Logo) */}
-          <div className="bg-white/90 backdrop-blur-xl shadow-xl shadow-slate-200/50 rounded-3xl p-7 sm:p-9 border border-slate-200/80">
+          <div className="bg-white/90 backdrop-blur-xl shadow-xl shadow-slate-200/50 rounded-3xl p-7 sm:p-10 border border-slate-200/80">
             
             {/* Logo INSIDE the Form Card */}
             <div className="mb-6">
@@ -67,13 +65,6 @@ export default function AuthLayout({
                 </span>
               </Link>
             </div>
-
-            {/* Optional Auth Icon */}
-            {icon && (
-              <div className="w-11 h-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4">
-                {icon}
-              </div>
-            )}
 
             {/* Heading & Supporting Text */}
             <div className="mb-6">

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { LogIn, Eye, EyeOff, AlertCircle, Loader2 } from 'lucide-react';
+import { Eye, EyeOff, AlertCircle, Loader2 } from 'lucide-react';
 import { useAuth } from '../../../contexts/AuthContext';
 import { cn } from '../../../lib/utils';
 import AuthLayout from '../../../components/auth/AuthLayout';
@@ -56,7 +56,6 @@ export default function LoginPage() {
     <AuthLayout
       title="Welcome back"
       description="Sign in to your PataDev account."
-      icon={<LogIn size={20} />}
       brandHeadline="Build better.
 Connect smarter."
       brandSubheadline="Where businesses find skilled developers and developers find meaningful projects."

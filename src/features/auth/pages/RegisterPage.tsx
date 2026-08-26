@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { UserPlus, Eye, EyeOff, AlertCircle, Loader2 } from 'lucide-react';
+import { Eye, EyeOff, AlertCircle, Loader2 } from 'lucide-react';
 import { useAuth } from '../../../contexts/AuthContext';
 import { cn } from '../../../lib/utils';
 import AuthLayout from '../../../components/auth/AuthLayout';
@@ -98,14 +98,13 @@ export default function RegisterPage() {
     <AuthLayout
       title="Create your account"
       description="Join PataDev and connect with businesses and developers."
-      icon={<UserPlus size={20} />}
       brandHeadline="Build better.
 Connect smarter."
       brandSubheadline="Where businesses find skilled developers and developers find meaningful projects."
       bottomLink={
         <span>
           Already have an account?{' '}
-          <Link to="/login" className="font-bold text-primary hover:underline">
+          <Link to="/signup" className="font-bold text-primary hover:underline">
             Log in
           </Link>
         </span>
