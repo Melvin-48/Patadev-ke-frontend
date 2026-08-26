@@ -31,7 +31,7 @@ export default function WhoItsForSection() {
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8',
           )}
         >
-          <div className="font-mono text-xs uppercase tracking-[0.25em] font-semibold text-amber-600 dark:text-amber-400">
+          <div className="font-mono text-xs uppercase tracking-[0.25em] font-semibold text-primary">
             WHO IT&apos;S FOR
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#07152F] tracking-tight">
@@ -45,15 +45,13 @@ export default function WhoItsForSection() {
           {/* ─────────── CARD 1: FOR BUSINESSES ─────────── */}
           <div
             className={cn(
-              'relative rounded-3xl overflow-hidden p-8 sm:p-10 flex flex-col justify-between border border-slate-800 shadow-2xl transition-all duration-700 ease-out group',
+              'relative rounded-3xl overflow-hidden p-8 sm:p-10 flex flex-col justify-between bg-white/85 backdrop-blur-xl border border-white shadow-2xl transition-all duration-700 ease-out hover:-translate-y-1 group',
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10',
             )}
-            style={{
-              background: 'linear-gradient(145deg, #07152F 0%, #0F2347 100%)',
-            }}
           >
-            {/* Background image overlay with soft gradient blend */}
-            <div className="absolute right-0 bottom-0 top-0 w-1/2 opacity-25 group-hover:opacity-35 transition-opacity pointer-events-none overflow-hidden">
+            {/* Soft background image overlay with fade gradient */}
+            <div className="absolute right-0 bottom-0 top-0 w-1/2 opacity-20 group-hover:opacity-30 transition-opacity pointer-events-none overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent z-10" />
               <img
                 src="/assets/images/landing/patadev-hero.png"
                 alt="Business owner using laptop"
@@ -61,19 +59,19 @@ export default function WhoItsForSection() {
               />
             </div>
 
-            <div className="relative z-10 max-w-xs sm:max-w-sm">
-              <div className="font-mono text-xs uppercase tracking-wider font-bold text-amber-400 mb-4">
+            <div className="relative z-10 max-w-sm sm:max-w-md">
+              <div className="font-mono text-xs uppercase tracking-widest font-extrabold text-primary mb-3">
                 FOR BUSINESSES
               </div>
 
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight mb-6">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#07152F] leading-tight mb-6">
                 Find the right developer for your business
               </h3>
 
               <ul className="flex flex-col gap-3.5 mb-8">
                 {BUSINESS_BENEFITS.map((benefit, idx) => (
-                  <li key={idx} className="flex items-start gap-3 text-sm text-slate-200 font-medium">
-                    <span className="w-5 h-5 rounded-full bg-amber-400/20 text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
+                  <li key={idx} className="flex items-start gap-3 text-sm text-[#334155] font-semibold">
+                    <span className="w-5 h-5 rounded-full bg-primary/15 text-primary flex items-center justify-center shrink-0 mt-0.5">
                       <Check size={13} strokeWidth={3} />
                     </span>
                     <span>{benefit}</span>
@@ -82,10 +80,11 @@ export default function WhoItsForSection() {
               </ul>
             </div>
 
-            <div className="relative z-10 pt-4">
+            <div className="relative z-10 pt-2">
               <Link
                 to="/register"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-bold text-[#07152F] bg-amber-400 hover:bg-amber-300 transition-all duration-200 shadow-lg text-sm"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl font-bold text-white shadow-lg shadow-primary/25 hover:bg-primary/90 transition-all duration-200 text-sm"
+                style={{ background: '#1769FF' }}
               >
                 <span>Post a Project</span>
                 <ArrowRight size={16} strokeWidth={2.5} />
@@ -96,16 +95,16 @@ export default function WhoItsForSection() {
           {/* ─────────── CARD 2: FOR DEVELOPERS ─────────── */}
           <div
             className={cn(
-              'relative rounded-3xl overflow-hidden p-8 sm:p-10 flex flex-col justify-between border border-slate-800 shadow-2xl transition-all duration-700 ease-out group',
+              'relative rounded-3xl overflow-hidden p-8 sm:p-10 flex flex-col justify-between bg-white/85 backdrop-blur-xl border border-white shadow-2xl transition-all duration-700 ease-out hover:-translate-y-1 group',
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10',
             )}
             style={{
-              background: 'linear-gradient(145deg, #07152F 0%, #0F2347 100%)',
               transitionDelay: isVisible ? '150ms' : '0ms',
             }}
           >
-            {/* Background image overlay with soft gradient blend */}
-            <div className="absolute right-0 bottom-0 top-0 w-1/2 opacity-25 group-hover:opacity-35 transition-opacity pointer-events-none overflow-hidden">
+            {/* Soft background image overlay with fade gradient */}
+            <div className="absolute right-0 bottom-0 top-0 w-1/2 opacity-20 group-hover:opacity-30 transition-opacity pointer-events-none overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent z-10" />
               <img
                 src="/assets/images/profiles/profile-2.jpg"
                 alt="Developer coding on laptop"
@@ -113,19 +112,19 @@ export default function WhoItsForSection() {
               />
             </div>
 
-            <div className="relative z-10 max-w-xs sm:max-w-sm">
-              <div className="font-mono text-xs uppercase tracking-wider font-bold text-amber-400 mb-4">
+            <div className="relative z-10 max-w-sm sm:max-w-md">
+              <div className="font-mono text-xs uppercase tracking-widest font-extrabold text-indigo-600 mb-3">
                 FOR DEVELOPERS
               </div>
 
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight mb-6">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#07152F] leading-tight mb-6">
                 Find great projects that match your skills
               </h3>
 
               <ul className="flex flex-col gap-3.5 mb-8">
                 {DEV_BENEFITS.map((benefit, idx) => (
-                  <li key={idx} className="flex items-start gap-3 text-sm text-slate-200 font-medium">
-                    <span className="w-5 h-5 rounded-full bg-amber-400/20 text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
+                  <li key={idx} className="flex items-start gap-3 text-sm text-[#334155] font-semibold">
+                    <span className="w-5 h-5 rounded-full bg-indigo-500/15 text-indigo-600 flex items-center justify-center shrink-0 mt-0.5">
                       <Check size={13} strokeWidth={3} />
                     </span>
                     <span>{benefit}</span>
@@ -134,10 +133,11 @@ export default function WhoItsForSection() {
               </ul>
             </div>
 
-            <div className="relative z-10 pt-4">
+            <div className="relative z-10 pt-2">
               <Link
                 to="/register"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-bold text-[#07152F] bg-amber-400 hover:bg-amber-300 transition-all duration-200 shadow-lg text-sm"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl font-bold text-white shadow-lg hover:bg-navy-800 transition-all duration-200 text-sm"
+                style={{ background: '#07152F' }}
               >
                 <span>Join as Developer</span>
                 <ArrowRight size={16} strokeWidth={2.5} />
