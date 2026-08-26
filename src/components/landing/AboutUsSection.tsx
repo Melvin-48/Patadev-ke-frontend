@@ -30,10 +30,10 @@ export default function AboutUsSection() {
     <section id="about" className="relative w-full py-16 lg:py-24">
       <div ref={ref} className="max-w-6xl mx-auto px-6 lg:px-8">
         
-        {/* Main Clean White Rounded Card Container */}
+        {/* Main Glass Card Container matching PataDev Theme */}
         <div
           className={cn(
-            'relative rounded-[36px] bg-white/95 backdrop-blur-2xl border border-white p-8 sm:p-12 lg:p-16 shadow-2xl transition-all duration-700 ease-out',
+            'relative rounded-[36px] bg-white/85 backdrop-blur-xl border border-white p-8 sm:p-12 lg:p-16 shadow-2xl transition-all duration-700 ease-out',
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8',
           )}
         >
@@ -42,8 +42,13 @@ export default function AboutUsSection() {
 
             {/* Left Text Column (7/12) */}
             <div className="lg:col-span-7 flex flex-col gap-6">
-              <h2 className="text-4xl sm:text-5xl font-serif font-bold text-[#07152F] tracking-tight">
-                About Us
+              {/* Monospace Eyebrow Header */}
+              <div className="font-mono text-xs uppercase tracking-[0.25em] font-semibold text-primary">
+                ABOUT PATADEV KE
+              </div>
+
+              <h2 className="text-4xl sm:text-5xl font-bold text-[#07152F] tracking-tight">
+                Empowering Kenya&apos;s Tech Ecosystem
               </h2>
 
               <p className="text-sm sm:text-base text-[#475569] leading-relaxed font-normal">
@@ -54,14 +59,14 @@ export default function AboutUsSection() {
                 With expert developer matching, milestone-driven escrow vaults, and dedicated dispute resolution, we make software projects effortless, transparent, and completely risk-free.
               </p>
 
-              {/* Orange Pill CTA Button (Reference Matching) */}
+              {/* Primary Blue Pill CTA Button (PataDev Theme Matching) */}
               <div className="pt-2">
                 <Link
                   to="/register"
-                  className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-bold text-white shadow-lg transition-all duration-200 hover:opacity-90 text-sm"
-                  style={{ background: '#FF6525' }}
+                  className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-2xl font-bold text-white shadow-xl shadow-primary/25 hover:bg-primary/90 transition-all duration-200 text-sm"
+                  style={{ background: '#1769FF' }}
                 >
-                  <span>More about us</span>
+                  <span>Post a Project</span>
                   <ArrowRight size={16} strokeWidth={2.5} />
                 </Link>
               </div>
@@ -92,13 +97,13 @@ export default function AboutUsSection() {
 
           </div>
 
-          {/* Bottom Metrics Row (Divided by subtle top border) */}
-          <div className="mt-14 sm:mt-16 pt-10 border-t border-slate-100 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          {/* Bottom Metrics Row (PataDev Theme Color Accents) */}
+          <div className="mt-14 sm:mt-16 pt-10 border-t border-slate-200/60 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {ABOUT_METRICS.map((metric, idx) => (
               <div key={idx} className="flex flex-col items-center justify-center">
-                <div className="text-3xl sm:text-4xl font-serif font-extrabold text-[#07152F] tracking-tight mb-1">
+                <div className="text-3xl sm:text-4xl font-extrabold text-[#07152F] tracking-tight mb-1">
                   {metric.prefix && (
-                    <span className="text-lg font-sans font-bold text-[#FF6525] mr-1">
+                    <span className="text-lg font-bold text-primary mr-1">
                       {metric.prefix}
                     </span>
                   )}
