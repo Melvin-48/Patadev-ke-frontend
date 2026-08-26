@@ -30,13 +30,12 @@ export default function AboutUsSection() {
     <section id="about" className="relative w-full py-16 lg:py-24">
       <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8">
         
-        {/* Full-width Wider Glassmorphic Card Container */}
+        {/* Seamless Grid — directly on landing page background canvas */}
         <div
           className={cn(
-            'relative rounded-[36px] backdrop-blur-2xl border border-white/70 p-8 sm:p-14 lg:p-20 shadow-2xl transition-all duration-700 ease-out',
+            'transition-all duration-700 ease-out',
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8',
           )}
-          style={{ background: 'rgba(255, 255, 255, 0.65)' }}
         >
           {/* Top Section: Left Text Content vs Right Layered Image Cards */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
@@ -48,7 +47,7 @@ export default function AboutUsSection() {
                 ABOUT PATADEV KE
               </div>
 
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#07152F] tracking-tight">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#07152F] tracking-tight">
                 Empowering Kenya&apos;s Tech Ecosystem
               </h2>
 
@@ -77,7 +76,7 @@ export default function AboutUsSection() {
             <div className="lg:col-span-5 relative flex justify-center lg:justify-end items-center min-h-[320px] sm:min-h-[380px] pt-4 lg:pt-0">
               
               {/* Back Image Card */}
-              <div className="w-64 h-64 sm:w-76 sm:h-76 rounded-3xl overflow-hidden shadow-xl border-4 border-white/90 bg-slate-100">
+              <div className="w-64 h-64 sm:w-76 sm:h-76 rounded-3xl overflow-hidden shadow-xl border-4 border-white bg-slate-100">
                 <img
                   src="/assets/images/landing/patadev-hero.png"
                   alt="Developer team in Kenya"
@@ -86,7 +85,7 @@ export default function AboutUsSection() {
               </div>
 
               {/* Front Overlapping Rotated Card */}
-              <div className="absolute top-6 right-2 sm:right-6 w-52 h-52 sm:w-64 sm:h-64 rounded-3xl overflow-hidden shadow-2xl border-4 border-white/90 bg-slate-100 rotate-6 transition-transform duration-300 hover:rotate-3">
+              <div className="absolute top-6 right-2 sm:right-6 w-52 h-52 sm:w-64 sm:h-64 rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-100 rotate-6 transition-transform duration-300 hover:rotate-3">
                 <img
                   src="/assets/images/profiles/profile-2.jpg"
                   alt="Kenyan software engineer coding"
@@ -98,10 +97,13 @@ export default function AboutUsSection() {
 
           </div>
 
-          {/* Bottom Metrics Row (Glass Divider Accent) */}
-          <div className="mt-16 sm:mt-20 pt-12 border-t border-slate-300/40 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          {/* Bottom Metrics Grid (Individual glass cards sitting on page background) */}
+          <div className="mt-16 sm:mt-24 grid grid-cols-2 md:grid-cols-4 gap-6">
             {ABOUT_METRICS.map((metric, idx) => (
-              <div key={idx} className="flex flex-col items-center justify-center">
+              <div
+                key={idx}
+                className="flex flex-col items-center justify-center p-6 rounded-3xl bg-white/70 backdrop-blur-xl border border-white/80 shadow-lg"
+              >
                 <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#07152F] tracking-tight mb-1">
                   {metric.prefix && (
                     <span className="text-lg sm:text-xl font-bold text-primary mr-1">
@@ -110,7 +112,7 @@ export default function AboutUsSection() {
                   )}
                   <span>{metric.value}</span>
                 </div>
-                <div className="text-xs sm:text-sm font-semibold text-[#64748B]">
+                <div className="text-xs sm:text-sm font-semibold text-[#64748B] text-center">
                   {metric.label}
                 </div>
               </div>
