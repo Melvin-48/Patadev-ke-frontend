@@ -7,10 +7,13 @@ import ClientLayout from '../components/layout/ClientLayout';
 import DeveloperLayout from '../components/layout/DeveloperLayout';
 import AdminLayout from '../components/layout/AdminLayout';
 
-// Pages (Placeholders - Devs will build these in their feature folders)
+// Pages
 import LandingPage from '../features/projects/pages/LandingPage';
 import LoginPage from '../features/auth/pages/LoginPage';
 import RegisterPage from '../features/auth/pages/RegisterPage';
+import ForgotPasswordPage from '../features/auth/pages/ForgotPasswordPage';
+import ClientOnboardingPage from '../features/users/pages/ClientOnboardingPage';
+import DeveloperOnboardingPage from '../features/users/pages/DeveloperOnboardingPage';
 
 import ClientDashboard from '../features/projects/pages/ClientDashboard';
 import PostProjectPage from '../features/projects/pages/PostProjectPage';
@@ -32,6 +35,10 @@ export default function AppRouter() {
         <Route path="/projects" element={<BrowseProjectsPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/signup" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/onboarding/client" element={<ClientOnboardingPage />} />
+        <Route path="/onboarding/developer" element={<DeveloperOnboardingPage />} />
       </Route>
 
       {/* Client Routes */}

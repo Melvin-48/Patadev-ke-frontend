@@ -14,6 +14,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
+  register: (email: string, password: string, role: UserRole, name: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -33,13 +34,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     console.log('Logging in', email);
   };
 
+  const register = async (email: string, _password: string, role: UserRole, name: string) => {
+    // TODO: Implement actual API call
+    console.log('Registering user', email, role, name);
+  };
+
   const logout = () => {
     // TODO: Implement actual API call
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

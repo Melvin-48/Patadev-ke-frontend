@@ -3,17 +3,24 @@ import Navbar from './Navbar';
 
 /**
  * PublicLayout wraps all public routes.
- * On the landing page ("/") the Navbar is intentionally hidden because
- * LandingPage renders its own <LandingNavbar />.
- * All other public routes still get the standard <Navbar />.
+ * On landing page ("/") and auth/onboarding pages, the standard top Navbar is hidden.
  */
 export default function PublicLayout() {
   const { pathname } = useLocation();
-  const isLanding = pathname === '/';
+  const HIDE_NAVBAR_ROUTES = [
+    '/',
+    '/login',
+    '/register',
+    '/signup',
+    '/forgot-password',
+    '/onboarding/client',
+    '/onboarding/developer',
+  ];
+  const hideNavbar = HIDE_NAVBAR_ROUTES.includes(pathname);
 
   return (
     <div className="min-h-screen flex flex-col">
-      {!isLanding && <Navbar />}
+      {!hideNavbar && <Navbar />}
       <main className="flex-1">
         <Outlet />
       </main>

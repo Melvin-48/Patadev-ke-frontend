@@ -80,13 +80,9 @@ export default function HowItWorksSection() {
         {/* Translucent Glass Card Outer Container */}
         <div
           className={cn(
-            'relative rounded-[36px] backdrop-blur-2xl border border-white/70 shadow-2xl p-8 sm:p-12 lg:p-16 transition-all duration-700 ease-out',
+            'relative rounded-[36px] bg-white/80 backdrop-blur-xl border border-slate-200/80 shadow-2xl p-8 sm:p-12 lg:p-16 transition-all duration-700 ease-out',
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8',
           )}
-          style={{
-            background: 'rgba(255, 255, 255, 0.40)',
-            boxShadow: '0 20px 50px rgba(7, 21, 47, 0.06)',
-          }}
         >
           {/* Section Header */}
           <div className="flex flex-col items-center text-center gap-3 mb-12">
@@ -101,7 +97,7 @@ export default function HowItWorksSection() {
             </p>
 
             {/* Persona Switcher Tabs */}
-            <div className="inline-flex items-center p-1.5 rounded-2xl bg-white/60 backdrop-blur-md border border-white shadow-xs mt-4">
+            <div className="inline-flex items-center p-1.5 rounded-2xl bg-slate-100/80 border border-slate-200 shadow-xs mt-4">
               <button
                 type="button"
                 onClick={() => setActiveRole('clients')}
@@ -136,7 +132,7 @@ export default function HowItWorksSection() {
               return (
                 <div
                   key={item.step}
-                  className="flex flex-col justify-between p-6 rounded-3xl bg-white/85 backdrop-blur-xl border border-white shadow-lg transition-all duration-500 hover:-translate-y-1.5 hover:shadow-xl group"
+                  className="flex flex-col justify-between p-6 rounded-3xl bg-white/90 backdrop-blur-xl border border-slate-200/80 shadow-md transition-all duration-500 hover:-translate-y-1.5 hover:shadow-xl group"
                 >
                   <div>
                     {/* Step Header */}

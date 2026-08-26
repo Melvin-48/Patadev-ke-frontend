@@ -27,7 +27,7 @@ export default function PricingSection() {
           </p>
 
           {/* Billing Cycle Pill Switcher */}
-          <div className="inline-flex items-center p-1.5 rounded-full bg-blue-50/80 border border-blue-100/90 shadow-sm mt-4">
+          <div className="inline-flex items-center p-1.5 rounded-full bg-slate-100/90 border border-slate-200 shadow-xs mt-4">
             <button
               type="button"
               onClick={() => setBillingCycle('annual')}
@@ -64,7 +64,7 @@ export default function PricingSection() {
           {/* ────── CARD 1: BASIC ────── */}
           <div
             className={cn(
-              'p-8 rounded-3xl bg-white/90 backdrop-blur-xl border border-white/80 shadow-xl flex flex-col justify-between transition-all duration-700 ease-out hover:-translate-y-1.5',
+              'p-8 rounded-3xl bg-white/80 backdrop-blur-xl border border-slate-200/80 shadow-xl flex flex-col justify-between transition-all duration-700 ease-out hover:-translate-y-1.5',
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10',
             )}
           >
@@ -124,7 +124,7 @@ export default function PricingSection() {
           {/* ────── CARD 2: PRO (RECOMMENDED / FEATURED) ────── */}
           <div
             className={cn(
-              'relative p-8 rounded-3xl bg-white backdrop-blur-xl border-2 border-primary shadow-2xl shadow-primary/20 flex flex-col justify-between transition-all duration-700 ease-out md:-mt-4 md:mb-[-16px]',
+              'relative p-8 rounded-3xl bg-white/90 backdrop-blur-xl border-2 border-primary shadow-2xl shadow-primary/20 flex flex-col justify-between transition-all duration-700 ease-out md:-mt-4 md:mb-[-16px]',
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10',
             )}
             style={{ transitionDelay: isVisible ? '120ms' : '0ms' }}
@@ -195,7 +195,7 @@ export default function PricingSection() {
           {/* ────── CARD 3: ENTERPRISE ────── */}
           <div
             className={cn(
-              'p-8 rounded-3xl bg-white/90 backdrop-blur-xl border border-white/80 shadow-xl flex flex-col justify-between transition-all duration-700 ease-out hover:-translate-y-1.5',
+              'p-8 rounded-3xl bg-white/80 backdrop-blur-xl border border-slate-200/80 shadow-xl flex flex-col justify-between transition-all duration-700 ease-out hover:-translate-y-1.5',
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10',
             )}
             style={{ transitionDelay: isVisible ? '240ms' : '0ms' }}

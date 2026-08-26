@@ -30,16 +30,12 @@ export default function AboutUsSection() {
     <section id="about" className="relative w-full py-16 lg:py-24">
       <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8">
         
-        {/* Translucent Glass Card Container */}
+        {/* Glassmorphic Card Container for White Canvas */}
         <div
           className={cn(
-            'relative rounded-[36px] backdrop-blur-2xl border border-white/70 shadow-2xl p-8 sm:p-12 lg:p-16 transition-all duration-700 ease-out',
+            'relative rounded-[36px] bg-white/80 backdrop-blur-xl border border-slate-200/80 shadow-2xl p-8 sm:p-12 lg:p-16 transition-all duration-700 ease-out',
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8',
           )}
-          style={{
-            background: 'rgba(255, 255, 255, 0.40)',
-            boxShadow: '0 20px 50px rgba(7, 21, 47, 0.06)',
-          }}
         >
           {/* Top Section: Left Text Content vs Right Layered Image Cards */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
@@ -80,7 +76,7 @@ export default function AboutUsSection() {
             <div className="lg:col-span-5 relative flex justify-center lg:justify-end items-center min-h-[320px] sm:min-h-[360px] pt-4 lg:pt-0">
               
               {/* Back Image Card */}
-              <div className="w-60 h-60 sm:w-72 sm:h-72 rounded-3xl overflow-hidden shadow-xl border-4 border-white/90 bg-slate-100">
+              <div className="w-60 h-60 sm:w-72 sm:h-72 rounded-3xl overflow-hidden shadow-xl border-4 border-white bg-slate-100">
                 <img
                   src="/assets/images/landing/patadev-hero.png"
                   alt="Developer team in Kenya"
@@ -89,7 +85,7 @@ export default function AboutUsSection() {
               </div>
 
               {/* Front Overlapping Rotated Card */}
-              <div className="absolute top-6 right-2 sm:right-6 w-48 h-48 sm:w-60 sm:h-60 rounded-3xl overflow-hidden shadow-2xl border-4 border-white/90 bg-slate-100 rotate-6 transition-transform duration-300 hover:rotate-3">
+              <div className="absolute top-6 right-2 sm:right-6 w-48 h-48 sm:w-60 sm:h-60 rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-100 rotate-6 transition-transform duration-300 hover:rotate-3">
                 <img
                   src="/assets/images/profiles/profile-2.jpg"
                   alt="Kenyan software engineer coding"
@@ -101,8 +97,8 @@ export default function AboutUsSection() {
 
           </div>
 
-          {/* Bottom Metrics Row (Subtle Divider & Clean Counters) */}
-          <div className="mt-14 sm:mt-16 pt-10 border-t border-slate-300/40 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          {/* Bottom Metrics Row */}
+          <div className="mt-14 sm:mt-16 pt-10 border-t border-slate-200/80 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {ABOUT_METRICS.map((metric, idx) => (
               <div key={idx} className="flex flex-col items-center justify-center">
                 <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#07152F] tracking-tight mb-1">

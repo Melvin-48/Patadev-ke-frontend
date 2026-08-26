@@ -42,16 +42,12 @@ export default function FaqSection() {
     <section id="faqs" className="relative w-full py-16 lg:py-24">
       <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8">
         
-        {/* Outer Translucent Glass Card Container */}
+        {/* Outer Glassmorphic Card Container */}
         <div
           className={cn(
-            'relative rounded-[36px] backdrop-blur-2xl border border-white/70 shadow-2xl p-8 sm:p-12 lg:p-16 transition-all duration-700 ease-out max-w-5xl mx-auto',
+            'relative rounded-[36px] bg-white/80 backdrop-blur-xl border border-slate-200/80 shadow-2xl p-8 sm:p-12 lg:p-16 transition-all duration-700 ease-out max-w-5xl mx-auto',
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8',
           )}
-          style={{
-            background: 'rgba(255, 255, 255, 0.40)',
-            boxShadow: '0 20px 50px rgba(7, 21, 47, 0.06)',
-          }}
         >
           {/* Section Header */}
           <div className="flex flex-col items-center text-center gap-3 mb-10">
@@ -73,12 +69,12 @@ export default function FaqSection() {
               return (
                 <div
                   key={idx}
-                  className="rounded-3xl bg-white/85 backdrop-blur-xl border border-white shadow-lg overflow-hidden transition-all duration-300"
+                  className="rounded-3xl bg-white/90 backdrop-blur-xl border border-slate-200/80 shadow-sm overflow-hidden transition-all duration-300"
                 >
                   <button
                     type="button"
                     onClick={() => toggleFaq(idx)}
-                    className="w-full px-7 py-5 flex items-center justify-between gap-4 text-left transition-colors hover:bg-white/50"
+                    className="w-full px-7 py-5 flex items-center justify-between gap-4 text-left transition-colors hover:bg-slate-50/80"
                     aria-expanded={isOpen}
                   >
                     <span className="text-base sm:text-lg font-bold text-[#07152F]">
@@ -95,7 +91,7 @@ export default function FaqSection() {
                   </button>
 
                   {isOpen && (
-                    <div className="px-7 pb-6 text-xs sm:text-sm text-[#64748B] leading-relaxed animate-fade-in border-t border-slate-100/60 pt-4">
+                    <div className="px-7 pb-6 text-xs sm:text-sm text-[#64748B] leading-relaxed animate-fade-in border-t border-slate-100 pt-4">
                       {faq.answer}
                     </div>
                   )}
