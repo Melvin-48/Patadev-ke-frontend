@@ -1,46 +1,7 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Code2, Smartphone, CreditCard, Cpu, Server, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Check, Code2, Layers, ShieldCheck, Globe, Database, Smartphone, Zap } from 'lucide-react';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
 import { cn } from '../../lib/utils';
-
-const SERVICES = [
-  {
-    icon: Code2,
-    title: 'Custom Web Applications',
-    description: 'High-performance web applications built with React, Next.js, TypeScript, and modern frontend frameworks.',
-    tags: ['React', 'Next.js', 'TypeScript', 'Tailwind'],
-  },
-  {
-    icon: Smartphone,
-    title: 'Mobile App Development',
-    description: 'Cross-platform iOS and Android mobile apps engineered for speed, offline access, and fluid user experiences.',
-    tags: ['Flutter', 'React Native', 'iOS', 'Android'],
-  },
-  {
-    icon: CreditCard,
-    title: 'M-Pesa & Payment Systems',
-    description: 'Seamless integration of M-Pesa Express (Daraja API), STK push, automated B2C payouts, and custom escrow flows.',
-    tags: ['M-Pesa API', 'STK Push', 'Paybill', 'Escrow'],
-  },
-  {
-    icon: Cpu,
-    title: 'AI & Data Intelligence',
-    description: 'Predictive analytics, custom AI model integration, automated web scraping, and telemetry dashboards.',
-    tags: ['Python', 'TensorFlow', 'FastAPI', 'Pandas'],
-  },
-  {
-    icon: Server,
-    title: 'Cloud & Backend Engineering',
-    description: 'Scalable REST & GraphQL APIs, microservices, PostgreSQL databases, Docker containers, and cloud deployment.',
-    tags: ['Node.js', 'PostgreSQL', 'Docker', 'AWS'],
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Code Audits & Security',
-    description: 'Comprehensive codebase reviews, performance profiling, security vulnerability fixes, and QA testing.',
-    tags: ['Security Audit', 'Code Review', 'Jest', 'CI/CD'],
-  },
-];
 
 export default function PopularServicesSection() {
   const { ref, isVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.1 });
@@ -49,78 +10,210 @@ export default function PopularServicesSection() {
     <section id="services" className="relative w-full py-16 lg:py-24">
       <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8">
         
-        {/* Section Header */}
+        {/* Outer Translucent Glass Card Container */}
         <div
           className={cn(
-            'flex flex-col items-center text-center gap-3 mb-12 transition-all duration-700 ease-out',
+            'relative rounded-[36px] backdrop-blur-2xl border border-white/70 shadow-2xl p-8 sm:p-12 lg:p-16 transition-all duration-700 ease-out',
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8',
           )}
+          style={{
+            background: 'rgba(255, 255, 255, 0.40)',
+            boxShadow: '0 20px 50px rgba(7, 21, 47, 0.06)',
+          }}
         >
-          <div className="font-mono text-xs uppercase tracking-[0.25em] font-semibold text-primary">
-            POPULAR SERVICES
+          {/* Section Header */}
+          <div className="flex flex-col items-center text-center gap-3 mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#07152F] tracking-tight max-w-3xl leading-tight">
+              <span className="text-primary underline decoration-primary/30 underline-offset-8">
+                Our Dedicated Approach
+              </span>{' '}
+              to Providing Exceptional Software Services
+            </h2>
+            <p className="text-[#64748B] text-base lg:text-lg max-w-xl font-medium mt-1">
+              Tailored Strategies and Dedicated Support for Your Business Success.
+            </p>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#07152F] tracking-tight">
-            Software Solutions Tailored for Growth
-          </h2>
-          <p className="text-[#64748B] text-base lg:text-lg max-w-2xl">
-            Hire vetted Kenyan software engineers for your exact tech stack and project needs.
-          </p>
-        </div>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {SERVICES.map((service, idx) => {
-            const Icon = service.icon;
-            return (
-              <div
-                key={service.title}
-                className={cn(
-                  'flex flex-col justify-between p-7 sm:p-8 rounded-3xl bg-white/85 backdrop-blur-xl border border-white shadow-xl transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl group',
-                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10',
-                )}
-                style={{
-                  transitionDelay: isVisible ? `${idx * 100}ms` : '0ms',
-                }}
-              >
-                <div>
-                  {/* Icon Header */}
-                  <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                    <Icon size={24} strokeWidth={2} />
+          {/* 3 Showcase Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            {/* ────── CARD 1: Custom Web & Mobile Apps ────── */}
+            <div
+              className={cn(
+                'rounded-3xl overflow-hidden bg-white/90 backdrop-blur-xl border border-white shadow-xl flex flex-col justify-between transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl group',
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10',
+              )}
+            >
+              {/* Top Visual Diagram Canvas */}
+              <div className="p-6 h-52 bg-slate-50/80 border-b border-slate-100 flex items-center justify-center relative overflow-hidden">
+                <div className="flex flex-col items-center gap-3 w-full max-w-[260px]">
+                  {/* Top nodes */}
+                  <div className="flex items-center justify-between w-full">
+                    <span className="px-3 py-1 rounded-lg bg-white shadow-xs border border-slate-200 text-[11px] font-semibold text-slate-600">
+                      Frontend
+                    </span>
+                    <span className="px-3 py-1 rounded-lg bg-white shadow-xs border border-slate-200 text-[11px] font-semibold text-slate-600">
+                      Backend
+                    </span>
                   </div>
 
-                  {/* Title & Description */}
-                  <h3 className="text-xl font-bold text-[#07152F] mb-3 group-hover:text-primary transition-colors">
-                    {service.title}
+                  {/* Connecting lines & Active central node */}
+                  <div className="w-full flex items-center justify-center my-1 relative">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-full h-px border-t border-dashed border-primary/30" />
+                    </div>
+                    <span className="relative z-10 px-4 py-1.5 rounded-xl bg-primary text-white shadow-md text-xs font-bold flex items-center gap-1.5">
+                      <Code2 size={13} />
+                      <span>Web & Mobile App</span>
+                    </span>
+                  </div>
+
+                  {/* Bottom nodes */}
+                  <div className="flex items-center justify-between w-full">
+                    <span className="px-3 py-1 rounded-lg bg-white shadow-xs border border-slate-200 text-[11px] font-semibold text-slate-600">
+                      REST API
+                    </span>
+                    <span className="px-3 py-1 rounded-lg bg-white shadow-xs border border-slate-200 text-[11px] font-semibold text-slate-600">
+                      PostgreSQL
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom Content */}
+              <div className="p-7 flex flex-col justify-between flex-grow">
+                <div>
+                  <h3 className="text-xl font-bold text-[#07152F] mb-2 group-hover:text-primary transition-colors">
+                    Custom Web & Mobile Apps
                   </h3>
                   <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed mb-6">
-                    {service.description}
+                    Transforming your brand&apos;s digital presence through full-stack web applications and responsive mobile apps that drive engagement.
                   </p>
                 </div>
 
-                {/* Tech Stack Pills & Action */}
-                <div className="pt-4 border-t border-slate-100">
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {service.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2.5 py-1 rounded-lg bg-slate-100/90 text-slate-600 text-[11px] font-semibold"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                <Link
+                  to="/register"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:text-primary/80 transition-colors"
+                >
+                  <span>Explore Web Services</span>
+                  <ArrowRight size={14} />
+                </Link>
+              </div>
+            </div>
+
+            {/* ────── CARD 2: Milestone Escrow Security ────── */}
+            <div
+              className={cn(
+                'rounded-3xl overflow-hidden bg-white/90 backdrop-blur-xl border border-white shadow-xl flex flex-col justify-between transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl group',
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10',
+              )}
+              style={{ transitionDelay: isVisible ? '120ms' : '0ms' }}
+            >
+              {/* Top Visual Checklist Canvas */}
+              <div className="p-6 h-52 bg-slate-50/80 border-b border-slate-100 flex items-center justify-center relative overflow-hidden">
+                <div className="flex flex-col gap-2.5 w-full max-w-[250px]">
+                  {/* Item 1 */}
+                  <div className="flex items-center gap-2.5 p-2 rounded-xl bg-white border border-slate-200/80 shadow-xs">
+                    <span className="w-5 h-5 rounded-md bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0">
+                      <Check size={12} strokeWidth={3} />
+                    </span>
+                    <span className="text-[11px] font-semibold text-slate-700">Project Requirements Set</span>
                   </div>
 
-                  <Link
-                    to="/register"
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:text-primary/80 transition-colors"
-                  >
-                    <span>Post a {service.title.split(' ')[0]} Project</span>
-                    <ArrowRight size={14} />
-                  </Link>
+                  {/* Active Highlight Item 2 */}
+                  <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-blue-50 border border-primary/40 shadow-sm">
+                    <span className="w-5 h-5 rounded-md bg-primary text-white flex items-center justify-center shrink-0">
+                      <ShieldCheck size={12} strokeWidth={2.5} />
+                    </span>
+                    <span className="text-[11px] font-bold text-[#07152F]">Milestone Escrow Funded</span>
+                  </div>
+
+                  {/* Item 3 */}
+                  <div className="flex items-center gap-2.5 p-2 rounded-xl bg-white border border-slate-200/80 shadow-xs">
+                    <span className="w-5 h-5 rounded-md bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0">
+                      <Check size={12} strokeWidth={3} />
+                    </span>
+                    <span className="text-[11px] font-semibold text-slate-700">Instant M-Pesa Payout</span>
+                  </div>
                 </div>
               </div>
-            );
-          })}
+
+              {/* Bottom Content */}
+              <div className="p-7 flex flex-col justify-between flex-grow">
+                <div>
+                  <h3 className="text-xl font-bold text-[#07152F] mb-2 group-hover:text-primary transition-colors">
+                    Milestone Escrow Security
+                  </h3>
+                  <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed mb-6">
+                    Escrow protection involves locking funds safely in escrow vaults until milestone deliverables meet full technical approval.
+                  </p>
+                </div>
+
+                <Link
+                  to="/register"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:text-primary/80 transition-colors"
+                >
+                  <span>Learn About Escrow</span>
+                  <ArrowRight size={14} />
+                </Link>
+              </div>
+            </div>
+
+            {/* ────── CARD 3: Vetted Developer Squads ────── */}
+            <div
+              className={cn(
+                'rounded-3xl overflow-hidden bg-white/90 backdrop-blur-xl border border-white shadow-xl flex flex-col justify-between transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl group',
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10',
+              )}
+              style={{ transitionDelay: isVisible ? '240ms' : '0ms' }}
+            >
+              {/* Top Visual Radial Canvas */}
+              <div className="p-6 h-52 bg-slate-50/80 border-b border-slate-100 flex items-center justify-center relative overflow-hidden">
+                <div className="relative w-44 h-44 flex items-center justify-center">
+                  {/* Central Node */}
+                  <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center shadow-lg z-10">
+                    <Zap size={22} strokeWidth={2.5} />
+                  </div>
+
+                  {/* Satellite Tech Icons */}
+                  <div className="absolute top-2 left-6 p-2 rounded-full bg-white shadow-xs border border-slate-200 text-slate-600">
+                    <Globe size={14} />
+                  </div>
+                  <div className="absolute top-2 right-6 p-2 rounded-full bg-white shadow-xs border border-slate-200 text-slate-600">
+                    <Layers size={14} />
+                  </div>
+                  <div className="absolute bottom-2 left-6 p-2 rounded-full bg-white shadow-xs border border-slate-200 text-slate-600">
+                    <Smartphone size={14} />
+                  </div>
+                  <div className="absolute bottom-2 right-6 p-2 rounded-full bg-white shadow-xs border border-slate-200 text-slate-600">
+                    <Database size={14} />
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom Content */}
+              <div className="p-7 flex flex-col justify-between flex-grow">
+                <div>
+                  <h3 className="text-xl font-bold text-[#07152F] mb-2 group-hover:text-primary transition-colors">
+                    Vetted Developer Squads
+                  </h3>
+                  <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed mb-6">
+                    Leverage cutting-edge Kenyan tech talent to enhance your engineering bandwidth and accelerate software milestones.
+                  </p>
+                </div>
+
+                <Link
+                  to="/register"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:text-primary/80 transition-colors"
+                >
+                  <span>Hire Vetted Devs</span>
+                  <ArrowRight size={14} />
+                </Link>
+              </div>
+            </div>
+
+          </div>
+
         </div>
 
       </div>
