@@ -5,21 +5,19 @@ import PopularServicesSection from '../../../components/landing/PopularServicesS
 import HowItWorksSection from '../../../components/landing/HowItWorksSection';
 import PricingSection from '../../../components/landing/PricingSection';
 import FaqSection from '../../../components/landing/FaqSection';
-import ContactSection from '../../../components/landing/ContactSection';
 import LandingFooter from '../../../components/landing/LandingFooter';
 
 /**
  * LandingPage — public home page.
  *
- * Sequence matches navbar links exactly:
+ * Sequence matches navbar links:
  * 1. Home (HeroSection - includes partners carousel)
  * 2. About (AboutUsSection - id="about")
  * 3. Services (PopularServicesSection - id="services")
  * 4. How It Works (HowItWorksSection - id="how-it-works")
  * 5. Pricing (PricingSection - id="pricing")
  * 6. FAQs (FaqSection - id="faqs")
- * 7. Contacts (ContactSection - id="contacts")
- * 8. LandingFooter
+ * 7. Contacts & Footer (LandingFooter - id="contacts")
  */
 export default function LandingPage() {
   return (
@@ -76,7 +74,6 @@ export default function LandingPage() {
         <HowItWorksSection />
         <PricingSection />
         <FaqSection />
-        <ContactSection />
         <LandingFooter />
       </div>
     </div>

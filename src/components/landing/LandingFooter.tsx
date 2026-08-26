@@ -1,165 +1,202 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ShieldCheck, Code2, Heart } from 'lucide-react';
+import { Mail, Linkedin, CheckCircle2 } from 'lucide-react';
 
 export default function LandingFooter() {
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setSubscribed(true);
+    setEmail('');
+  };
+
   return (
-    <footer className="relative w-full pt-16 pb-12 overflow-hidden">
-      
-      {/* ── HIGH-CONVERSION CTA BANNER CARD ── */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 mb-16">
+    <footer id="contacts" className="relative w-full py-16 lg:py-24 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        
+        {/* Unified Combined CTA & Footer Card matching Reference Design */}
         <div
-          className="relative rounded-3xl p-10 sm:p-14 text-center text-white overflow-hidden shadow-2xl"
-          style={{ background: 'linear-gradient(135deg, #07152F 0%, #1769FF 100%)' }}
+          className="relative rounded-[36px] overflow-hidden p-8 sm:p-14 lg:p-20 text-white shadow-2xl transition-all duration-500"
+          style={{
+            background:
+              'radial-gradient(ellipse at top left, #3B82F6 0%, #1769FF 30%, #07152F 70%, #030A19 100%)',
+          }}
         >
-          {/* Decorative background glow circle */}
+          {/* Subtle Ambient Glow Blobs */}
           <div
             aria-hidden="true"
-            className="absolute -top-24 -right-24 w-80 h-80 rounded-full opacity-20 pointer-events-none"
-            style={{ background: 'radial-gradient(circle, #ffffff 0%, transparent 70%)' }}
+            className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full pointer-events-none opacity-30"
+            style={{
+              background: 'radial-gradient(circle, rgba(255,255,255,0.25) 0%, transparent 65%)',
+              filter: 'blur(80px)',
+            }}
           />
 
-          <div className="relative z-10 max-w-2xl mx-auto flex flex-col items-center gap-6">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/10 text-white text-xs font-semibold backdrop-blur-md">
-              <ShieldCheck size={14} className="text-emerald-400" />
-              100% Milestone Escrow Protection
-            </span>
-
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
-              Ready to Build Your Next Software Project?
+          {/* Top Section: Bold CTA Headline & Contact Button */}
+          <div className="relative z-10 mb-16 sm:mb-24 flex flex-col items-start gap-6 max-w-2xl">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-tight text-white">
+              Ready to start building your software project?
             </h2>
 
-            <p className="text-blue-100 text-base sm:text-lg leading-relaxed">
-              Post your project for free today and start receiving proposals from top vetted Kenyan developers within hours.
-            </p>
-
-            <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+            <div>
               <Link
                 to="/register"
-                className="inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl font-bold bg-white text-[#07152F] shadow-xl hover:bg-slate-100 transition-all duration-200 text-base"
+                className="inline-flex items-center justify-center px-8 py-3.5 rounded-2xl font-bold bg-white text-[#07152F] shadow-xl hover:bg-slate-100 transition-all duration-200 text-sm sm:text-base"
               >
-                <span>Post a Project Now</span>
-                <ArrowRight size={17} strokeWidth={2.5} />
-              </Link>
-
-              <Link
-                to="/register"
-                className="inline-flex items-center gap-2 px-7 py-4 rounded-2xl font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/20 transition-all duration-200 text-base"
-              >
-                <Code2 size={18} />
-                <span>Join as Developer</span>
+                Contact us
               </Link>
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* ── FOOTER NAVIGATION & CREDITS ── */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 border-t border-slate-200/60 pt-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-          
-          {/* Col 1: Brand & Tagline */}
-          <div className="md:col-span-1 flex flex-col gap-4">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-primary text-white flex items-center justify-center font-bold text-lg shadow-sm">
-                P
+          {/* Bottom Section: Newsletter & Links Grid */}
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 pt-10 border-t border-white/15 items-start">
+            
+            {/* Left 5/12: Newsletter */}
+            <div className="lg:col-span-5 flex flex-col gap-4">
+              <h3 className="text-sm font-bold text-white tracking-wide">
+                Newsletter
+              </h3>
+              <p className="text-xs sm:text-sm text-blue-100/80 leading-relaxed max-w-md">
+                We&apos;d love to share our latest developer tech insights and milestone escrow updates with you in our monthly newsletter.
+              </p>
+
+              {subscribed ? (
+                <div className="flex items-center gap-2 text-emerald-400 text-xs font-semibold py-2">
+                  <CheckCircle2 size={16} />
+                  <span>Thank you for subscribing!</span>
+                </div>
+              ) : (
+                <form onSubmit={handleSubscribe} className="flex items-center gap-3 pt-2 max-w-md">
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email"
+                    className="flex-1 px-4 py-2.5 rounded-xl bg-white/15 backdrop-blur-md border border-white/20 text-xs text-white placeholder-blue-100/60 focus:outline-none focus:ring-2 focus:ring-white/40 transition-all"
+                  />
+                  <button
+                    type="submit"
+                    className="px-5 py-2.5 rounded-xl bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/20 text-xs font-bold text-white transition-all shrink-0"
+                  >
+                    Subscribe
+                  </button>
+                </form>
+              )}
+            </div>
+
+            {/* Right 7/12: 3 Navigation Columns & Social Icons */}
+            <div className="lg:col-span-7 grid grid-cols-3 gap-6 sm:gap-8">
+              
+              {/* Column 1: Home */}
+              <div className="flex flex-col gap-3">
+                <h4 className="text-xs font-bold text-white tracking-wider">
+                  Home
+                </h4>
+                <ul className="flex flex-col gap-2.5 text-xs text-blue-100/70">
+                  <li>
+                    <a href="#about" className="hover:text-white transition-colors">
+                      Benefits
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#services" className="hover:text-white transition-colors">
+                      Features
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#services" className="hover:text-white transition-colors">
+                      Services
+                    </a>
+                  </li>
+                </ul>
               </div>
-              <span className="text-xl font-extrabold text-[#07152F] tracking-tight">
-                PataDev<span className="text-primary">.ke</span>
-              </span>
+
+              {/* Column 2: Platform */}
+              <div className="flex flex-col gap-3">
+                <h4 className="text-xs font-bold text-white tracking-wider">
+                  Platform
+                </h4>
+                <ul className="flex flex-col gap-2.5 text-xs text-blue-100/70">
+                  <li>
+                    <a href="#how-it-works" className="hover:text-white transition-colors">
+                      Solution
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#how-it-works" className="hover:text-white transition-colors">
+                      Overview
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#pricing" className="hover:text-white transition-colors">
+                      Pricing
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Column 3: About us & Social Icons */}
+              <div className="flex flex-col justify-between h-full gap-6">
+                <div className="flex flex-col gap-3">
+                  <h4 className="text-xs font-bold text-white tracking-wider">
+                    About us
+                  </h4>
+                  <ul className="flex flex-col gap-2.5 text-xs text-blue-100/70">
+                    <li>
+                      <a href="#about" className="hover:text-white transition-colors">
+                        Connectors
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#how-it-works" className="hover:text-white transition-colors">
+                        Security
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#contacts" className="hover:text-white transition-colors">
+                        Contact Us
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Social Icons */}
+                <div className="flex items-center gap-3 pt-2">
+                  <a
+                    href="mailto:contact@patadev.ke"
+                    className="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-white transition-colors"
+                    aria-label="Email support"
+                  >
+                    <Mail size={14} />
+                  </a>
+                  <a
+                    href="https://linkedin.com"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-white transition-colors"
+                    aria-label="LinkedIn profile"
+                  >
+                    <Linkedin size={14} />
+                  </a>
+                </div>
+              </div>
+
             </div>
 
-            <p className="text-xs text-[#64748B] leading-relaxed">
-              Kenya&apos;s premier developer marketplace connecting businesses with top local tech talent via secure milestone escrow.
-            </p>
           </div>
 
-          {/* Col 2: Marketplace */}
-          <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-[#07152F] mb-4">
-              Marketplace
-            </h4>
-            <ul className="flex flex-col gap-2.5 text-xs text-[#64748B]">
-              <li>
-                <Link to="/projects" className="hover:text-primary transition-colors">
-                  Browse Projects
-                </Link>
-              </li>
-              <li>
-                <Link to="/register" className="hover:text-primary transition-colors">
-                  Post a Project
-                </Link>
-              </li>
-              <li>
-                <Link to="/register" className="hover:text-primary transition-colors">
-                  Become a Developer
-                </Link>
-              </li>
-              <li>
-                <Link to="#how-it-works" className="hover:text-primary transition-colors">
-                  How Escrow Works
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Col 3: Company */}
-          <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-[#07152F] mb-4">
-              Company
-            </h4>
-            <ul className="flex flex-col gap-2.5 text-xs text-[#64748B]">
-              <li>
-                <Link to="/about" className="hover:text-primary transition-colors">
-                  About PataDev
-                </Link>
-              </li>
-              <li>
-                <Link to="#featured-projects" className="hover:text-primary transition-colors">
-                  Client Stories
-                </Link>
-              </li>
-              <li>
-                <Link to="/pricing" className="hover:text-primary transition-colors">
-                  Pricing & Escrow Fees
-                </Link>
-              </li>
-              <li>
-                <Link to="/disputes" className="hover:text-primary transition-colors">
-                  Trust & Safety
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Col 4: Support & Location */}
-          <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-[#07152F] mb-4">
-              Connect
-            </h4>
-            <p className="text-xs text-[#64748B] leading-relaxed mb-3">
-              Nairobi, Kenya — Building software solutions for the African tech ecosystem.
-            </p>
-            <div className="text-xs text-primary font-semibold">
-              support@patadev.ke
-            </div>
-          </div>
-
-        </div>
-
-        {/* Bottom copyright line */}
-        <div className="pt-6 border-t border-slate-200/50 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#64748B]">
-          <div>
+          {/* Bottom Copyright Notice */}
+          <div className="relative z-10 mt-12 pt-6 text-center text-xs text-blue-100/50">
             © {new Date().getFullYear()} PataDev Ke. All rights reserved.
           </div>
-          <div className="flex items-center gap-1">
-            <span>Engineered with</span>
-            <Heart size={12} className="text-red-500 fill-red-500 inline" />
-            <span>for Kenyan Tech Talent</span>
-          </div>
+
         </div>
 
       </div>
-
     </footer>
   );
 }
