@@ -1,26 +1,25 @@
 import LandingNavbar from '../../../components/landing/LandingNavbar';
 import HeroSection from '../../../components/landing/HeroSection';
-import HowItWorksSection from '../../../components/landing/HowItWorksSection';
-import WhoItsForSection from '../../../components/landing/WhoItsForSection';
-import PricingSection from '../../../components/landing/PricingSection';
 import AboutUsSection from '../../../components/landing/AboutUsSection';
-import StatsSection from '../../../components/landing/StatsSection';
-import FeaturedProjectsSection from '../../../components/landing/FeaturedProjectsSection';
+import PopularServicesSection from '../../../components/landing/PopularServicesSection';
+import HowItWorksSection from '../../../components/landing/HowItWorksSection';
+import PricingSection from '../../../components/landing/PricingSection';
+import FaqSection from '../../../components/landing/FaqSection';
+import ContactSection from '../../../components/landing/ContactSection';
 import LandingFooter from '../../../components/landing/LandingFooter';
 
 /**
  * LandingPage — public home page.
  *
- * Sequence aligned with navbar items:
- * 1. Home (HeroSection - id="home")
- * 2. Find Projects (Nav link routes directly to /projects page)
- * 3. How It Works (HowItWorksSection - id="how-it-works")
- * 4. For Developers (WhoItsForSection - id="for-developers")
+ * Sequence matches navbar links exactly:
+ * 1. Home (HeroSection - includes partners carousel)
+ * 2. About (AboutUsSection - id="about")
+ * 3. Services (PopularServicesSection - id="services")
+ * 4. How It Works (HowItWorksSection - id="how-it-works")
  * 5. Pricing (PricingSection - id="pricing")
- * 6. About Us (AboutUsSection - id="about")
- * 7. StatsSection
- * 8. FeaturedProjectsSection
- * 9. LandingFooter
+ * 6. FAQs (FaqSection - id="faqs")
+ * 7. Contacts (ContactSection - id="contacts")
+ * 8. LandingFooter
  */
 export default function LandingPage() {
   return (
@@ -72,12 +71,12 @@ export default function LandingPage() {
       <div className="relative z-10">
         <LandingNavbar />
         <HeroSection />
-        <HowItWorksSection />
-        <WhoItsForSection />
-        <PricingSection />
         <AboutUsSection />
-        <StatsSection />
-        <FeaturedProjectsSection />
+        <PopularServicesSection />
+        <HowItWorksSection />
+        <PricingSection />
+        <FaqSection />
+        <ContactSection />
         <LandingFooter />
       </div>
     </div>

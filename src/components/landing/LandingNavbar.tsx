@@ -10,12 +10,13 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { label: 'Home',           to: '/' },
-  { label: 'Find Projects',  to: '/projects' },
-  { label: 'How It Works',   to: '/#how-it-works',   isHash: true },
-  { label: 'For Developers', to: '/#for-developers', isHash: true },
-  { label: 'Pricing',        to: '/#pricing',        isHash: true },
-  { label: 'About Us',       to: '/#about',          isHash: true },
+  { label: 'Home',         to: '/#home',         isHash: true },
+  { label: 'About',        to: '/#about',        isHash: true },
+  { label: 'Services',     to: '/#services',     isHash: true },
+  { label: 'How It Works', to: '/#how-it-works', isHash: true },
+  { label: 'Pricing',      to: '/#pricing',      isHash: true },
+  { label: 'FAQs',         to: '/#faqs',         isHash: true },
+  { label: 'Contacts',     to: '/#contacts',     isHash: true },
 ];
 
 export default function LandingNavbar() {
