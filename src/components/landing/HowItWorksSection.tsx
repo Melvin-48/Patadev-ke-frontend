@@ -77,95 +77,98 @@ export default function HowItWorksSection() {
     <section id="how-it-works" className="relative w-full py-16 lg:py-24">
       <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8">
 
-        {/* Section Header */}
+        {/* Translucent Glass Card Outer Container */}
         <div
           className={cn(
-            'flex flex-col items-center text-center gap-4 mb-12 transition-all duration-700 ease-out',
+            'relative rounded-[36px] backdrop-blur-2xl border border-white/70 shadow-2xl p-8 sm:p-12 lg:p-16 transition-all duration-700 ease-out',
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8',
           )}
+          style={{
+            background: 'rgba(255, 255, 255, 0.40)',
+            boxShadow: '0 20px 50px rgba(7, 21, 47, 0.06)',
+          }}
         >
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider">
-            Simple & Transparent
-          </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#07152F] tracking-tight">
-            How PataDev Works
-          </h2>
-          <p className="text-[#64748B] text-base lg:text-lg max-w-2xl">
-            A milestone-driven software marketplace engineered for trust, speed, and seamless execution.
-          </p>
+          {/* Section Header */}
+          <div className="flex flex-col items-center text-center gap-3 mb-12">
+            <div className="font-mono text-xs uppercase tracking-[0.25em] font-semibold text-primary">
+              SIMPLE & TRANSPARENT
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#07152F] tracking-tight">
+              How PataDev Works
+            </h2>
+            <p className="text-[#64748B] text-base lg:text-lg max-w-2xl">
+              A milestone-driven software marketplace engineered for trust, speed, and seamless execution.
+            </p>
 
-          {/* Persona Switcher Tabs */}
-          <div className="inline-flex items-center p-1.5 rounded-2xl bg-white/40 backdrop-blur-md border border-white/60 shadow-sm mt-4">
-            <button
-              onClick={() => setActiveRole('clients')}
-              className={cn(
-                'px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-200',
-                activeRole === 'clients'
-                  ? 'bg-primary text-white shadow-md shadow-primary/25'
-                  : 'text-[#64748B] hover:text-[#07152F]',
-              )}
-            >
-              For Businesses / Clients
-            </button>
-            <button
-              onClick={() => setActiveRole('developers')}
-              className={cn(
-                'px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-200',
-                activeRole === 'developers'
-                  ? 'bg-primary text-white shadow-md shadow-primary/25'
-                  : 'text-[#64748B] hover:text-[#07152F]',
-              )}
-            >
-              For Developers
-            </button>
-          </div>
-        </div>
-
-        {/* Step Cards Grid with Staggered Scroll Reveal */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
-          {steps.map((item, idx) => {
-            const Icon = item.icon;
-            return (
-              <div
-                key={item.step}
+            {/* Persona Switcher Tabs */}
+            <div className="inline-flex items-center p-1.5 rounded-2xl bg-white/60 backdrop-blur-md border border-white shadow-xs mt-4">
+              <button
+                type="button"
+                onClick={() => setActiveRole('clients')}
                 className={cn(
-                  'relative flex flex-col justify-between p-6 rounded-3xl backdrop-blur-xl border border-white/50 shadow-xl shadow-navy/5 transition-all duration-700 ease-out hover:-translate-y-1.5 hover:shadow-2xl hover:border-white/80 group',
-                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10',
+                  'px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-200',
+                  activeRole === 'clients'
+                    ? 'bg-primary text-white shadow-md shadow-primary/25'
+                    : 'text-[#64748B] hover:text-[#07152F]',
                 )}
-                style={{
-                  background: 'rgba(255, 255, 255, 0.45)',
-                  transitionDelay: isVisible ? `${idx * 120}ms` : '0ms',
-                }}
               >
-                <div>
-                  {/* Step Header */}
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                      <Icon size={24} strokeWidth={2} />
+                For Businesses / Clients
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveRole('developers')}
+                className={cn(
+                  'px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-200',
+                  activeRole === 'developers'
+                    ? 'bg-primary text-white shadow-md shadow-primary/25'
+                    : 'text-[#64748B] hover:text-[#07152F]',
+                )}
+              >
+                For Developers
+              </button>
+            </div>
+          </div>
+
+          {/* Step Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {steps.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={item.step}
+                  className="flex flex-col justify-between p-6 rounded-3xl bg-white/85 backdrop-blur-xl border border-white shadow-lg transition-all duration-500 hover:-translate-y-1.5 hover:shadow-xl group"
+                >
+                  <div>
+                    {/* Step Header */}
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                        <Icon size={24} strokeWidth={2} />
+                      </div>
+                      <span className="text-3xl font-black text-[#07152F]/15 group-hover:text-primary/30 transition-colors duration-300">
+                        {item.step}
+                      </span>
                     </div>
-                    <span className="text-3xl font-black text-[#07152F]/15 group-hover:text-primary/30 transition-colors duration-300">
-                      {item.step}
-                    </span>
+
+                    {/* Title & Description */}
+                    <h3 className="text-xl font-bold text-[#07152F] mb-2">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed mb-4">
+                      {item.description}
+                    </p>
                   </div>
 
-                  {/* Title & Description */}
-                  <h3 className="text-xl font-bold text-[#07152F] mb-2">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-[#64748B] leading-relaxed mb-4">
-                    {item.description}
-                  </p>
+                  {/* Highlight Badge */}
+                  <div className="pt-4 border-t border-slate-100">
+                    <span className="inline-block text-xs font-semibold text-primary bg-primary/10 px-2.5 py-1 rounded-lg">
+                      ✓ {item.highlight}
+                    </span>
+                  </div>
                 </div>
+              );
+            })}
+          </div>
 
-                {/* Highlight Badge */}
-                <div className="pt-4 border-t border-slate-200/50">
-                  <span className="inline-block text-xs font-semibold text-primary bg-primary/8 px-2.5 py-1 rounded-lg">
-                    ✓ {item.highlight}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
         </div>
 
       </div>
