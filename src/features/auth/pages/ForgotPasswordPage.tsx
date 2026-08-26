@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { KeyRound, Mail, ArrowRight, ArrowLeft, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
+import { AlertCircle, Loader2, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '../../../contexts/AuthContext';
 import { cn } from '../../../lib/utils';
 import AuthLayout from '../../../components/auth/AuthLayout';
@@ -47,86 +47,75 @@ export default function ForgotPasswordPage() {
 
   return (
     <AuthLayout
-      title="Reset your password"
+      title="Forgot your password?"
       description="Enter your email address and we'll send you a link to reset your password."
-      icon={<KeyRound size={22} strokeWidth={2.2} />}
-      brandHeadline="Let's get you back in."
-      brandSubheadline="Safely recover access to your PataDev account and manage your tech projects."
+      brandHeadline="Build better.
+Connect smarter."
+      brandSubheadline="Where businesses find skilled developers and developers find meaningful projects."
       bottomLink={
-        <Link
-          to="/login"
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-[#64748B] hover:text-primary transition-colors"
-        >
-          <ArrowLeft size={14} />
-          <span>Back to Login</span>
+        <Link to="/login" className="font-bold text-primary hover:underline">
+          Back to login
         </Link>
       }
     >
       {isSubmitted ? (
         /* ────── SUCCESS STATE ────── */
-        <div className="space-y-6 text-center animate-fadeIn py-2">
-          {/* Soft Green Icon Badge */}
-          <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center mx-auto shadow-xs">
-            <CheckCircle2 size={26} strokeWidth={2} />
+        <div className="space-y-5 animate-fadeIn py-2 text-left">
+          <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center">
+            <CheckCircle2 size={20} />
           </div>
 
           <div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-[#07152F] tracking-tight">
+            <h2 className="text-xl font-bold text-[#07152F] tracking-tight">
               Check your email
             </h2>
-            <p className="text-xs sm:text-sm text-[#64748B] font-medium mt-2 leading-relaxed max-w-[340px] mx-auto">
-              If an account exists with that email address, we&apos;ve sent instructions to reset your password.
+            <p className="text-xs text-slate-500 font-medium mt-1.5 leading-relaxed">
+              Instructions to reset your password have been sent if an account exists for this email address.
             </p>
           </div>
 
           <div className="pt-2">
             <Link
               to="/login"
-              className="w-full inline-flex items-center justify-center gap-2 py-3 px-6 rounded-full font-bold text-white shadow-lg shadow-primary/25 bg-[#1769FF] hover:bg-blue-600 transition-all text-xs"
+              className="w-full inline-flex items-center justify-center py-2.5 px-4 rounded-lg font-bold text-white bg-[#07152F] hover:bg-[#0E2042] transition-all text-xs"
             >
-              <ArrowLeft size={15} strokeWidth={2.5} />
-              <span>Back to Login</span>
+              Back to login
             </Link>
           </div>
         </div>
       ) : (
         /* ────── FORM STATE ────── */
         <div>
-          {/* Error Alert Banner */}
+          {/* Error Alert */}
           {error && (
-            <div className="mb-5 p-3.5 rounded-2xl bg-red-50 border border-red-200 text-red-600 text-xs font-semibold flex items-center gap-2.5">
-              <AlertCircle size={16} className="shrink-0 text-red-500" />
+            <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-600 text-xs font-semibold flex items-center gap-2">
+              <AlertCircle size={15} className="shrink-0 text-red-500" />
               <span>{error}</span>
             </div>
           )}
 
           {/* Form */}
-          <form onSubmit={handleSubmit} noValidate className="space-y-5">
-            {/* Email Field */}
+          <form onSubmit={handleSubmit} noValidate className="space-y-4">
+            {/* Email Address */}
             <div>
-              <label htmlFor="email" className="block text-xs font-bold text-[#07152F] mb-1.5">
+              <label htmlFor="email" className="block text-xs font-bold text-[#07152F] mb-1">
                 Email address
               </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                  <Mail size={17} />
-                </div>
-                <input
-                  id="email"
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                    if (fieldError) setFieldError(undefined);
-                  }}
-                  placeholder="you@example.com"
-                  className={cn(
-                    'w-full pl-10 pr-4 py-3 rounded-xl bg-white border text-sm font-medium text-[#07152F] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all',
-                    fieldError ? 'border-red-300 ring-1 ring-red-300' : 'border-slate-200',
-                  )}
-                />
-              </div>
+              <input
+                id="email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (fieldError) setFieldError(undefined);
+                }}
+                placeholder="name@example.com"
+                className={cn(
+                  'w-full px-3.5 py-2.5 rounded-lg bg-white border text-sm font-medium text-[#07152F] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all',
+                  fieldError ? 'border-red-300 ring-1 ring-red-300' : 'border-slate-200',
+                )}
+              />
               {fieldError && (
                 <p className="mt-1 text-[11px] font-medium text-red-500">{fieldError}</p>
               )}
@@ -137,22 +126,19 @@ export default function ForgotPasswordPage() {
               type="submit"
               disabled={isLoading}
               className={cn(
-                'w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-full font-bold text-white shadow-lg shadow-primary/25 transition-all duration-200 text-sm mt-2',
+                'w-full inline-flex items-center justify-center py-2.5 px-4 rounded-lg font-bold text-white transition-all duration-150 text-xs mt-1',
                 isLoading
                   ? 'bg-primary/70 cursor-not-allowed'
-                  : 'bg-[#1769FF] hover:bg-blue-600 active:scale-[0.99]',
+                  : 'bg-[#07152F] hover:bg-[#0E2042] active:scale-[0.99]',
               )}
             >
               {isLoading ? (
-                <>
+                <span className="inline-flex items-center gap-2">
                   <Loader2 size={16} className="animate-spin" />
-                  <span>Sending Link...</span>
-                </>
+                  <span>Sending link...</span>
+                </span>
               ) : (
-                <>
-                  <span>Send Reset Link</span>
-                  <ArrowRight size={16} strokeWidth={2.5} />
-                </>
+                <span>Send reset link</span>
               )}
             </button>
           </form>

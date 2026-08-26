@@ -1,25 +1,27 @@
 export default function AuthSocialButtons() {
   const handleGoogleLogin = () => {
-    // In real app, triggers Supabase / OAuth Google Auth redirect
+    // Triggers OAuth Google login flow
     console.log('Initiating Google OAuth login...');
   };
 
   return (
-    <div className="space-y-4 pt-2">
+    <div className="space-y-4 pt-3">
+      {/* ──────── or ──────── Divider */}
       <div className="relative flex items-center justify-center">
         <div className="border-t border-slate-200 w-full" />
-        <span className="bg-white px-3 text-xs font-semibold text-[#64748B] shrink-0 uppercase tracking-wider">
-          Or continue with
+        <span className="bg-white px-3 text-xs font-medium text-slate-400 shrink-0">
+          or
         </span>
         <div className="border-t border-slate-200 w-full" />
       </div>
 
+      {/* Continue with Google Button */}
       <button
         type="button"
         onClick={handleGoogleLogin}
-        className="w-full inline-flex items-center justify-center gap-3 py-3 px-4 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-xs font-bold text-[#07152F] shadow-2xs transition-all duration-200 active:scale-[0.99]"
+        className="w-full inline-flex items-center justify-center gap-2.5 py-2.5 px-4 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-[#07152F] transition-all duration-150 active:scale-[0.99]"
       >
-        {/* SVG Google Logo */}
+        {/* Official Google SVG Logo */}
         <svg className="w-4 h-4" viewBox="0 0 24 24">
           <path
             fill="#4285F4"
@@ -38,7 +40,7 @@ export default function AuthSocialButtons() {
             d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
           />
         </svg>
-        <span>Google</span>
+        <span>Continue with Google</span>
       </button>
     </div>
   );
