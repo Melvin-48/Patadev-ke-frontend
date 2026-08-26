@@ -90,20 +90,7 @@ export default function HeroSection() {
             Connect software projects with Kenya&apos;s finest vetted tech talent.
           </p>
 
-          {/* Pillar Keywords Row with Vertical Dividers */}
-          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs sm:text-sm font-semibold text-[#475569] pt-2">
-            <span>Post Projects</span>
-            <span className="text-slate-300">|</span>
-            <span>Vetted Devs</span>
-            <span className="text-slate-300">|</span>
-            <span>Escrow Secured</span>
-            <span className="text-slate-300">|</span>
-            <span>Fast Bidding</span>
-            <span className="text-slate-300">|</span>
-            <span>Guaranteed Quality</span>
-          </div>
-
-          {/* CTA Buttons Row */}
+          {/* Two Centered Action Buttons */}
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
             <Link
               to="/register"
@@ -118,16 +105,8 @@ export default function HeroSection() {
               to="/projects"
               className="inline-flex items-center gap-2 px-7 py-4 rounded-2xl font-semibold text-[#07152F] bg-white/80 backdrop-blur-md border border-white shadow-md hover:bg-white transition-all duration-200 text-base"
             >
-              <span>Register as Dev</span>
-              <SparklesIcon />
-            </Link>
-
-            <Link
-              to="/about"
-              className="inline-flex items-center gap-2 px-6 py-4 rounded-2xl font-semibold text-[#475569] hover:text-[#07152F] transition-colors text-base"
-            >
-              <span>Explore Platform</span>
-              <Search size={15} strokeWidth={2} />
+              <Search size={16} strokeWidth={2} />
+              <span>Explore Projects</span>
             </Link>
           </div>
 
@@ -156,13 +135,5 @@ export default function HeroSection() {
 
       </div>
     </section>
-  );
-}
-
-function SparklesIcon() {
-  return (
-    <svg className="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 7.92c0 .13 0 .261 0 .393a7.5 7.5 0 0 0-7.92 7.92c-.13 0-.261 0-.393 0a7.5 7.5 0 0 0-7.92-7.92c0-.132 0-.263 0-.393A7.5 7.5 0 0 0 12 3z" />
-    </svg>
   );
 }
