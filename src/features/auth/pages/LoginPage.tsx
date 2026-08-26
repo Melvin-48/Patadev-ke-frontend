@@ -42,7 +42,13 @@ export default function LoginPage() {
 
     try {
       setIsLoading(true);
-      await login(email, password);
+      
+      // ────── 3-Second Loader Cycle ──────
+      await Promise.all([
+        login(email, password),
+        new Promise((resolve) => setTimeout(resolve, 3000)),
+      ]);
+
       navigate('/projects');
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Invalid credentials. Please try again.';
@@ -159,25 +165,32 @@ Connect smarter."
           </Link>
         </div>
 
-        {/* Log in Button */}
+        {/* Log in Button with 3s loader cycle styling */}
         <button
           type="submit"
           disabled={isLoading}
           className={cn(
-            'w-full inline-flex items-center justify-center py-2.5 px-4 rounded-lg font-bold text-white shadow-sm transition-all duration-150 text-sm mt-1',
+            'relative overflow-hidden w-full inline-flex items-center justify-center py-2.5 px-4 rounded-lg font-bold text-white shadow-sm transition-all duration-150 text-sm mt-1',
             isLoading
-              ? 'bg-primary/70 cursor-not-allowed'
+              ? 'bg-primary/80 cursor-wait'
               : 'bg-[#1769FF] hover:bg-blue-600 active:scale-[0.99]',
           )}
         >
-          {isLoading ? (
-            <span className="inline-flex items-center gap-2">
-              <Loader2 size={16} className="animate-spin" />
-              <span>Logging in...</span>
-            </span>
-          ) : (
-            <span>Log in</span>
+          {/* Animated 3s progress bar background fill when loading */}
+          {isLoading && (
+            <span className="absolute inset-0 bg-blue-700/50 animate-[pulse_1s_ease-in-out_infinite]" />
           )}
+          
+          <span className="relative z-10">
+            {isLoading ? (
+              <span className="inline-flex items-center gap-2">
+                <Loader2 size={16} className="animate-spin" />
+                <span>Authenticating...</span>
+              </span>
+            ) : (
+              <span>Log in</span>
+            )}
+          </span>
         </button>
 
       </form>

@@ -78,8 +78,13 @@ export default function RegisterPage() {
 
     try {
       setIsLoading(true);
-      await register(email, password, role, fullName);
-      
+
+      // ────── 3-Second Loader Cycle ──────
+      await Promise.all([
+        register(email, password, role, fullName),
+        new Promise((resolve) => setTimeout(resolve, 3000)),
+      ]);
+
       // Navigate to role-specific onboarding flow
       if (role === 'CLIENT') {
         navigate('/onboarding/client');
@@ -299,25 +304,31 @@ Connect smarter."
           )}
         </div>
 
-        {/* Create Account CTA Button */}
+        {/* Create Account CTA Button with 3s loader cycle */}
         <button
           type="submit"
           disabled={isLoading}
           className={cn(
-            'w-full inline-flex items-center justify-center py-2.5 px-4 rounded-lg font-bold text-white shadow-sm transition-all duration-150 text-xs mt-1',
+            'relative overflow-hidden w-full inline-flex items-center justify-center py-2.5 px-4 rounded-lg font-bold text-white shadow-sm transition-all duration-150 text-xs mt-1',
             isLoading
-              ? 'bg-primary/70 cursor-not-allowed'
+              ? 'bg-primary/80 cursor-wait'
               : 'bg-[#1769FF] hover:bg-blue-600 active:scale-[0.99]',
           )}
         >
-          {isLoading ? (
-            <span className="inline-flex items-center gap-2">
-              <Loader2 size={16} className="animate-spin" />
-              <span>Creating account...</span>
-            </span>
-          ) : (
-            <span>Create account</span>
+          {isLoading && (
+            <span className="absolute inset-0 bg-blue-700/50 animate-[pulse_1s_ease-in-out_infinite]" />
           )}
+
+          <span className="relative z-10">
+            {isLoading ? (
+              <span className="inline-flex items-center gap-2">
+                <Loader2 size={16} className="animate-spin" />
+                <span>Creating account...</span>
+              </span>
+            ) : (
+              <span>Create account</span>
+            )}
+          </span>
         </button>
 
       </form>
