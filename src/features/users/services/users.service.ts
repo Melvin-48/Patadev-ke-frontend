@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { apiClient } from '../../../lib/api/client';
 
 export const usersService = {
@@ -7,3 +8,6 @@ export const usersService = {
   createDeveloperProfile: (userId: string, data: { displayName: string; bio?: string; techStack: string[]; portfolioUrl?: string }) =>
     apiClient.post(`/users/${userId}/developer-profile`, data),
 };
+=======
+// TODO: Implement Profile CRUD and verification API calls
+>>>>>>> origin/main

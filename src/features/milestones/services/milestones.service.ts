@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { apiClient } from '../../../lib/api/client';
 import { Milestone } from '../../../types';
 
@@ -6,3 +7,6 @@ export const milestonesService = {
   updateStatus: (id: string, status: Milestone['status']) =>
     apiClient.patch(`/milestones/${id}/status`, { status }),
 };
+=======
+// TODO: Implement API calls for milestone state changes
+>>>>>>> origin/main

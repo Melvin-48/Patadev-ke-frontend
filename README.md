@@ -1,52 +1,53 @@
-# PataDev Ke - Frontend
+# PataDev Ke
 
-React + TypeScript + Vite. Talks to the NestJS backend for everything except
-Realtime messaging, which uses Supabase's client directly.
+A marketplace connecting Kenyan businesses and individuals who need custom software with developers who build it. Think Upwork, but purpose-built for the software-project workflow: post a project, collect bids, fund an escrow, ship milestones, get paid.
 
-## Getting started
+## The Idea
+
+Three kinds of people use this platform:
+
+- **Clients** post a project, review developer bids, fund milestones, and approve deliverables.
+- **Developers** browse open projects, submit bids, get matched, deliver work in milestones, and withdraw earnings.
+- **Admins** referee — resolving disputes, moderating users, and overseeing payouts.
+
+Everything in between — messaging, notifications, escrow — exists to make that handoff between client and developer safe and trackable.
+
+## Core Flow
+
+1. Client posts a project → developers browse and submit bids
+2. Client picks a developer → project moves into an active state
+3. Work is broken into milestones; client funds escrow per milestone
+4. Developer submits a deliverable → client reviews and approves (or disputes)
+5. Approved milestone releases payment to the developer's wallet
+6. Messaging runs alongside the whole thing for client ↔ developer coordination
+7. If something goes wrong, it lands with an admin to resolve
+
+## Status
+
+This is a **frontend scaffold**, not a finished app. Routing, layouts, role-based access, and the shared UI kit are in place. The actual feature logic — forms, API calls, real-time chat, payment integration — is stubbed out with `TODO` comments for the team to build against.
+
+## Stack
+
+React + TypeScript + Vite, React Router for routing, Tailwind for styling, React Hook Form + Zod for forms, Axios for API calls.
+
+## Running It
+
 ```bash
 npm install
-cp .env.example .env      # fill in your backend URL + Supabase project details
 npm run dev
 ```
-Runs at `http://localhost:5173`.
 
-## Why Vite + React Router, not Next.js
-The team's confirmed decision was React, not Next.js specifically. Next.js's
-`app/api/` routes invite quietly rebuilding backend logic on the frontend -
-a real risk already hit once with the original prototype. Plain React removes
-that path structurally: there is nowhere in this project to put a second
-backend, on purpose.
-
-## Structure
+Needs a `.env.local` pointing at the backend:
 ```
-src/
-  lib/           API client, Supabase client (Realtime only), utils
-  contexts/      AuthContext - session, current user, role
-  components/
-    ui/          Button, Card, Input, Badge - shared primitives
-    layout/      Navbar + one layout shell per role area
-    common/      ProtectedRoute (role guard), loading/empty states
-  features/      One folder per backend module - projects, bids, messages,
-                 milestones, payments, notifications, admin, auth, users.
-                 Mirrors the backend's module split on purpose, so each
-                 folder maps directly to whoever already owns that module.
-  types/         Shared TS interfaces matching backend entities
+VITE_API_URL=http://localhost:3000/api
 ```
 
-## Module ownership (mirrors the backend split)
-| Person | Frontend features |
-|---|---|
-| Derrick | auth/, users/ (profile setup + edit) |
-| Lawrence | messages/, payments/ (status views, not a wallet) |
-| Melvin | projects/, bids/ |
-| Peter | milestones/, notifications/ |
-| Shared | admin/ |
+## Where Things Live
 
-## What's scaffolded vs. what's still a TODO
-Every route, layout, and API service function exists and compiles. Page
-components have real structure (headings, layout, role-aware branching where
-relevant) but business logic - actual data fetching, form submission wired to
-the real endpoints - is marked with TODO comments, the same convention the
-backend scaffold used. This is a starting structure to build on, not a
-finished app.
+The app is organized by **feature**, not by file type — each domain (auth, projects, bids, messages, milestones, payments, notifications, users, admin) owns its own pages, components, services, and types. Shared pieces (buttons, layouts, the auth session) live outside `features/` so nothing gets duplicated across domains.
+
+## Open Questions for the Team
+
+- Payments: Stripe Connect is the assumed integration but nothing's wired up yet
+- Messaging: real-time is intended (Socket.io), currently just a stub
+- No 404 page or global error handling yet — worth deciding on early

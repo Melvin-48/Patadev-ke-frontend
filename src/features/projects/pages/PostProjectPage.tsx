@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircle2, LockKeyhole, Sparkles } from 'lucide-react';
@@ -107,3 +108,6 @@ export default function PostProjectPage() {
     </>
   );
 }
+=======
+// TODO: Implement Multi-step Project Posting Wizard
+>>>>>>> origin/main

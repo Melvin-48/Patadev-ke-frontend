@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -109,3 +110,6 @@ export default function BrowseProjectsPage() {
     </>
   );
 }
+=======
+// TODO: Implement Project Listing with filters and search
+>>>>>>> origin/main
