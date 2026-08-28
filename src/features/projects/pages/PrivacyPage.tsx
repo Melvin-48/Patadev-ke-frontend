@@ -25,7 +25,7 @@ export default function PrivacyPage() {
     <LegalPageLayout
       title="Privacy Policy"
       subtitle="Learn how PataDev Ke collects, uses, and protects information when you use the platform."
-      lastUpdated="October 1, 2024" // Placeholder date
+      lastUpdated="August 28, 2026"
       toc={TOC}
     >
       <section id="introduction">

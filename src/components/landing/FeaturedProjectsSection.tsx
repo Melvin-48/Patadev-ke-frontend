@@ -173,174 +173,24 @@ const PROJECTS_DATA: RealProjectCardData[] = [
 
 /* Minimal CSS/SVG Product UI Mockup Thumbnail Components */
 function ProjectUiMockup({ type }: { type: RealProjectCardData['mockupType'] }) {
-  if (type === 'pos') {
-    return (
-      <div className="w-full h-32 bg-slate-50 border-b border-slate-100 p-3 flex flex-col justify-between overflow-hidden">
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-1.5">
-            <LayoutDashboard size={14} className="text-slate-600" />
-            <span className="text-[10px] font-bold text-slate-700">Terminal #1</span>
-          </div>
-          <span className="text-[9px] font-extrabold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">ONLINE</span>
-        </div>
-        <div className="grid grid-cols-3 gap-2 flex-1">
-          <div className="bg-white p-2 rounded shadow-sm border border-slate-100 flex flex-col justify-center">
-            <p className="text-[9px] text-slate-400 font-medium mb-1">Sales</p>
-            <div className="h-2 w-12 bg-slate-200 rounded-sm mb-1" />
-            <div className="h-1.5 w-8 bg-slate-100 rounded-sm" />
-          </div>
-          <div className="bg-white p-2 rounded shadow-sm border border-slate-100 flex flex-col justify-center">
-            <p className="text-[9px] text-slate-400 font-medium mb-1">Orders</p>
-            <div className="h-2 w-10 bg-slate-200 rounded-sm mb-1" />
-            <div className="h-1.5 w-6 bg-slate-100 rounded-sm" />
-          </div>
-          <div className="bg-white p-2 rounded shadow-sm border border-slate-100 flex flex-col justify-center">
-            <p className="text-[9px] text-slate-400 font-medium mb-1">Items</p>
-            <div className="h-2 w-14 bg-slate-200 rounded-sm mb-1" />
-            <div className="h-1.5 w-10 bg-slate-100 rounded-sm" />
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const images = {
+    pos: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=600&h=400',
+    inventory: 'https://images.unsplash.com/photo-1586528116311-ad8ed7c508b0?auto=format&fit=crop&q=80&w=600&h=400',
+    school: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=600&h=400',
+    health: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=600&h=400',
+    ecom: 'https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&q=80&w=600&h=400',
+    ai: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=600&h=400',
+    mobile: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80&w=600&h=400',
+    data: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600&h=400'
+  };
 
-  if (type === 'health') {
-    return (
-      <div className="w-full h-32 bg-slate-50 border-b border-slate-100 p-3 flex items-center justify-center overflow-hidden">
-        <div className="w-48 bg-white rounded-lg border border-slate-200 shadow-sm p-3">
-          <div className="flex items-center gap-2 mb-3">
-            <Stethoscope size={14} className="text-blue-600" />
-            <div className="h-2 w-20 bg-slate-200 rounded-sm" />
-          </div>
-          <div className="space-y-2">
-            <div className="flex items-center justify-between p-1.5 bg-slate-50 rounded">
-              <div className="h-1.5 w-16 bg-slate-300 rounded-sm" />
-              <div className="h-1.5 w-10 bg-blue-200 rounded-sm" />
-            </div>
-            <div className="flex items-center justify-between p-1.5 bg-slate-50 rounded">
-              <div className="h-1.5 w-14 bg-slate-300 rounded-sm" />
-              <div className="h-1.5 w-12 bg-blue-200 rounded-sm" />
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (type === 'ecom') {
-    return (
-      <div className="w-full h-32 bg-slate-50 border-b border-slate-100 p-3 flex flex-col overflow-hidden">
-        <div className="flex items-center justify-between mb-3">
-          <div className="h-3 w-24 bg-slate-200 rounded-sm" />
-          <div className="h-3 w-8 bg-blue-100 rounded-sm" />
-        </div>
-        <div className="grid grid-cols-4 gap-2">
-          {[1, 2, 3, 4].map(i => (
-            <div key={i} className="bg-white rounded border border-slate-200 h-16 flex flex-col p-1 gap-1">
-              <div className="flex-1 bg-slate-100 rounded-sm" />
-              <div className="h-1 w-full bg-slate-200 rounded-sm" />
-              <div className="h-1 w-2/3 bg-slate-200 rounded-sm" />
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  if (type === 'ai') {
-    return (
-      <div className="w-full h-32 bg-slate-50 border-b border-slate-100 p-3 flex flex-col justify-end overflow-hidden">
-        <div className="space-y-2 mb-2 w-full">
-          <div className="flex justify-end">
-            <div className="bg-blue-100 p-2 rounded-lg rounded-tr-none max-w-[80%]">
-              <div className="h-1.5 w-24 bg-blue-300 rounded-sm mb-1" />
-              <div className="h-1.5 w-16 bg-blue-300 rounded-sm" />
-            </div>
-          </div>
-          <div className="flex justify-start">
-            <div className="bg-white border border-slate-200 p-2 rounded-lg rounded-tl-none max-w-[80%]">
-              <div className="h-1.5 w-32 bg-slate-300 rounded-sm mb-1" />
-              <div className="h-1.5 w-28 bg-slate-300 rounded-sm mb-1" />
-              <div className="h-1.5 w-20 bg-slate-300 rounded-sm" />
-            </div>
-          </div>
-        </div>
-        <div className="h-6 w-full bg-white border border-slate-200 rounded-md flex items-center px-2">
-          <div className="h-1.5 w-32 bg-slate-200 rounded-sm" />
-        </div>
-      </div>
-    );
-  }
-
-  if (type === 'mobile') {
-    return (
-      <div className="w-full h-32 bg-slate-50 border-b border-slate-100 p-3 flex items-center justify-center overflow-hidden">
-        <div className="w-20 h-28 bg-white rounded-[14px] border-4 border-slate-800 p-1 flex flex-col">
-          <div className="h-6 w-full bg-slate-100 rounded flex items-center px-1 mb-1 gap-1">
-             <div className="h-1.5 w-1.5 rounded-full bg-slate-300" />
-             <div className="h-1.5 w-6 bg-slate-300 rounded-sm" />
-          </div>
-          <div className="flex-1 bg-slate-50 rounded flex flex-col gap-1 p-1">
-            <div className="h-8 w-full bg-slate-200 rounded-sm" />
-            <div className="h-4 w-full bg-slate-200 rounded-sm" />
-            <div className="h-4 w-full bg-slate-200 rounded-sm" />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (type === 'data') {
-    return (
-      <div className="w-full h-32 bg-slate-50 border-b border-slate-100 p-3 flex flex-col gap-2 overflow-hidden">
-        <div className="flex gap-2">
-          <div className="h-8 flex-1 bg-white border border-slate-200 rounded flex items-end p-1 gap-1">
-             <div className="w-2 h-[30%] bg-blue-200 rounded-t-sm" />
-             <div className="w-2 h-[60%] bg-blue-300 rounded-t-sm" />
-             <div className="w-2 h-[40%] bg-blue-400 rounded-t-sm" />
-             <div className="w-2 h-[90%] bg-blue-500 rounded-t-sm" />
-             <div className="w-2 h-[70%] bg-blue-600 rounded-t-sm" />
-          </div>
-          <div className="h-8 w-1/3 bg-white border border-slate-200 rounded p-1 flex items-center justify-center">
-            <div className="w-6 h-6 rounded-full border-2 border-slate-100 border-t-blue-500 border-r-blue-500" />
-          </div>
-        </div>
-        <div className="flex-1 bg-white border border-slate-200 rounded p-2">
-           <div className="h-1.5 w-16 bg-slate-200 rounded-sm mb-2" />
-           <div className="w-full h-px bg-slate-100 mb-1" />
-           <div className="w-full h-px bg-slate-100 mb-1" />
-           <div className="w-full h-px bg-slate-100 mb-1" />
-           <div className="w-full h-px bg-slate-100" />
-        </div>
-      </div>
-    );
-  }
-
-  // Fallback (Inventory / Backend / School)
   return (
-    <div className="w-full h-32 bg-slate-50 border-b border-slate-100 p-3 flex flex-col justify-between overflow-hidden">
-      <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-1.5">
-          <Building2 size={14} className="text-slate-600" />
-          <span className="text-[10px] font-bold text-slate-700">Enterprise System</span>
-        </div>
-      </div>
-      <div className="bg-white flex-1 rounded shadow-sm border border-slate-100 flex flex-col p-2 gap-2">
-        <div className="flex items-center justify-between">
-          <div className="h-2 w-16 bg-slate-200 rounded-sm" />
-          <div className="h-2 w-8 bg-slate-200 rounded-sm" />
-        </div>
-        <div className="w-full bg-slate-100 rounded-sm h-1.5">
-          <div className="w-[60%] bg-blue-500 h-full rounded-sm" />
-        </div>
-        <div className="flex items-center justify-between mt-1">
-          <div className="h-2 w-20 bg-slate-200 rounded-sm" />
-          <div className="h-2 w-10 bg-slate-200 rounded-sm" />
-        </div>
-        <div className="w-full bg-slate-100 rounded-sm h-1.5">
-          <div className="w-[35%] bg-blue-500 h-full rounded-sm" />
-        </div>
-      </div>
+    <div className="w-full h-40 bg-slate-100 overflow-hidden">
+      <img 
+        src={images[type] || images.pos} 
+        alt="Project Mockup" 
+        className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+      />
     </div>
   );
 }

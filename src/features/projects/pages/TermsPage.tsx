@@ -26,7 +26,7 @@ export default function TermsPage() {
     <LegalPageLayout
       title="Terms of Service"
       subtitle="Please read these terms carefully before using PataDev Ke."
-      lastUpdated="October 1, 2024" // Placeholder date
+      lastUpdated="August 28, 2026"
       toc={TOC}
     >
       <section id="introduction">

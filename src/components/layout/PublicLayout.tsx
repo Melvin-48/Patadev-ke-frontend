@@ -16,6 +16,8 @@ export default function PublicLayout() {
     '/onboarding',
     '/onboarding/client',
     '/onboarding/developer',
+    '/privacy',
+    '/terms',
   ];
   const hideNavbar = HIDE_NAVBAR_ROUTES.includes(pathname);
 
