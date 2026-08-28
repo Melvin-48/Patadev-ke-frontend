@@ -1,246 +1,156 @@
-import { useState } from 'react';
-import { Mail, Phone, Clock, MapPin, Send, CheckCircle2 } from 'lucide-react';
+import { Check, CreditCard, MessageCircle, LayoutDashboard } from 'lucide-react';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
-import { cn } from '../../lib/utils';
+import { mockMilestones } from '../../data/mock';
 
 export default function ContactSection() {
-  const { ref, isVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.1 });
-  const [submitted, setSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    company: '',
-    subject: '',
-    message: '',
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) return;
-    setSubmitted(true);
-  };
+  const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section id="contacts" className="relative w-full py-16 lg:py-24">
-      <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8">
-        
-        {/* Left-aligned Section Header (Matching Reference Design) */}
+    <section ref={ref} className="py-20 bg-[#F5F9FF]">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8">
+
+        {/* Header */}
         <div
-          className={cn(
-            'flex flex-col items-start text-left mb-12 transition-all duration-700 ease-out',
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8',
-          )}
+          className="text-center mb-12 transition-all duration-500"
+          style={{ opacity: isVisible ? 1 : 0, transform: isVisible ? 'translateY(0)' : 'translateY(20px)' }}
         >
-          <div className="text-xs font-bold uppercase tracking-wider text-primary mb-2">
-            Contact us
-          </div>
-          <h2 className="text-4xl sm:text-5xl font-extrabold text-[#07152F] tracking-tight mb-3">
-            Get in Touch with Our Team
+          <p className="text-xs font-bold uppercase tracking-widest text-primary mb-3">Platform</p>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#07152F] tracking-tight">
+            How PataDev manages your project
           </h2>
-          <p className="text-[#64748B] text-base sm:text-lg max-w-3xl leading-relaxed">
-            We&apos;re here to answer your questions, discuss your project, and help you find the best solutions for your software needs. Reach out to us, and let&apos;s start building something great together.
+          <p className="text-slate-500 mt-3 max-w-md mx-auto text-sm">
+            One structured workspace from proposal to final payment.
           </p>
         </div>
 
-        {/* 2-Column Grid (Left Form Card 7/12, Right Direct Contact Info 5/12) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          
-          {/* Left Form Card (7/12) */}
-          <div
-            className={cn(
-              'lg:col-span-7 p-8 sm:p-10 rounded-3xl bg-white/90 backdrop-blur-xl border border-white shadow-xl transition-all duration-700 ease-out',
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10',
-            )}
-          >
-            <h3 className="text-2xl font-extrabold text-[#07152F] mb-6">
-              Let&apos;s Talk About Your Project
-            </h3>
+        {/* Product mockup */}
+        <div
+          className="max-w-4xl mx-auto transition-all duration-700"
+          style={{ opacity: isVisible ? 1 : 0, transform: isVisible ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '150ms' }}
+        >
+          <div className="bg-white/80 backdrop-blur-xl border border-white/80 shadow-2xl shadow-slate-200/50 rounded-3xl overflow-hidden">
 
-            {submitted ? (
-              <div className="py-12 flex flex-col items-center text-center gap-4 animate-fade-in">
-                <div className="w-14 h-14 rounded-full bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
-                  <CheckCircle2 size={32} />
-                </div>
-                <h4 className="text-2xl font-bold text-[#07152F]">
-                  Message Sent Successfully!
-                </h4>
-                <p className="text-xs sm:text-sm text-[#64748B] max-w-md">
-                  Thank you for reaching out. Our team has received your message and will get back to you shortly.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setSubmitted(false)}
-                  className="mt-4 px-6 py-2.5 rounded-xl bg-slate-100 text-xs font-bold text-[#07152F] hover:bg-slate-200 transition-colors"
-                >
-                  Send another message
-                </button>
+            {/* Mockup topbar */}
+            <div className="flex items-center gap-3 px-5 py-3.5 border-b border-slate-100 bg-white/60">
+              <div className="flex gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-300" />
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-300" />
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-300" />
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div>
-                  <label className="block text-xs font-bold text-[#07152F] mb-2">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Your full name"
-                    className="w-full px-4 py-3 rounded-2xl bg-slate-50/80 border border-slate-200/80 text-xs sm:text-sm text-[#07152F] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:bg-white transition-all"
-                  />
+              <div className="flex-1 bg-slate-100/80 rounded-full h-5 flex items-center px-3">
+                <span className="text-[10px] text-slate-400 font-medium">app.patadev.ke/dashboard/projects/proj-01</span>
+              </div>
+            </div>
+
+            <div className="grid lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-slate-100">
+
+              {/* Project Overview */}
+              <div className="p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <LayoutDashboard size={15} className="text-primary" />
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Project Overview</span>
                 </div>
+                <h3 className="font-bold text-[#07152F] text-sm mb-1">Customer CRM Platform</h3>
+                <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full mb-4">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  In Progress
+                </span>
 
-                <div>
-                  <label className="block text-xs font-bold text-[#07152F] mb-2">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="We'll get back to you here"
-                    className="w-full px-4 py-3 rounded-2xl bg-slate-50/80 border border-slate-200/80 text-xs sm:text-sm text-[#07152F] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:bg-white transition-all"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-[#07152F] mb-2">
-                    Company Name
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.company}
-                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                    placeholder="Let us know who you represent"
-                    className="w-full px-4 py-3 rounded-2xl bg-slate-50/80 border border-slate-200/80 text-xs sm:text-sm text-[#07152F] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:bg-white transition-all"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-[#07152F] mb-2">
-                    Subject
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    placeholder="What's this about?"
-                    className="w-full px-4 py-3 rounded-2xl bg-slate-50/80 border border-slate-200/80 text-xs sm:text-sm text-[#07152F] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:bg-white transition-all"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-[#07152F] mb-2">
-                    Message
-                  </label>
-                  <textarea
-                    rows={4}
-                    required
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Tell us about your project requirements..."
-                    className="w-full px-4 py-3 rounded-2xl bg-slate-50/80 border border-slate-200/80 text-xs sm:text-sm text-[#07152F] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:bg-white transition-all resize-none"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-bold text-white shadow-lg shadow-primary/25 hover:bg-primary/90 transition-all text-sm w-full sm:w-auto"
-                  style={{ background: '#1769FF' }}
-                >
-                  <span>Send Message</span>
-                  <Send size={15} />
-                </button>
-              </form>
-            )}
-          </div>
-
-          {/* Right Direct Approach Info Card (5/12) */}
-          <div
-            className={cn(
-              'lg:col-span-5 p-8 sm:p-10 rounded-3xl bg-white/90 backdrop-blur-xl border border-white shadow-xl flex flex-col justify-between transition-all duration-700 ease-out',
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10',
-            )}
-            style={{ transitionDelay: isVisible ? '120ms' : '0ms' }}
-          >
-            <div>
-              <h3 className="text-2xl font-extrabold text-[#07152F] mb-6">
-                Prefer a Direct Approach?
-              </h3>
-
-              <div className="space-y-6">
-                {/* Phone */}
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                    <Phone size={20} />
-                  </div>
+                <div className="space-y-3">
                   <div>
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
-                      Phone Number
-                    </span>
-                    <span className="text-sm sm:text-base font-bold text-[#07152F]">
-                      +254 (0) 700 000 000
-                    </span>
+                    <p className="text-[11px] text-slate-400 font-medium mb-1">Progress</p>
+                    <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                      <div className="h-full w-[58%] bg-gradient-to-r from-primary to-primary/60 rounded-full" />
+                    </div>
+                    <p className="text-[11px] text-slate-500 mt-1">58% complete</p>
+                  </div>
+                  <div className="flex justify-between">
+                    <div>
+                      <p className="text-[11px] text-slate-400 font-medium">Budget</p>
+                      <p className="text-sm font-bold text-[#07152F]">KES 912,000</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-[11px] text-slate-400 font-medium">Developer</p>
+                      <div className="flex items-center gap-1.5 justify-end mt-0.5">
+                        <div className="w-5 h-5 rounded-full bg-primary/10 text-primary font-bold text-[9px] flex items-center justify-center">AM</div>
+                        <p className="text-xs font-semibold text-[#07152F]">Alex Morgan</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Milestones */}
+              <div className="p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <Check size={15} className="text-emerald-600" />
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Milestones</span>
+                </div>
+                <div className="space-y-3">
+                  {mockMilestones.map((m) => (
+                    <div key={m.title} className="flex items-start gap-2.5">
+                      <div className={`mt-0.5 w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 ${
+                        m.stage === 'complete' ? 'bg-emerald-100' : m.stage === 'current' ? 'bg-primary/10' : 'bg-slate-100'
+                      }`}>
+                        {m.stage === 'complete'
+                          ? <Check size={9} className="text-emerald-600" strokeWidth={3} />
+                          : <span className={`w-2 h-2 rounded-full ${m.stage === 'current' ? 'bg-primary' : 'bg-slate-300'}`} />}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className={`text-[12px] font-semibold truncate ${m.stage === 'complete' ? 'text-slate-400 line-through' : 'text-[#07152F]'}`}>
+                          {m.title}
+                        </p>
+                        <p className="text-[10px] text-slate-400">{m.detail}</p>
+                      </div>
+                      <span className="text-[11px] font-bold text-[#07152F] flex-shrink-0">{m.amount}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Payment + Messages */}
+              <div className="p-5 space-y-5">
+                <div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <CreditCard size={15} className="text-violet-600" />
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Payment</span>
+                  </div>
+                  <div className="bg-violet-50 rounded-xl p-3 space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-[11px] text-slate-500">Total Budget</span>
+                      <span className="text-[11px] font-bold text-[#07152F]">KES 912,000</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-[11px] text-slate-500">Released</span>
+                      <span className="text-[11px] font-bold text-emerald-600">KES 288,000</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-[11px] text-slate-500">In Escrow</span>
+                      <span className="text-[11px] font-bold text-violet-600">KES 624,000</span>
+                    </div>
                   </div>
                 </div>
 
-                {/* Email */}
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                    <Mail size={20} />
+                <div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <MessageCircle size={15} className="text-amber-600" />
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Messages</span>
                   </div>
-                  <div>
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
-                      Email Address
-                    </span>
-                    <span className="text-sm sm:text-base font-bold text-[#07152F]">
-                      contact@patadev.ke
-                    </span>
-                  </div>
-                </div>
-
-                {/* Location */}
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                    <MapPin size={20} />
-                  </div>
-                  <div>
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
-                      Office Location
-                    </span>
-                    <span className="text-sm sm:text-base font-bold text-[#07152F]">
-                      Eldoret, Uasin Gishu County, Kenya
-                    </span>
-                  </div>
-                </div>
-
-                {/* Working Hours */}
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                    <Clock size={20} />
-                  </div>
-                  <div>
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
-                      Working Hours
-                    </span>
-                    <span className="text-sm sm:text-base font-bold text-[#07152F]">
-                      Monday to Friday, 9 AM – 6 PM (EAT)
-                    </span>
+                  <div className="space-y-2">
+                    <div className="bg-slate-100 rounded-xl rounded-tl-none px-3 py-2 max-w-[90%]">
+                      <p className="text-[11px] text-slate-700">Dashboard concepts are ready for review 🎉</p>
+                      <p className="text-[9px] text-slate-400 mt-0.5">Alex · 10:42 AM</p>
+                    </div>
+                    <div className="bg-primary/10 rounded-xl rounded-tr-none px-3 py-2 max-w-[90%] ml-auto">
+                      <p className="text-[11px] text-primary font-medium">Looks great! Option B wins.</p>
+                      <p className="text-[9px] text-primary/60 mt-0.5">You · 10:55 AM</p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-
-            <div className="mt-8 pt-6 border-t border-slate-100 text-xs font-medium text-slate-500">
-              Response time: Usually within 2 business hours.
-            </div>
-
           </div>
-
         </div>
-
       </div>
     </section>
   );

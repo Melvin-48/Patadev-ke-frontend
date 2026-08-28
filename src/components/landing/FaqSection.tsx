@@ -1,107 +1,96 @@
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
-import { cn } from '../../lib/utils';
 
 const FAQS = [
   {
-    question: 'How does milestone escrow protection work on PataDev?',
-    answer: 'Before work begins, the client deposits funds into a secure PataDev escrow vault for the specific milestone. Money is held safely and is only released to the developer once the client reviews and approves the submitted code deliverables.',
+    q: 'What is PataDev Ke?',
+    a: 'PataDev Ke is Kenya’s developer-business marketplace. We connect local businesses looking to build web and mobile applications with vetted, skilled developers.',
   },
   {
-    question: 'Are developers on PataDev verified?',
-    answer: 'Yes. All developers undergo profile verification, technical portfolio reviews, and identity checks before they can submit proposals to active client projects on the platform.',
+    q: 'How do I post a project?',
+    a: 'Simply click "Post a Project", describe what you want to build, specify your estimated budget and timeline, and publish. Skilled developers will review your brief and submit proposals.',
   },
   {
-    question: 'What payment methods are supported for escrow funding and payouts?',
-    answer: 'We support M-Pesa STK push for instant funding in Kenya, as well as Visa, Mastercard, and direct local bank transfers for seamless deposit and withdrawal.',
+    q: 'How do developers submit proposals?',
+    a: 'Developers can browse open project listings, review the project requirements, and submit a detailed proposal outlining their approach, cost, and milestone schedule.',
   },
   {
-    question: 'What happens if there is a disagreement or code quality issue?',
-    answer: 'PataDev includes a dedicated dispute resolution mechanism. Our technical arbitration team reviews submitted code, original requirements, and chat logs to mediate fair outcomes or issue full escrow refunds if work is incomplete.',
+    q: 'How do milestones work?',
+    a: 'Projects are split into clear milestones (e.g. Design, Core Build, Testing, Launch). Funds for each milestone are held securely in escrow and released to the developer once you approve the completed work.',
   },
   {
-    question: 'How much does it cost to post a project as a business?',
-    answer: 'Posting projects and receiving developer proposals is 100% free! Clients pay a small 3% processing fee only when releasing completed milestone funds to the developer.',
+    q: 'How are project payments handled?',
+    a: 'Payments are made in KES. You fund each milestone before work begins. Once you review and approve the completed milestone deliverable, payment is transferred to the developer.',
   },
   {
-    question: 'How do developers get paid upon milestone approval?',
-    answer: 'Upon client sign-off, milestone funds are immediately transferred to the developer\'s PataDev wallet, which can be withdrawn instantly to M-Pesa or any Kenyan bank account.',
+    q: 'How does the platform fee work?',
+    a: 'PataDev Ke charges a simple, transparent platform fee of 6% to cover payment infrastructure, escrow protection, and continuous support.',
   },
 ];
 
 export default function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
-  const { ref, isVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.1 });
+  const { ref, isVisible } = useScrollReveal();
 
-  const toggleFaq = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
+  const toggle = (i: number) => {
+    setOpenIndex(openIndex === i ? null : i);
   };
 
   return (
-    <section id="faqs" className="relative w-full py-16 lg:py-24">
-      <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section ref={ref} id="faqs" className="py-20 bg-[#F5F9FF]">
+      <div className="max-w-4xl mx-auto px-5 sm:px-8">
         
-        {/* Outer Glassmorphic Card Container */}
+        {/* Header */}
         <div
-          className={cn(
-            'relative rounded-[36px] bg-white/80 backdrop-blur-xl border border-slate-200/80 shadow-2xl p-8 sm:p-12 lg:p-16 transition-all duration-700 ease-out max-w-5xl mx-auto',
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8',
-          )}
+          className="text-center mb-12 transition-all duration-500"
+          style={{ opacity: isVisible ? 1 : 0, transform: isVisible ? 'translateY(0)' : 'translateY(20px)' }}
         >
-          {/* Section Header */}
-          <div className="flex flex-col items-center text-center gap-3 mb-10">
-            <div className="font-mono text-xs uppercase tracking-[0.25em] font-semibold text-primary">
-              FREQUENTLY ASKED QUESTIONS
-            </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#07152F] tracking-tight">
-              Got Questions? We Have Answers
-            </h2>
-            <p className="text-[#64748B] text-base lg:text-lg max-w-2xl">
-              Everything you need to know about PataDev escrow protection and developer hiring.
-            </p>
-          </div>
-
-          {/* Accordion List */}
-          <div className="space-y-4">
-            {FAQS.map((faq, idx) => {
-              const isOpen = openIndex === idx;
-              return (
-                <div
-                  key={idx}
-                  className="rounded-3xl bg-white/90 backdrop-blur-xl border border-slate-200/80 shadow-sm overflow-hidden transition-all duration-300"
-                >
-                  <button
-                    type="button"
-                    onClick={() => toggleFaq(idx)}
-                    className="w-full px-7 py-5 flex items-center justify-between gap-4 text-left transition-colors hover:bg-slate-50/80"
-                    aria-expanded={isOpen}
-                  >
-                    <span className="text-base sm:text-lg font-bold text-[#07152F]">
-                      {faq.question}
-                    </span>
-                    <div
-                      className={cn(
-                        'w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 transition-transform duration-300',
-                        isOpen && 'rotate-180 bg-primary text-white',
-                      )}
-                    >
-                      <ChevronDown size={18} strokeWidth={2.5} />
-                    </div>
-                  </button>
-
-                  {isOpen && (
-                    <div className="px-7 pb-6 text-xs sm:text-sm text-[#64748B] leading-relaxed animate-fade-in border-t border-slate-100 pt-4">
-                      {faq.answer}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-
+          <p className="text-xs font-bold uppercase tracking-widest text-primary mb-3">FAQ</p>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#07152F] tracking-tight">
+            Frequently Asked Questions
+          </h2>
+          <p className="text-slate-500 mt-3 max-w-md mx-auto text-sm">
+            Everything you need to know about getting started on PataDev Ke.
+          </p>
         </div>
 
+        {/* Accordions */}
+        <div className="space-y-3">
+          {FAQS.map((faq, i) => {
+            const isOpen = openIndex === i;
+            return (
+              <div
+                key={faq.q}
+                className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden transition-all duration-200"
+                style={{
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? 'translateY(0)' : 'translateY(15px)',
+                  transitionDelay: `${i * 60}ms`,
+                }}
+              >
+                <button
+                  onClick={() => toggle(i)}
+                  className="w-full px-6 py-4 text-left flex items-center justify-between gap-4 text-[#07152F] font-bold text-sm sm:text-base hover:text-primary transition-colors"
+                >
+                  <span>{faq.q}</span>
+                  <ChevronDown
+                    size={18}
+                    className={`text-slate-400 flex-shrink-0 transition-transform duration-200 ${
+                      isOpen ? 'rotate-180 text-primary' : ''
+                    }`}
+                  />
+                </button>
+
+                {isOpen && (
+                  <div className="px-6 pb-5 pt-1 text-sm text-slate-500 leading-relaxed border-t border-slate-50">
+                    {faq.a}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

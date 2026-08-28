@@ -1,203 +1,136 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Code2, Menu, X, ArrowRight } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Code2, Menu, X } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
-interface NavItem {
-  label: string;
-  to: string;
-  id: string;
-}
-
-const NAV_ITEMS: NavItem[] = [
-  { label: 'Home',         to: '/#home',         id: 'home' },
-  { label: 'About',        to: '/#about',        id: 'about' },
-  { label: 'Services',     to: '/#services',     id: 'services' },
-  { label: 'How It Works', to: '/#how-it-works', id: 'how-it-works' },
-  { label: 'Pricing',      to: '/#pricing',      id: 'pricing' },
-  { label: 'FAQs',         to: '/#faqs',         id: 'faqs' },
-  { label: 'Contacts',     to: '/#contacts',     id: 'contacts' },
+const NAV_LINKS = [
+  { label: 'Home',            href: '/' },
+  { label: 'Find Developers', href: '/projects' },
+  { label: 'Find Projects',   href: '/projects' },
+  { label: 'How It Works',    href: '#how-it-works' },
 ];
 
 export default function LandingNavbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>('home');
+  const [menuOpen, setMenuOpen]   = useState(false);
+  const [scrolled, setScrolled]   = useState(false);
+  const navigate = useNavigate();
 
-  // Track page scroll position for sticky glass navbar
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 16);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Track window resize
   useEffect(() => {
     const onResize = () => { if (window.innerWidth >= 1024) setMenuOpen(false); };
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  // Dynamic Scroll Active Section Detection
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + 220; // Navbar offset
-      const sectionIds = NAV_ITEMS.map((item) => item.id);
-
-      for (let i = sectionIds.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sectionIds[i]);
-        if (el) {
-          const top = el.offsetTop;
-          if (scrollPosition >= top) {
-            setActiveSection(sectionIds[i]);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Initial check
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const handleAnchor = (href: string) => {
+    setMenuOpen(false);
+    if (href.startsWith('#')) {
+      const el = document.querySelector(href);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate(href);
+    }
+  };
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 transition-all duration-300 pointer-events-none">
-      <div
-        className={cn(
-          'mx-auto transition-all duration-300 ease-out pointer-events-auto',
-          scrolled
-            ? 'max-w-5xl mt-3 px-4 sm:px-6'
-            : 'max-w-7xl mt-0 px-6 lg:px-8',
-        )}
-      >
-        {/* Floating Glass Pill Navbar Card */}
-        <div
-          className={cn(
-            'flex items-center justify-between transition-all duration-300 ease-out',
-            scrolled
-              ? 'bg-white/85 backdrop-blur-xl border border-white/70 rounded-full shadow-2xl shadow-navy/15 px-6 py-2'
-              : 'bg-white/60 backdrop-blur-md border border-white/50 rounded-2xl shadow-sm px-6 py-3 mt-3',
-          )}
+    <header
+      className={cn(
+        'fixed top-0 inset-x-0 z-50 transition-all duration-300',
+        scrolled
+          ? 'bg-white/85 backdrop-blur-xl shadow-sm shadow-slate-200/60'
+          : 'bg-white/60 backdrop-blur-md',
+      )}
+    >
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 h-[60px] flex items-center justify-between gap-4">
+
+        {/* ── Logo ── */}
+        <Link
+          to="/"
+          className="flex items-center gap-2 flex-shrink-0 group"
+          aria-label="PataDev Ke home"
         >
+          <span className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center text-white shadow-sm group-hover:bg-primary-600 transition-colors">
+            <Code2 size={14} strokeWidth={2.5} />
+          </span>
+          <span className="font-bold text-[15px] text-[#07152F] tracking-tight leading-none">
+            PataDev<span className="text-primary"> Ke</span>
+          </span>
+        </Link>
 
-          {/* ── Logo ── */}
+        {/* ── Center Nav (desktop) ── */}
+        <nav className="hidden lg:flex items-center gap-1">
+          {NAV_LINKS.map((item) => (
+            <button
+              key={item.label}
+              onClick={() => handleAnchor(item.href)}
+              className="px-3.5 py-1.5 rounded-lg text-[13.5px] font-medium text-slate-600 hover:text-primary hover:bg-primary/5 transition-all"
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
+
+        {/* ── Right Actions (desktop) ── */}
+        <div className="hidden lg:flex items-center gap-2">
           <Link
-            to="/"
-            className="flex items-center gap-2 flex-shrink-0 group"
-            aria-label="PataDev Ke — home"
+            to="/login"
+            className="px-4 py-1.5 rounded-lg text-[13.5px] font-semibold text-slate-700 hover:text-primary hover:bg-slate-100 transition-all"
           >
-            <span className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors duration-200">
-              <Code2 size={16} className="text-primary group-hover:text-white transition-colors duration-200" strokeWidth={2.5} />
-            </span>
-            <span className="font-semibold text-[#07152F] text-[15px] tracking-tight">
-              PataDev <span className="text-primary">Ke</span>
-            </span>
+            Log In
           </Link>
+          <Link
+            to="/signup"
+            className="px-4 py-1.5 rounded-lg text-[13.5px] font-bold text-white bg-primary hover:bg-primary-600 transition-all shadow-sm shadow-primary/20"
+          >
+            Sign Up
+          </Link>
+        </div>
 
-          {/* ── Desktop nav with Active Section Highlight ── */}
-          <nav className="hidden lg:flex items-center gap-1.5" aria-label="Main navigation">
-            {NAV_ITEMS.map(({ label, to, id }) => {
-              const isActive = activeSection === id;
-              return (
-                <a
-                  key={label}
-                  href={to}
-                  className={cn(
-                    'text-xs font-semibold px-3 py-1.5 rounded-full transition-all duration-200',
-                    isActive
-                      ? 'bg-primary text-white shadow-md shadow-primary/25 font-bold'
-                      : 'text-[#64748B] hover:text-[#07152F] hover:bg-slate-100/60',
-                  )}
-                >
-                  {label}
-                </a>
-              );
-            })}
-          </nav>
+        {/* ── Mobile Hamburger ── */}
+        <button
+          className="lg:hidden p-1.5 rounded-lg text-slate-600 hover:bg-slate-100 transition-colors"
+          onClick={() => setMenuOpen((o) => !o)}
+          aria-label="Toggle menu"
+        >
+          {menuOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+      </div>
 
-          {/* ── Desktop auth buttons ── */}
-          <div className="hidden lg:flex items-center gap-3">
+      {/* ── Mobile Drawer ── */}
+      {menuOpen && (
+        <div className="lg:hidden bg-white/95 backdrop-blur-xl border-t border-slate-100 px-5 py-4 space-y-1">
+          {NAV_LINKS.map((item) => (
+            <button
+              key={item.label}
+              onClick={() => handleAnchor(item.href)}
+              className="w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:text-primary hover:bg-primary/5 transition-all"
+            >
+              {item.label}
+            </button>
+          ))}
+          <div className="pt-3 flex flex-col gap-2">
             <Link
               to="/login"
-              className="text-xs font-bold text-[#64748B] hover:text-[#07152F] px-3 py-1.5 transition-colors"
+              onClick={() => setMenuOpen(false)}
+              className="w-full text-center py-2.5 rounded-xl text-sm font-semibold text-slate-700 border border-slate-200 hover:bg-slate-50 transition-all"
             >
               Log In
             </Link>
             <Link
-              to="/register"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold text-white shadow-md shadow-primary/20 hover:bg-primary/90 transition-all duration-200"
-              style={{ background: '#1769FF' }}
+              to="/signup"
+              onClick={() => setMenuOpen(false)}
+              className="w-full text-center py-2.5 rounded-xl text-sm font-bold text-white bg-primary hover:bg-primary-600 transition-all shadow-sm"
             >
               Sign Up
-              <ArrowRight size={13} strokeWidth={2.5} />
             </Link>
           </div>
-
-          {/* ── Mobile hamburger ── */}
-          <button
-            className="lg:hidden p-2 rounded-full text-[#64748B] hover:text-[#07152F] transition-colors"
-            onClick={() => setMenuOpen(v => !v)}
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-menu"
-          >
-            {menuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
         </div>
-
-        {/* ── Mobile menu dropdown ── */}
-        <div
-          id="mobile-menu"
-          className={cn(
-            'lg:hidden overflow-hidden transition-all duration-300 ease-in-out mt-2',
-            menuOpen ? 'max-h-[440px] opacity-100' : 'max-h-0 opacity-0',
-          )}
-        >
-          <nav
-            className="px-6 py-4 flex flex-col gap-1 bg-white/95 backdrop-blur-xl border border-white/70 rounded-3xl shadow-xl shadow-navy/10"
-            aria-label="Mobile navigation"
-          >
-            {NAV_ITEMS.map(({ label, to, id }) => {
-              const isActive = activeSection === id;
-              return (
-                <a
-                  key={label}
-                  href={to}
-                  onClick={() => setMenuOpen(false)}
-                  className={cn(
-                    'py-2 px-4 rounded-xl text-xs font-semibold transition-all duration-200',
-                    isActive
-                      ? 'bg-primary text-white font-bold shadow-sm'
-                      : 'text-[#64748B] hover:text-[#07152F] hover:bg-slate-100/60',
-                  )}
-                >
-                  {label}
-                </a>
-              );
-            })}
-
-            <div className="mt-4 pt-4 border-t border-slate-100 flex flex-col gap-2">
-              <Link
-                to="/login"
-                onClick={() => setMenuOpen(false)}
-                className="py-2 px-4 text-xs font-bold text-[#64748B] hover:text-[#07152F] transition-colors"
-              >
-                Log In
-              </Link>
-              <Link
-                to="/register"
-                onClick={() => setMenuOpen(false)}
-                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold text-white shadow-md"
-                style={{ background: '#1769FF' }}
-              >
-                Sign Up
-                <ArrowRight size={13} strokeWidth={2.5} />
-              </Link>
-            </div>
-          </nav>
-        </div>
-      </div>
+      )}
     </header>
   );
 }

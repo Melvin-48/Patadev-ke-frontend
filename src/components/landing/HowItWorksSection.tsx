@@ -1,172 +1,100 @@
-import { useState } from 'react';
-import { FilePlus2, Users, ShieldCheck, CheckCircle2, Search, Send, Code2, Wallet } from 'lucide-react';
+import { Plus, Users, Milestone, CreditCard } from 'lucide-react';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
-import { cn } from '../../lib/utils';
 
-type Role = 'clients' | 'developers';
-
-const CLIENT_STEPS = [
+const STEPS = [
   {
-    step: '01',
-    icon: FilePlus2,
-    title: 'Post Your Requirement',
-    description: 'Specify project scope, tech stack requirements, timeline, and estimated budget.',
-    highlight: 'No upfront posting fees',
+    num: '01',
+    icon: Plus,
+    title: 'Post a Project',
+    desc: 'Tell developers what you need — project goals, scope, budget, and timeline.',
+    color: 'text-primary',
+    bg: 'bg-primary/8',
+    connector: 'bg-primary/20',
   },
   {
-    step: '02',
+    num: '02',
     icon: Users,
-    title: 'Compare & Select Talent',
-    description: 'Receive competitive bids from verified developers across Kenya. Review portfolios & ratings.',
-    highlight: 'Vetted dev profiles',
+    title: 'Receive Proposals',
+    desc: 'Review profiles, portfolios, and proposals from skilled developers.',
+    color: 'text-violet-600',
+    bg: 'bg-violet-50',
+    connector: 'bg-violet-200',
   },
   {
-    step: '03',
-    icon: ShieldCheck,
-    title: 'Fund Escrow Safe',
-    description: 'Deposit milestone payments into secure escrow. Money is only held, never paid until approved.',
-    highlight: '100% Escrow Protection',
+    num: '03',
+    icon: Milestone,
+    title: 'Work Through Milestones',
+    desc: 'Track progress as the project moves forward through clearly defined stages.',
+    color: 'text-emerald-600',
+    bg: 'bg-emerald-50',
+    connector: 'bg-emerald-200',
   },
   {
-    step: '04',
-    icon: CheckCircle2,
-    title: 'Approve & Release',
-    description: 'Review submitted code & milestone deliverables. Approve to release payment instantly.',
-    highlight: 'Milestone-based control',
-  },
-];
-
-const DEV_STEPS = [
-  {
-    step: '01',
-    icon: Search,
-    title: 'Find Open Projects',
-    description: 'Filter verified client opportunities by technology, budget, and project complexity.',
-    highlight: 'Real business projects',
-  },
-  {
-    step: '02',
-    icon: Send,
-    title: 'Submit Tailored Bids',
-    description: 'Propose milestone breakdowns, estimated hours, and competitive pricing for the project.',
-    highlight: 'Direct client communication',
-  },
-  {
-    step: '03',
-    icon: Code2,
-    title: 'Build with Confidence',
-    description: 'Start developing knowing the milestone funds are locked in escrow prior to your work.',
-    highlight: 'Guaranteed payment backing',
-  },
-  {
-    step: '04',
-    icon: Wallet,
-    title: 'Get Paid Instantly',
-    description: 'Receive payouts directly to your local bank account or M-Pesa upon milestone sign-off.',
-    highlight: 'Fast & transparent payouts',
+    num: '04',
+    icon: CreditCard,
+    title: 'Approve & Pay',
+    desc: 'Approve completed work and release payment. Straightforward and secure.',
+    color: 'text-amber-600',
+    bg: 'bg-amber-50',
+    connector: '',
   },
 ];
 
 export default function HowItWorksSection() {
-  const [activeRole, setActiveRole] = useState<Role>('clients');
-  const { ref, isVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.1 });
-
-  const steps = activeRole === 'clients' ? CLIENT_STEPS : DEV_STEPS;
+  const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section id="how-it-works" className="relative w-full py-16 lg:py-24">
-      <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section ref={ref} id="how-it-works" className="py-20 bg-[#F5F9FF]">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8">
 
-        {/* Translucent Glass Card Outer Container */}
+        {/* Header */}
         <div
-          className={cn(
-            'relative rounded-[36px] bg-white/80 backdrop-blur-xl border border-slate-200/80 shadow-2xl p-8 sm:p-12 lg:p-16 transition-all duration-700 ease-out',
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8',
-          )}
+          className="text-center mb-14 transition-all duration-500"
+          style={{ opacity: isVisible ? 1 : 0, transform: isVisible ? 'translateY(0)' : 'translateY(20px)' }}
         >
-          {/* Section Header */}
-          <div className="flex flex-col items-center text-center gap-3 mb-12">
-            <div className="font-mono text-xs uppercase tracking-[0.25em] font-semibold text-primary">
-              SIMPLE & TRANSPARENT
-            </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#07152F] tracking-tight">
-              How PataDev Works
-            </h2>
-            <p className="text-[#64748B] text-base lg:text-lg max-w-2xl">
-              A milestone-driven software marketplace engineered for trust, speed, and seamless execution.
-            </p>
-
-            {/* Persona Switcher Tabs */}
-            <div className="inline-flex items-center p-1.5 rounded-2xl bg-slate-100/80 border border-slate-200 shadow-xs mt-4">
-              <button
-                type="button"
-                onClick={() => setActiveRole('clients')}
-                className={cn(
-                  'px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-200',
-                  activeRole === 'clients'
-                    ? 'bg-primary text-white shadow-md shadow-primary/25'
-                    : 'text-[#64748B] hover:text-[#07152F]',
-                )}
-              >
-                For Businesses / Clients
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveRole('developers')}
-                className={cn(
-                  'px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-200',
-                  activeRole === 'developers'
-                    ? 'bg-primary text-white shadow-md shadow-primary/25'
-                    : 'text-[#64748B] hover:text-[#07152F]',
-                )}
-              >
-                For Developers
-              </button>
-            </div>
-          </div>
-
-          {/* Step Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {steps.map((item) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  key={item.step}
-                  className="flex flex-col justify-between p-6 rounded-3xl bg-white/90 backdrop-blur-xl border border-slate-200/80 shadow-md transition-all duration-500 hover:-translate-y-1.5 hover:shadow-xl group"
-                >
-                  <div>
-                    {/* Step Header */}
-                    <div className="flex items-center justify-between mb-6">
-                      <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                        <Icon size={24} strokeWidth={2} />
-                      </div>
-                      <span className="text-3xl font-black text-[#07152F]/15 group-hover:text-primary/30 transition-colors duration-300">
-                        {item.step}
-                      </span>
-                    </div>
-
-                    {/* Title & Description */}
-                    <h3 className="text-xl font-bold text-[#07152F] mb-2">
-                      {item.title}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed mb-4">
-                      {item.description}
-                    </p>
-                  </div>
-
-                  {/* Highlight Badge */}
-                  <div className="pt-4 border-t border-slate-100">
-                    <span className="inline-block text-xs font-semibold text-primary bg-primary/10 px-2.5 py-1 rounded-lg">
-                      ✓ {item.highlight}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
+          <p className="text-xs font-bold uppercase tracking-widest text-primary mb-3">Process</p>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#07152F] tracking-tight">
+            How it works
+          </h2>
+          <p className="text-slate-500 mt-3 max-w-md mx-auto text-sm">
+            From idea to delivery — four simple steps.
+          </p>
         </div>
 
+        {/* Steps — horizontal on desktop, vertical on mobile */}
+        <div className="relative grid sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+
+          {/* Connecting line (desktop only) */}
+          <div className="hidden lg:block absolute top-[28px] left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-primary/20 via-violet-200 to-amber-200 z-0" />
+
+          {STEPS.map((step, i) => {
+            const Icon = step.icon;
+            return (
+              <div
+                key={step.num}
+                className="relative z-10 flex flex-col items-center text-center gap-4"
+                style={{
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+                  transitionDelay: `${i * 100}ms`,
+                  transition: 'all 0.5s ease',
+                }}
+              >
+                {/* Step number badge */}
+                <div className={`relative w-14 h-14 rounded-2xl ${step.bg} flex items-center justify-center shadow-sm border border-white`}>
+                  <Icon size={24} className={step.color} strokeWidth={1.8} />
+                  <span className={`absolute -top-2 -right-2 w-5 h-5 rounded-full bg-white border-2 ${step.color.replace('text-', 'border-')} text-[9px] font-extrabold flex items-center justify-center text-[#07152F]`}>
+                    {step.num}
+                  </span>
+                </div>
+                <div>
+                  <h3 className="font-bold text-[#07152F] text-base mb-1.5">{step.title}</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed max-w-[180px] mx-auto">{step.desc}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

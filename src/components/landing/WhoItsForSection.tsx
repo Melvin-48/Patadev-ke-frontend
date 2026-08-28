@@ -1,152 +1,86 @@
-import { Link } from 'react-router-dom';
-import { ArrowRight, Check } from 'lucide-react';
+import { BadgeCheck, ShieldCheck, Milestone, MessageCircle, ArrowRight } from 'lucide-react';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
-import { cn } from '../../lib/utils';
 
-const BUSINESS_BENEFITS = [
-  'Access vetted and skilled developers',
-  'Get custom CRM, POS & web solutions',
-  'Secure payments and milestone tracking',
-  'Save time and reduce project risk',
-];
-
-const DEV_BENEFITS = [
-  'Access quality projects from serious clients',
-  'Showcase your skills and build reputation',
-  'Get paid securely for your work',
-  'Grow your portfolio and business',
+const FEATURES = [
+  {
+    icon: BadgeCheck,
+    color: 'text-primary',
+    bg: 'bg-primary/8',
+    title: 'Verified Developers',
+    desc: 'Find developers with clear profiles, skills, and portfolios. Every developer on the platform is reviewed.',
+  },
+  {
+    icon: ShieldCheck,
+    color: 'text-emerald-600',
+    bg: 'bg-emerald-50',
+    title: 'Secure Project Payments',
+    desc: 'Keep project payments organized. Funds are held securely and released as milestones are approved.',
+  },
+  {
+    icon: Milestone,
+    color: 'text-violet-600',
+    bg: 'bg-violet-50',
+    title: 'Milestone-Based Work',
+    desc: "Track progress through clearly defined project stages — no more ambiguity about what's done and what's next.",
+  },
+  {
+    icon: MessageCircle,
+    color: 'text-amber-600',
+    bg: 'bg-amber-50',
+    title: 'Direct Collaboration',
+    desc: 'Communicate with your developer directly through the platform with built-in messaging.',
+  },
 ];
 
 export default function WhoItsForSection() {
-  const { ref, isVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.1 });
+  const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section id="for-developers" className="relative w-full py-16 lg:py-24">
-      <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8">
-        
-        {/* Section Header */}
+    <section ref={ref} id="why" className="py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8">
+
+        {/* Header */}
         <div
-          className={cn(
-            'flex flex-col items-center text-center gap-3 mb-12 transition-all duration-700 ease-out',
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8',
-          )}
+          className="text-center mb-14 transition-all duration-500"
+          style={{ opacity: isVisible ? 1 : 0, transform: isVisible ? 'translateY(0)' : 'translateY(20px)' }}
         >
-          <div className="font-mono text-xs uppercase tracking-[0.25em] font-semibold text-primary">
-            WHO IT&apos;S FOR
-          </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#07152F] tracking-tight">
-            Built for businesses and developers
+          <p className="text-xs font-bold uppercase tracking-widest text-primary mb-3">Why PataDev Ke</p>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#07152F] tracking-tight">
+            Everything you need to build with confidence
           </h2>
+          <p className="text-slate-500 mt-3 max-w-lg mx-auto text-sm leading-relaxed">
+            We built the infrastructure so you can focus on what matters — great software.
+          </p>
         </div>
 
-        {/* Dual Cards Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          
-          {/* ─────────── CARD 1: FOR BUSINESSES ─────────── */}
-          <div
-            className={cn(
-              'relative rounded-3xl overflow-hidden p-8 sm:p-10 flex flex-col justify-between bg-white/85 backdrop-blur-xl border border-white shadow-2xl transition-all duration-700 ease-out hover:-translate-y-1 group',
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10',
-            )}
-          >
-            {/* Soft background image overlay with fade gradient */}
-            <div className="absolute right-0 bottom-0 top-0 w-1/2 opacity-20 group-hover:opacity-30 transition-opacity pointer-events-none overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent z-10" />
-              <img
-                src="/assets/images/landing/patadev-hero.png"
-                alt="Business owner using laptop"
-                className="w-full h-full object-cover object-left"
-              />
-            </div>
-
-            <div className="relative z-10 max-w-sm sm:max-w-md">
-              <div className="font-mono text-xs uppercase tracking-widest font-extrabold text-primary mb-3">
-                FOR BUSINESSES
-              </div>
-
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#07152F] leading-tight mb-6">
-                Find the right developer for your business
-              </h3>
-
-              <ul className="flex flex-col gap-3.5 mb-8">
-                {BUSINESS_BENEFITS.map((benefit, idx) => (
-                  <li key={idx} className="flex items-start gap-3 text-sm text-[#334155] font-semibold">
-                    <span className="w-5 h-5 rounded-full bg-primary/15 text-primary flex items-center justify-center shrink-0 mt-0.5">
-                      <Check size={13} strokeWidth={3} />
-                    </span>
-                    <span>{benefit}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="relative z-10 pt-2">
-              <Link
-                to="/register"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl font-bold text-white shadow-lg shadow-primary/25 hover:bg-primary/90 transition-all duration-200 text-sm"
-                style={{ background: '#1769FF' }}
+        {/* Feature cards */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {FEATURES.map((f, i) => {
+            const Icon = f.icon;
+            return (
+              <div
+                key={f.title}
+                className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-primary/20 p-6 transition-all duration-200 flex flex-col gap-4"
+                style={{
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+                  transitionDelay: `${i * 80}ms`,
+                }}
               >
-                <span>Post a Project</span>
-                <ArrowRight size={16} strokeWidth={2.5} />
-              </Link>
-            </div>
-          </div>
-
-          {/* ─────────── CARD 2: FOR DEVELOPERS ─────────── */}
-          <div
-            className={cn(
-              'relative rounded-3xl overflow-hidden p-8 sm:p-10 flex flex-col justify-between bg-white/85 backdrop-blur-xl border border-white shadow-2xl transition-all duration-700 ease-out hover:-translate-y-1 group',
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10',
-            )}
-            style={{
-              transitionDelay: isVisible ? '150ms' : '0ms',
-            }}
-          >
-            {/* Soft background image overlay with fade gradient */}
-            <div className="absolute right-0 bottom-0 top-0 w-1/2 opacity-20 group-hover:opacity-30 transition-opacity pointer-events-none overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent z-10" />
-              <img
-                src="/assets/images/profiles/profile-2.jpg"
-                alt="Developer coding on laptop"
-                className="w-full h-full object-cover object-center"
-              />
-            </div>
-
-            <div className="relative z-10 max-w-sm sm:max-w-md">
-              <div className="font-mono text-xs uppercase tracking-widest font-extrabold text-indigo-600 mb-3">
-                FOR DEVELOPERS
+                <div className={`w-11 h-11 rounded-2xl ${f.bg} flex items-center justify-center`}>
+                  <Icon size={22} className={f.color} strokeWidth={1.8} />
+                </div>
+                <div>
+                  <h3 className="font-bold text-[#07152F] text-base mb-2">{f.title}</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed">{f.desc}</p>
+                </div>
+                <div className="mt-auto flex items-center gap-1 text-primary text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+                  Learn more <ArrowRight size={12} />
+                </div>
               </div>
-
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#07152F] leading-tight mb-6">
-                Find great projects that match your skills
-              </h3>
-
-              <ul className="flex flex-col gap-3.5 mb-8">
-                {DEV_BENEFITS.map((benefit, idx) => (
-                  <li key={idx} className="flex items-start gap-3 text-sm text-[#334155] font-semibold">
-                    <span className="w-5 h-5 rounded-full bg-indigo-500/15 text-indigo-600 flex items-center justify-center shrink-0 mt-0.5">
-                      <Check size={13} strokeWidth={3} />
-                    </span>
-                    <span>{benefit}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="relative z-10 pt-2">
-              <Link
-                to="/register"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl font-bold text-white shadow-lg hover:bg-navy-800 transition-all duration-200 text-sm"
-                style={{ background: '#07152F' }}
-              >
-                <span>Join as Developer</span>
-                <ArrowRight size={16} strokeWidth={2.5} />
-              </Link>
-            </div>
-          </div>
-
+            );
+          })}
         </div>
-
       </div>
     </section>
   );

@@ -1,138 +1,173 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Search } from 'lucide-react';
-import { cn } from '../../lib/utils';
+import { Search, ArrowRight, Code2, Layers, Smartphone } from 'lucide-react';
 
-/* ── Phrases for the typing animation ── */
-const TYPING_PHRASES = [
-  'Connect Smarter.',
-  'Scale Software Faster.',
-  'Hire Top Local Talent.',
-  'Build Milestones Safely.',
+const PARTNER_LOGOS = [
+  { name: 'DigiHer',                src: '/assets/images/partners/1772024539709-digiher.PNG' },
+  { name: 'Solby',                  src: '/assets/images/partners/1772024540833-Solby_Logo_rzhueo.png' },
+  { name: 'Uniflow',                src: '/assets/images/partners/1772024541161-uniflow-logo.png' },
+  { name: 'The Cube',               src: '/assets/images/partners/1784708509633-cube-new-logo-removebg-preview_apzpfc.png' },
+  { name: 'Lancola Institute',      src: '/assets/images/partners/1772107463559-lancola_institute.jpeg' },
+  { name: 'Lancola Tech',           src: '/assets/images/partners/1772171598005-lancolatech_logo.png' },
+  { name: 'CareSync',               src: '/assets/images/partners/1772024540231-caresync-png_1_osxcxq.png' },
+  { name: 'Maziwa Tele',            src: '/assets/images/partners/1772024539812-maziwa_tele.png' },
 ];
 
-/* ── Real Partner Logos for bottom ticker ── */
-const PARTNERS = [
-  { name: 'DigiHer', src: '/assets/images/partners/1772024539709-digiher.PNG' },
-  { name: 'Solby', src: '/assets/images/partners/1772024540833-Solby_Logo_rzhueo.png' },
-  { name: 'Uniflow', src: '/assets/images/partners/1772024541161-uniflow-logo.png' },
-  { name: 'The Cube Innovation Hub', src: '/assets/images/partners/1784708509633-cube-new-logo-removebg-preview_apzpfc.png' },
-  { name: 'Lancola Institute', src: '/assets/images/partners/1772107463559-lancola_institute.jpeg' },
-  { name: 'Lancola Tech', src: '/assets/images/partners/1772171598005-lancolatech_logo.png' },
-  { name: 'CareSync', src: '/assets/images/partners/1772024540231-caresync-png_1_osxcxq.png' },
-  { name: 'Maziwa Tele', src: '/assets/images/partners/1772024539812-maziwa_tele.png' },
+/* Floating marketplace concept cards */
+const FLOAT_CARDS = [
+  {
+    icon: <Code2 size={16} className="text-primary" />,
+    label: 'Web Development',
+    sub: '120+ developers',
+    top: '18%', right: '-2%',
+    delay: '0s',
+  },
+  {
+    icon: <Smartphone size={16} className="text-emerald-500" />,
+    label: 'Mobile Apps',
+    sub: '48 open projects',
+    top: '52%', right: '2%',
+    delay: '1.2s',
+  },
+  {
+    icon: <Layers size={16} className="text-violet-500" />,
+    label: 'Backend & APIs',
+    sub: 'KES 200k–2M budgets',
+    top: '78%', right: '-4%',
+    delay: '2.1s',
+  },
 ];
-
-function TypewriterEffect() {
-  const [phraseIndex, setPhraseIndex] = useState(0);
-  const [currentText, setCurrentText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  useEffect(() => {
-    const fullPhrase = TYPING_PHRASES[phraseIndex];
-    let timer: ReturnType<typeof setTimeout>;
-
-    if (!isDeleting && currentText === fullPhrase) {
-      timer = setTimeout(() => setIsDeleting(true), 2200);
-    } else if (isDeleting && currentText === '') {
-      setIsDeleting(false);
-      setPhraseIndex((prev) => (prev + 1) % TYPING_PHRASES.length);
-    } else {
-      const speed = isDeleting ? 40 : 75;
-      timer = setTimeout(() => {
-        const nextText = isDeleting
-          ? fullPhrase.substring(0, currentText.length - 1)
-          : fullPhrase.substring(0, currentText.length + 1);
-        setCurrentText(nextText);
-      }, speed);
-    }
-
-    return () => clearTimeout(timer);
-  }, [currentText, isDeleting, phraseIndex]);
-
-  return (
-    <span className="inline-flex items-center text-primary font-serif-italic bg-gradient-to-r from-primary via-indigo-600 to-blue-700 bg-clip-text text-transparent font-normal whitespace-nowrap overflow-hidden max-w-full">
-      <span className="whitespace-nowrap">{currentText}</span>
-      <span className="animate-cursor text-primary ml-0.5 font-sans not-italic font-light">|</span>
-    </span>
-  );
-}
 
 export default function HeroSection() {
-  const marqueePartners = [...PARTNERS, ...PARTNERS, ...PARTNERS];
+  const [query, setQuery] = useState('');
 
   return (
-    <section id="home" className="relative w-full overflow-hidden text-center" aria-labelledby="hero-heading">
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-24 sm:pt-32 pb-16">
-        
-        {/* Centered Main Hero Block */}
-        <div className="max-w-4xl mx-auto flex flex-col items-center gap-6 animate-fade-up">
+    <section
+      id="home"
+      className="relative pt-[100px] pb-20 overflow-hidden bg-gradient-to-b from-[#EFF6FF] via-[#F5F9FF] to-white"
+    >
+      {/* ── Soft background blobs ── */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div
+          className="absolute -top-32 right-0 w-[700px] h-[700px] rounded-full opacity-50"
+          style={{ background: 'radial-gradient(circle, rgba(23,105,255,0.10) 0%, transparent 65%)', filter: 'blur(80px)' }}
+        />
+        <div
+          className="absolute top-1/2 -left-48 w-[500px] h-[500px] rounded-full opacity-40"
+          style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 65%)', filter: 'blur(80px)' }}
+        />
+      </div>
 
-          {/* Monospace Eyebrow Text */}
-          <div className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-primary">
-            PATADEV KE MARKETPLACE
+      <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+
+          {/* ── LEFT: Copy ── */}
+          <div className="max-w-xl animate-fade-up">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold mb-6 border border-primary/15">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+              Kenya's Developer-Business Marketplace
+            </div>
+
+            {/* Headline */}
+            <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-extrabold text-[#07152F] leading-[1.10] tracking-tight mb-5">
+              Build Better.<br />
+              <span className="text-primary">Connect Smarter.</span>
+            </h1>
+
+            {/* Sub-copy */}
+            <p className="text-base sm:text-lg text-slate-600 leading-relaxed mb-8 max-w-md">
+              Connect Kenyan businesses with skilled developers to build,
+              launch, and grow better digital products — milestone by milestone.
+            </p>
+
+            {/* Search bar */}
+            <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg shadow-slate-200/60 border border-white/80 p-2 flex items-center gap-2 mb-6 max-w-lg">
+              <div className="flex-1 flex items-center gap-2.5 px-3">
+                <Search size={16} className="text-slate-400 flex-shrink-0" />
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="What are you looking to build?"
+                  className="flex-1 bg-transparent text-sm text-[#07152F] placeholder-slate-400 outline-none font-medium py-2"
+                />
+              </div>
+              <Link
+                to={`/projects${query ? `?q=${encodeURIComponent(query)}` : ''}`}
+                className="flex-shrink-0 px-4 py-2.5 rounded-xl bg-primary text-white text-sm font-bold hover:bg-primary-600 transition-colors shadow-sm"
+              >
+                Search
+              </Link>
+            </div>
+
+            {/* CTA row */}
+            <div className="flex flex-wrap items-center gap-3">
+              <Link
+                to="/signup"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-bold text-sm hover:bg-primary-600 transition-all shadow-md shadow-primary/25 hover:shadow-lg hover:shadow-primary/30"
+              >
+                Post a Project
+                <ArrowRight size={15} strokeWidth={2.5} />
+              </Link>
+              <Link
+                to="/projects"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-[#07152F] font-bold text-sm border border-slate-200 hover:border-primary/40 hover:bg-primary/5 transition-all shadow-sm"
+              >
+                Find Projects
+              </Link>
+            </div>
           </div>
 
-          {/* Main Headline with Typewriter Animation */}
-          <h1
-            id="hero-heading"
-            className={cn(
-              'font-bold leading-[1.08] tracking-tight text-[#07152F]',
-              'text-[42px] sm:text-[56px] lg:text-[66px] xl:text-[72px]',
-            )}
-          >
-            <div>Build Better.</div>
-            <TypewriterEffect />
-          </h1>
+          {/* ── RIGHT: Visual ── */}
+          <div className="relative hidden lg:flex items-center justify-center animate-fade-up-200">
+            {/* Hero image */}
+            <div className="relative w-full max-w-md">
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/10 to-violet-100/40 blur-2xl -z-10" />
+              <img
+                src="/assets/images/landing/patadev-hero.png"
+                alt="PataDev Ke — Connect businesses with developers"
+                className="w-full rounded-3xl shadow-2xl shadow-primary/10 object-cover border border-white/80"
+              />
 
-          {/* Subtitle in Serif Italic */}
-          <p className="text-[#07152F] text-[19px] sm:text-[22px] font-serif-italic opacity-85 max-w-[620px]">
-            Connect software projects with Kenya&apos;s finest vetted tech talent.
-          </p>
-
-          {/* Two Centered Action Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-            <Link
-              to="/register"
-              className="inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl font-bold text-white shadow-xl shadow-primary/30 transition-all duration-200 hover:bg-primary/90 text-base"
-              style={{ background: '#1769FF' }}
-            >
-              <span>Post a Project</span>
-              <ArrowRight size={17} strokeWidth={2.5} />
-            </Link>
-
-            <Link
-              to="/projects"
-              className="inline-flex items-center gap-2 px-7 py-4 rounded-2xl font-semibold text-[#07152F] bg-white/80 backdrop-blur-md border border-white shadow-md hover:bg-white transition-all duration-200 text-base"
-            >
-              <Search size={16} strokeWidth={2} />
-              <span>Explore Projects</span>
-            </Link>
-          </div>
-
-        </div>
-
-        {/* ─────────── BOTTOM PARTNERS MARQUEE TICKER ─────────── */}
-        <div className="mt-20 sm:mt-28 pt-8 border-t border-slate-200/50 animate-fade-up">
-          <div className="relative w-full overflow-hidden py-3 bg-transparent">
-            <div className="animate-marquee-track items-center gap-12 sm:gap-16">
-              {marqueePartners.map((partner, idx) => (
+              {/* Floating cards */}
+              {FLOAT_CARDS.map((card) => (
                 <div
-                  key={`${partner.name}-${idx}`}
-                  className="flex items-center justify-center h-12 w-32 sm:w-40 flex-shrink-0 group transition-all duration-300"
+                  key={card.label}
+                  className="absolute bg-white/90 backdrop-blur-md border border-white/80 shadow-lg shadow-slate-200/60 rounded-xl px-3.5 py-2.5 flex items-center gap-2.5 animate-float"
+                  style={{ top: card.top, right: card.right, animationDelay: card.delay, animationDuration: '5s' }}
                 >
-                  <img
-                    src={partner.src}
-                    alt={`${partner.name} logo`}
-                    className="max-h-10 max-w-[130px] object-contain opacity-90 hover:opacity-100 transition-all duration-300 transform group-hover:scale-105"
-                    loading="lazy"
-                  />
+                  <div className="w-7 h-7 rounded-lg bg-slate-50 flex items-center justify-center flex-shrink-0">
+                    {card.icon}
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-bold text-[#07152F] leading-none">{card.label}</p>
+                    <p className="text-[10px] text-slate-500 mt-0.5">{card.sub}</p>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
+        {/* ── Partner logo strip ── */}
+        <div className="mt-16 pt-8 border-t border-slate-100">
+          <p className="text-center text-[11px] font-semibold uppercase tracking-widest text-slate-400 mb-6">
+            Trusted by businesses across Kenya
+          </p>
+          <div className="overflow-hidden">
+            <div className="flex gap-10 animate-marquee whitespace-nowrap">
+              {[...PARTNER_LOGOS, ...PARTNER_LOGOS].map((p, i) => (
+                <img
+                  key={`${p.name}-${i}`}
+                  src={p.src}
+                  alt={p.name}
+                  className="h-7 object-contain opacity-50 hover:opacity-80 transition-opacity grayscale hover:grayscale-0"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
