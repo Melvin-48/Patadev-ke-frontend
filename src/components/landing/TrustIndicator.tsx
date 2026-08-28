@@ -1,92 +1,170 @@
-import { Star, Quote } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Quote, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
 
-const TESTIMONIALS = [
+interface TestimonialItem {
+  id: string;
+  text: string;
+  clientName: string;
+  businessRole: string;
+  initials: string;
+  color: string;
+}
+
+const TESTIMONIALS: TestimonialItem[] = [
   {
-    name: 'David Mwangi',
-    role: 'Founder, RetailPay Kenya',
+    id: 't1',
+    text: 'Working with the right developer used to take weeks. PataDev made the process much easier.',
+    clientName: 'David Mwangi',
+    businessRole: 'Founder, RetailPay Kenya',
     initials: 'DM',
     color: 'bg-primary/10 text-primary',
-    text: 'PataDev helped us find a talented full-stack engineer who built our POS integration in 6 weeks. The milestone payment system gave us complete peace of mind.',
-    rating: 5,
   },
   {
-    name: 'Amina Omondi',
-    role: 'Senior React & Node Developer',
+    id: 't2',
+    text: 'PataDev connected our startup directly with skilled engineers. Milestones kept execution on budget.',
+    clientName: 'Amina Omondi',
+    businessRole: 'Product Director, CareSync',
     initials: 'AO',
     color: 'bg-emerald-100 text-emerald-700',
-    text: 'As a developer in Nairobi, finding quality business clients used to be tough. PataDev connected me directly with companies that value good software.',
-    rating: 5,
   },
   {
-    name: 'Brian Kipchumba',
-    role: 'CTO, AgriTech Solutions',
+    id: 't3',
+    text: 'We posted our POS system brief and received three solid proposals within 24 hours.',
+    clientName: 'Brian Kipchumba',
+    businessRole: 'CTO, AgriTech Solutions',
     initials: 'BK',
     color: 'bg-violet-100 text-violet-700',
-    text: 'We posted our mobile app brief and had three solid proposals within 24 hours. The direct messaging and milestone tracking made execution seamless.',
-    rating: 5,
+  },
+  {
+    id: 't4',
+    text: 'Clear milestones and milestone escrow payments gave us complete confidence throughout development.',
+    clientName: 'Grace Wambui',
+    businessRole: 'Operations Lead, Uniflow Kenya',
+    initials: 'GW',
+    color: 'bg-amber-100 text-amber-700',
   },
 ];
 
 export default function TrustIndicator() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const { ref, isVisible } = useScrollReveal();
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Auto-play feature (5s interval, pauses on hover)
+  useEffect(() => {
+    if (isPaused) return;
+
+    timerRef.current = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % TESTIMONIALS.length);
+    }, 5000);
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [isPaused]);
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % TESTIMONIALS.length);
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev === 0 ? TESTIMONIALS.length - 1 : prev - 1));
+  };
 
   return (
     <section ref={ref} className="py-20 bg-white border-t border-slate-100">
-      <div className="max-w-7xl mx-auto px-5 sm:px-8">
+      <div className="max-w-4xl mx-auto px-5 sm:px-8">
         
         {/* Header */}
         <div
-          className="text-center mb-14 transition-all duration-500"
-          style={{ opacity: isVisible ? 1 : 0, transform: isVisible ? 'translateY(0)' : 'translateY(20px)' }}
+          className="text-center mb-12 transition-all duration-500"
+          style={{
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+          }}
         >
-          <p className="text-xs font-bold uppercase tracking-widest text-primary mb-3">Social Proof</p>
+          <p className="text-xs font-extrabold uppercase tracking-widest text-primary mb-2">Testimonials</p>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-[#07152F] tracking-tight">
-            What people are saying
+            Trusted by founders & teams
           </h2>
-          <p className="text-slate-500 mt-3 max-w-md mx-auto text-sm">
-            Trusted by founders, business owners, and developers across Kenya.
+          <p className="text-slate-500 mt-2 text-sm">
+            Hear from businesses building software with PataDev Ke.
           </p>
         </div>
 
-        {/* Testimonial Cards */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {TESTIMONIALS.map((t, i) => (
-            <div
-              key={t.name}
-              className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm hover:shadow-md hover:border-primary/20 transition-all duration-200 flex flex-col justify-between"
-              style={{
-                opacity: isVisible ? 1 : 0,
-                transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
-                transitionDelay: `${i * 100}ms`,
-              }}
-            >
-              <div>
-                {/* Rating stars */}
-                <div className="flex items-center gap-1 mb-4">
-                  {[...Array(t.rating)].map((_, index) => (
-                    <Star key={index} size={14} className="text-amber-400 fill-amber-400" />
-                  ))}
-                </div>
+        {/* Testimonial Carousel Card Container */}
+        <div
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          className="relative bg-gradient-to-b from-[#F8FAFC] to-white rounded-3xl border border-slate-200/80 p-8 sm:p-12 shadow-sm transition-all duration-500"
+          style={{
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+          }}
+        >
+          <Quote size={32} className="text-primary/20 mb-6" />
 
-                <Quote size={20} className="text-primary/20 mb-2" />
-                <p className="text-sm text-slate-600 leading-relaxed italic mb-6">
-                  "{t.text}"
+          {/* Testimonial Content Slide */}
+          <div className="min-h-[120px] flex flex-col justify-between">
+            <p className="text-lg sm:text-xl font-medium text-[#07152F] leading-relaxed italic mb-8">
+              "{TESTIMONIALS[currentIndex].text}"
+            </p>
+
+            <div className="flex items-center gap-3">
+              <div className={`w-11 h-11 rounded-xl ${TESTIMONIALS[currentIndex].color} font-extrabold text-sm flex items-center justify-center flex-shrink-0 shadow-2xs`}>
+                {TESTIMONIALS[currentIndex].initials}
+              </div>
+              <div>
+                <h3 className="font-bold text-[#07152F] text-base leading-tight">
+                  {TESTIMONIALS[currentIndex].clientName}
+                </h3>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  {TESTIMONIALS[currentIndex].businessRole}
                 </p>
               </div>
-
-              <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
-                <div className={`w-10 h-10 rounded-xl ${t.color} font-extrabold text-xs flex items-center justify-center flex-shrink-0`}>
-                  {t.initials}
-                </div>
-                <div>
-                  <h3 className="font-bold text-[#07152F] text-sm leading-tight">{t.name}</h3>
-                  <p className="text-xs text-slate-400 mt-0.5">{t.role}</p>
-                </div>
-              </div>
             </div>
-          ))}
+          </div>
+
+          {/* Carousel Controls (Prev/Next & Dots) */}
+          <div className="flex items-center justify-between pt-8 mt-6 border-t border-slate-200/60">
+            
+            {/* Pagination Dots */}
+            <div className="flex items-center gap-2">
+              {TESTIMONIALS.map((t, idx) => (
+                <button
+                  key={t.id}
+                  onClick={() => setCurrentIndex(idx)}
+                  className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                    currentIndex === idx ? 'w-6 bg-primary' : 'w-2 bg-slate-300 hover:bg-slate-400'
+                  }`}
+                  aria-label={`Go to slide ${idx + 1}`}
+                />
+              ))}
+            </div>
+
+            {/* Arrows */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handlePrev}
+                className="w-9 h-9 rounded-xl border border-slate-200 bg-white text-slate-700 hover:text-primary hover:border-primary/40 flex items-center justify-center transition-all cursor-pointer shadow-2xs"
+                aria-label="Previous testimonial"
+              >
+                <ChevronLeft size={18} />
+              </button>
+              <button
+                onClick={handleNext}
+                className="w-9 h-9 rounded-xl border border-slate-200 bg-white text-slate-700 hover:text-primary hover:border-primary/40 flex items-center justify-center transition-all cursor-pointer shadow-2xs"
+                aria-label="Next testimonial"
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
+
+          </div>
         </div>
+
       </div>
     </section>
   );

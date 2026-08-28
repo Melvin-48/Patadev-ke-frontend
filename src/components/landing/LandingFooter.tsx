@@ -9,7 +9,7 @@ export default function LandingFooter() {
           
           {/* Col 1 & 2: Brand & Description */}
           <div className="col-span-2 space-y-3">
-            <Link to="/" className="flex items-center gap-2 group" aria-label="PataDev Ke home">
+            <Link to="/" className="flex items-center gap-2 group" aria-label="PataDev Ke Home">
               <span className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center text-white shadow-xs">
                 <Code2 size={16} strokeWidth={2.5} />
               </span>
@@ -54,9 +54,8 @@ export default function LandingFooter() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 font-medium">
+        <div className="pt-6 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400 font-medium">
           <p>© {new Date().getFullYear()} PataDev Ke. All rights reserved.</p>
-          <p>Built for Kenya's tech ecosystem 🇰🇪</p>
         </div>
       </div>
     </footer>

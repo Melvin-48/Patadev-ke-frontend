@@ -1,23 +1,48 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Search, ArrowRight, Sparkles } from 'lucide-react';
+import { useState, FormEvent } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Search, ArrowRight } from 'lucide-react';
+
+const SEARCH_SUGGESTIONS = [
+  'E-commerce website',
+  'Mobile app',
+  'POS system',
+  'AI chatbot',
+  'Backend API',
+  'UI/UX design',
+];
 
 export default function HeroSection() {
   const [query, setQuery] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearch = (e?: FormEvent) => {
+    if (e) e.preventDefault();
+    const targetQuery = query.trim();
+    if (targetQuery) {
+      navigate(`/projects?q=${encodeURIComponent(targetQuery)}`);
+    } else {
+      navigate('/projects');
+    }
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setQuery(suggestion);
+    navigate(`/projects?q=${encodeURIComponent(suggestion)}`);
+  };
 
   return (
     <section
       id="home"
-      className="relative pt-24 pb-12 sm:pb-16 overflow-hidden bg-gradient-to-b from-[#EFF6FF] via-[#F8FAFC] to-white"
+      className="relative pt-24 pb-14 sm:pb-20 overflow-hidden bg-gradient-to-b from-[#EFF6FF] via-[#F8FAFC] to-white"
     >
       {/* ── Soft ambient background glow ── */}
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
-          className="absolute -top-24 right-0 w-[600px] h-[600px] rounded-full opacity-40"
+          className="absolute -top-24 right-0 w-[550px] h-[550px] rounded-full opacity-35"
           style={{ background: 'radial-gradient(circle, rgba(23,105,255,0.12) 0%, transparent 70%)', filter: 'blur(80px)' }}
         />
         <div
-          className="absolute top-1/3 -left-36 w-[450px] h-[450px] rounded-full opacity-30"
+          className="absolute top-1/3 -left-36 w-[400px] h-[400px] rounded-full opacity-25"
           style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.10) 0%, transparent 70%)', filter: 'blur(75px)' }}
         />
       </div>
@@ -25,12 +50,12 @@ export default function HeroSection() {
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
-          {/* ── LEFT COLUMN: Text & Search ── */}
+          {/* ── LEFT COLUMN: Text & Meaningful Search ── */}
           <div className="lg:col-span-7 max-w-2xl">
 
-            {/* Contextual Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold mb-5 border border-primary/15">
-              <Sparkles size={13} className="text-primary animate-pulse" />
+            {/* Contextual Badge (Clean text, NO sparkles) */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold mb-6 border border-primary/15">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary" />
               <span>Kenya's Developer-Business Marketplace</span>
             </div>
 
@@ -46,8 +71,11 @@ export default function HeroSection() {
               launch, and grow better digital products — milestone by milestone.
             </p>
 
-            {/* Search Input */}
-            <div className="bg-white rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-200/80 p-2 flex items-center gap-2 mb-6 max-w-xl">
+            {/* Meaningful Marketplace Search Bar */}
+            <form
+              onSubmit={handleSearch}
+              className="bg-white rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-200 p-2 flex items-center gap-2 mb-4 max-w-xl focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/20 transition-all"
+            >
               <div className="flex-1 flex items-center gap-2.5 px-3">
                 <Search size={18} className="text-slate-400 flex-shrink-0" />
                 <input
@@ -58,12 +86,27 @@ export default function HeroSection() {
                   className="flex-1 bg-transparent text-sm text-[#07152F] placeholder-slate-400 outline-none font-medium py-2"
                 />
               </div>
-              <Link
-                to={`/projects${query ? `?q=${encodeURIComponent(query)}` : ''}`}
-                className="flex-shrink-0 px-5 py-2.5 rounded-xl bg-primary text-white text-sm font-bold hover:bg-primary-600 transition-colors shadow-xs"
+              <button
+                type="submit"
+                className="flex-shrink-0 px-5 py-2.5 rounded-xl bg-primary text-white text-sm font-bold hover:bg-primary-600 transition-colors shadow-xs cursor-pointer"
               >
                 Search
-              </Link>
+              </button>
+            </form>
+
+            {/* Search Intent Suggestions */}
+            <div className="flex flex-wrap items-center gap-1.5 mb-8 max-w-xl">
+              <span className="text-[11px] font-medium text-slate-400 mr-1">Popular:</span>
+              {SEARCH_SUGGESTIONS.map((suggestion) => (
+                <button
+                  key={suggestion}
+                  type="button"
+                  onClick={() => handleSuggestionClick(suggestion)}
+                  className="text-[11px] font-semibold text-slate-600 bg-slate-100 hover:bg-primary/10 hover:text-primary px-2.5 py-1 rounded-md transition-colors cursor-pointer"
+                >
+                  {suggestion}
+                </button>
+              ))}
             </div>
 
             {/* Primary & Secondary CTAs */}
@@ -84,15 +127,14 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* ── RIGHT COLUMN: Hero Image ── */}
+          {/* ── RIGHT COLUMN: Integrated Visual ── */}
           <div className="lg:col-span-5 relative flex items-center justify-center">
             <div className="relative w-full max-w-lg lg:max-w-none">
-              {/* Soft glow background container */}
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-primary/10 via-sky-100/50 to-indigo-100/40 blur-xl -z-10" />
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-primary/10 via-sky-100/40 to-indigo-100/30 blur-xl -z-10" />
               <img
                 src="/assets/images/landing/patadev-hero.png"
-                alt="PataDev Ke — Developer and Client Collaboration"
-                className="w-full h-auto rounded-3xl shadow-xl shadow-slate-300/40 border border-white object-cover"
+                alt="PataDev Ke — Business and Developer Collaboration"
+                className="w-full h-auto rounded-3xl shadow-xl shadow-slate-200/60 border border-white/80 object-cover"
                 loading="eager"
               />
             </div>
