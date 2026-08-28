@@ -60,11 +60,16 @@ export default function HeroSection() {
       ref={ref}
       className="relative pt-20 pb-20 sm:pt-28 sm:pb-28 bg-[#F8FAFC] overflow-hidden"
     >
-      {/* Background Image with Overlay */}
-      <div 
-        className="absolute inset-0 z-0 bg-contain bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/assets/images/landing/patadev-hero.png')" }}
-      />
+      {/* Background Video with Overlay */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover z-0"
+      >
+        <source src="/assets/video/hero.mp4" type="video/mp4" />
+      </video>
       <div className="absolute inset-0 z-0 bg-white/60 sm:bg-white/40 backdrop-blur-[1px]" />
 
       <div
