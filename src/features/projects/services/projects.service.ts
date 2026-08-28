@@ -1,17 +1,12 @@
-<<<<<<< HEAD
-import { apiClient } from '../../../lib/api/client';
-import { Project } from '../../../types';
-
-export const projectsService = {
-  list: (filters?: Record<string, string>) =>
-    apiClient.get<{ items: Project[]; total: number }>(
-      `/projects${filters ? '?' + new URLSearchParams(filters) : ''}`,
-    ),
-  getById: (id: string) => apiClient.get<Project>(`/projects/${id}`),
-  create: (data: Partial<Project>) => apiClient.post<Project>('/projects', data),
-  publish: (id: string) => apiClient.post(`/projects/${id}/publish`),
-  cancel: (id: string) => apiClient.post(`/projects/${id}/cancel`),
-};
-=======
 // TODO: Implement CRUD API calls for projects
->>>>>>> origin/main
+export class ProjectsService {
+  static async getClientMetrics(): Promise<import('../../../features/projects/types/project.types').ClientDashboardMetrics> { return {} as import('../../../features/projects/types/project.types').ClientDashboardMetrics; }
+  static async getClientProjects() { return []; }
+  static async getRecentProposals() { return []; }
+  static async getAttentionItems() { return []; }
+  static async getRecentActivities() { return []; }
+  static async getBrowseProjects() { return []; }
+  static async postProject(_data: unknown) { return {}; }
+}
+
+export default ProjectsService;

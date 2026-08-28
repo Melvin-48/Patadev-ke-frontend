@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   ArrowUpRight,
   Bell,
-  BriefcaseBusiness,
+  Briefcase,
   ChevronRight,
   CircleDollarSign,
   FileCheck2,
@@ -73,7 +73,7 @@ export default function DashboardOverviewPage() {
           label={isClient ? 'Active projects' : 'Active bids'}
           value={isClient ? '3' : '7'}
           trend="+2 this month"
-          icon={<BriefcaseBusiness size={18} />}
+          icon={<Briefcase size={18} />}
           tone="blue"
         />
         <MetricCard

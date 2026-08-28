@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Linkedin, CheckCircle2 } from 'lucide-react';
+import { Mail, Link2, CheckCircle2 } from 'lucide-react';
 
 export default function LandingFooter() {
   const [email, setEmail] = useState('');
@@ -163,7 +163,7 @@ export default function LandingFooter() {
                   className="w-8 h-8 rounded-xl bg-white hover:bg-primary/10 border border-slate-200 flex items-center justify-center text-[#07152F] hover:text-primary transition-colors shadow-xs"
                   aria-label="LinkedIn profile"
                 >
-                  <Linkedin size={14} />
+                  <Link2 size={14} />
                 </a>
               </div>
             </div>

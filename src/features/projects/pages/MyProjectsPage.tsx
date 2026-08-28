@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BriefcaseBusiness, Building2, Filter, MoreHorizontal, Plus } from 'lucide-react';
+import { Briefcase, Building2, Filter, MoreHorizontal, Plus } from 'lucide-react';
 import PageHeader from '../../../components/dashboard/PageHeader';
 import StatusBadge from '../../../components/dashboard/StatusBadge';
 import { useToast, Toast } from '../../../components/dashboard/useToast';
@@ -89,7 +89,7 @@ export default function MyProjectsPage() {
         ))}
         {filtered.length === 0 && (
           <div className="empty-state">
-            <BriefcaseBusiness size={25} />
+            <Briefcase size={25} />
             <strong>No projects here yet</strong>
             <span>Try a different filter to see more projects.</span>
           </div>

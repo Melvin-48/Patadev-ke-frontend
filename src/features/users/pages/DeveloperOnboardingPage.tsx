@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Code2, DollarSign, Globe, Github, Linkedin, Plus, Check, ArrowRight, Loader2 } from 'lucide-react';
+import { Code2, DollarSign, Globe, Link2, Plus, Check, ArrowRight, Loader2 } from 'lucide-react';
 import { usersService } from '../services/users.service';
 
 const POPULAR_SKILLS = [
@@ -27,7 +27,7 @@ export default function DeveloperOnboardingPage() {
   const [hourlyRate, setHourlyRate] = useState<number>(2500);
   const [experienceYears, setExperienceYears] = useState<number>(3);
   const [githubUrl, setGithubUrl] = useState('');
-  const [linkedinUrl, setLinkedinUrl] = useState('');
+  const [linkedinUrl, setLink2Url] = useState('');
   const [websiteUrl, setWebsiteUrl] = useState('');
   const [customSkill, setCustomSkill] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -247,7 +247,7 @@ export default function DeveloperOnboardingPage() {
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-                    <Github size={15} />
+                    <Globe size={15} />
                   </div>
                   <input
                     id="githubUrl"
@@ -266,13 +266,13 @@ export default function DeveloperOnboardingPage() {
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-                    <Linkedin size={15} />
+                    <Link2 size={15} />
                   </div>
                   <input
                     id="linkedinUrl"
                     type="url"
                     value={linkedinUrl}
-                    onChange={(e) => setLinkedinUrl(e.target.value)}
+                    onChange={(e) => setLink2Url(e.target.value)}
                     placeholder="https://linkedin.com/in/username"
                     className="w-full pl-9 pr-3 py-2 rounded-xl bg-white border border-slate-200 text-xs font-medium text-[#07152F] placeholder-slate-400 focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all"
                   />

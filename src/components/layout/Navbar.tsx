@@ -1,11 +1,14 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Code2, Bell, Settings, LogOut } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Bell, Settings, LogOut } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
-import { cn } from '../../lib/utils';
 
 export default function Navbar() {
-  const { isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
+
+  const initials = user?.name
+    ? user.name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()
+    : user?.email?.slice(0, 2).toUpperCase() ?? 'U';
 
   function handleLogout() {
     logout();
@@ -24,21 +27,17 @@ export default function Navbar() {
 
           {isAuthenticated ? (
             <>
-              <Link to="/dashboard/notifications" className="text-slate hover:text-ink">Notifications</Link>
               <Link to="/messages" className="text-slate hover:text-ink">Messages</Link>
-              <Link
-                to="/dashboard"
-                className="text-slate hover:text-ink"
-              >
-                Dashboard
-              </Link>
-              <Button variant="secondary" onClick={handleLogout}>Log out</Button>
+              <Link to="/dashboard" className="text-slate hover:text-ink">Dashboard</Link>
             </>
           ) : (
             <>
               <Link to="/login" className="text-slate hover:text-ink">Log in</Link>
-              <Link to="/register">
-                <Button>Get started</Button>
+              <Link
+                to="/register"
+                className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#1769FF] hover:bg-blue-600 transition-colors shadow-xs"
+              >
+                Get started
               </Link>
             </>
           )}
@@ -75,10 +74,7 @@ export default function Navbar() {
               {/* Logout Button */}
               <button
                 type="button"
-                onClick={() => {
-                  logout();
-                  navigate('/');
-                }}
+                onClick={handleLogout}
                 className="p-2 rounded-xl text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors ml-1"
                 aria-label="Log out"
                 title="Log out"

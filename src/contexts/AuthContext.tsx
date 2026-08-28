@@ -3,39 +3,69 @@ import { setToken, clearToken } from '../lib/api/client';
 
 type Role = 'CLIENT' | 'DEVELOPER' | 'ADMIN';
 
-interface AuthUser {
+export interface AuthUser {
   id: string;
   email: string;
   role: Role;
-  verified: boolean;
+  name?: string;
+  verified?: boolean;
 }
 
 interface AuthContextValue {
   user: AuthUser | null;
   isAuthenticated: boolean;
-  login: (user: AuthUser, token: string) => void;
+  login: (emailOrUser: string | AuthUser, passwordOrToken?: string) => Promise<void> | void;
+  register: (email: string, password: string, role: string, fullName: string) => Promise<void>;
+  forgotPassword: (email: string) => Promise<void>;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-// Default design preview user for development
-const DESIGN_PREVIEW_USER: User = {
-  id: 'usr-design-01',
-  email: 'derrick@patadev.ke',
-  role: 'CLIENT',
-  name: 'Derrick Rono',
-};
-
 export function AuthProvider({ children }: { children: ReactNode }) {
-  // TODO: on mount, check localStorage for an existing token and re-fetch
-  // the current user (e.g. a GET /auth/me endpoint) instead of starting
-  // logged out on every page refresh.
   const [user, setUser] = useState<AuthUser | null>(null);
 
-  function login(user: AuthUser, token: string) {
-    setToken(token);
-    setUser(user);
+  // Supports both:
+  //   login(authUser, token)  — called programmatically after successful API response
+  //   login(email, password)  — called from LoginPage form submit
+  async function login(emailOrUser: string | AuthUser, passwordOrToken?: string): Promise<void> {
+    if (typeof emailOrUser === 'object') {
+      // Direct user + token injection (from API response handlers)
+      setToken(passwordOrToken ?? '');
+      setUser(emailOrUser);
+      return;
+    }
+
+    // Simulate API login for development/design phase
+    // TODO: replace with real auth API call
+    const mockUser: AuthUser = {
+      id: 'usr-001',
+      email: emailOrUser,
+      role: 'CLIENT',
+      name: emailOrUser.split('@')[0],
+      verified: true,
+    };
+    setToken('mock-token');
+    setUser(mockUser);
+  }
+
+  async function register(email: string, password: string, role: string, fullName: string): Promise<void> {
+    // TODO: replace with real register API call
+    const mockUser: AuthUser = {
+      id: 'usr-new',
+      email,
+      role: (role.toUpperCase() as Role) || 'CLIENT',
+      name: fullName,
+      verified: false,
+    };
+    setToken('mock-token');
+    setUser(mockUser);
+    void password;
+  }
+
+  async function forgotPassword(email: string): Promise<void> {
+    // TODO: replace with real forgot-password API call
+    console.log('Password reset requested for:', email);
   }
 
   function logout() {
@@ -44,7 +74,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, register, forgotPassword, logout }}>
       {children}
     </AuthContext.Provider>
   );
