@@ -13,6 +13,7 @@ export default function PublicLayout() {
     '/register',
     '/signup',
     '/forgot-password',
+    '/onboarding',
     '/onboarding/client',
     '/onboarding/developer',
   ];

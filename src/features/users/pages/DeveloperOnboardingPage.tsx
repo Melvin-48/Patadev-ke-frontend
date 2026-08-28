@@ -1,13 +1,39 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { Code2, ArrowRight, ArrowLeft, Check, Plus, Loader2, DollarSign, Globe, Link2, Trash2 } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Code2, ArrowRight, ArrowLeft, Check, Search, X, Plus, Trash2, CheckCircle2 } from 'lucide-react';
 import { cn } from '../../../lib/utils';
 import { usersService } from '../services/users.service';
 
-const POPULAR_SKILLS = [
-  'React', 'TypeScript', 'Node.js', 'Python', 'PostgreSQL', 
-  'TailwindCSS', 'GraphQL', 'Docker', 'AWS', 'Next.js', 
-  'Vue.js', 'MongoDB'
+const SPECIALIZATIONS = [
+  'Full-Stack Development', 'Frontend Development', 'Backend Development', 'Mobile Development',
+  'Desktop Development', 'DevOps & Cloud', 'Data Science', 'Artificial Intelligence',
+  'Machine Learning', 'Data Engineering', 'Cybersecurity', 'QA & Testing', 'UI Engineering', 'Other'
+];
+
+const TECHNOLOGY_CATEGORIES = [
+  { name: 'Programming Languages', items: ['JavaScript', 'TypeScript', 'Python', 'Java', 'C', 'C++', 'C#', 'Go', 'Rust', 'PHP', 'Ruby', 'Kotlin', 'Swift', 'Dart', 'R', 'SQL', 'Scala', 'Bash'] },
+  { name: 'Frontend', items: ['React', 'Next.js', 'Vue', 'Nuxt', 'Angular', 'Svelte', 'SvelteKit', 'HTML', 'CSS', 'Tailwind CSS', 'Bootstrap'] },
+  { name: 'Backend', items: ['Node.js', 'Express', 'NestJS', 'Django', 'Django REST Framework', 'FastAPI', 'Flask', 'Spring Boot', 'Laravel', 'ASP.NET', 'Ruby on Rails', 'Gin', 'Fiber'] },
+  { name: 'Mobile', items: ['React Native', 'Flutter', 'Android', 'Jetpack Compose', 'SwiftUI', 'iOS'] },
+  { name: 'Databases', items: ['PostgreSQL', 'MySQL', 'Microsoft SQL Server', 'MongoDB', 'Redis', 'SQLite', 'MariaDB', 'Firebase', 'Supabase', 'DynamoDB', 'Cassandra'] },
+  { name: 'AI / ML', items: ['TensorFlow', 'PyTorch', 'scikit-learn', 'Keras', 'Hugging Face', 'LangChain', 'OpenAI APIs', 'Computer Vision', 'Natural Language Processing', 'Generative AI', 'RAG', 'LLM Development'] },
+  { name: 'Data', items: ['Pandas', 'NumPy', 'Jupyter', 'Apache Spark', 'Airflow', 'Databricks', 'Power BI', 'Tableau'] },
+  { name: 'Cloud / DevOps', items: ['AWS', 'Microsoft Azure', 'Google Cloud', 'Docker', 'Kubernetes', 'Terraform', 'GitHub Actions', 'Jenkins', 'CI/CD', 'Linux', 'Nginx'] },
+  { name: 'Testing', items: ['Jest', 'Cypress', 'Playwright', 'Selenium', 'PyTest', 'JUnit'] },
+  { name: 'Tools / Collaboration', items: ['Git', 'GitHub', 'GitLab', 'Bitbucket', 'Postman', 'Figma', 'Jira'] }
+];
+
+const EXPERIENCES = [
+  { level: 'Beginner', desc: 'Building projects and developing your professional experience.' },
+  { level: 'Intermediate', desc: 'Comfortable independently building and delivering projects.' },
+  { level: 'Advanced', desc: 'Experienced in complex projects and production systems.' },
+  { level: 'Expert', desc: 'Highly experienced in designing and delivering complex solutions.' }
+];
+
+const SERVICES = [
+  'Web Applications', 'Mobile Applications', 'E-commerce Platforms', 'Business Management Systems',
+  'POS Systems', 'APIs & Integrations', 'AI Applications', 'Machine Learning Solutions', 'Data Analytics',
+  'Cloud Infrastructure', 'DevOps', 'Database Systems', 'Automation', 'UI Implementation', 'Software Testing', 'Cybersecurity'
 ];
 
 interface PortfolioProject {
@@ -24,35 +50,33 @@ export default function DeveloperOnboardingPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   // Form State
-  const [headline, setHeadline] = useState('');
-  const [bio, setBio] = useState('');
-  const [experience, setExperience] = useState('Intermediate');
-  
-  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
-  const [customSkill, setCustomSkill] = useState('');
-  
+  const [specializations, setSpecializations] = useState<string[]>([]);
+  const [technologies, setTechnologies] = useState<string[]>([]);
+  const [techSearch, setTechSearch] = useState('');
+  const [experience, setExperience] = useState('');
+  const [services, setServices] = useState<string[]>([]);
   const [portfolio, setPortfolio] = useState<PortfolioProject[]>([]);
   
-  const [hourlyRate, setHourlyRate] = useState<number>(2500);
-  const [availability, setAvailability] = useState('Full-time');
-  const [services, setServices] = useState('');
+  const [title, setTitle] = useState('');
+  const [bio, setBio] = useState('');
+  const [availability, setAvailability] = useState('Available now');
 
-  const nextStep = () => setStep((s) => Math.min(s + 1, 5));
+  const nextStep = () => setStep((s) => Math.min(s + 1, 7));
   const prevStep = () => setStep((s) => Math.max(s - 1, 1));
 
-  const toggleSkill = (skill: string) => {
-    setSelectedSkills(prev => prev.includes(skill) ? prev.filter(s => s !== skill) : [...prev, skill]);
+  // Toggle helpers
+  const toggleArrayItem = (item: string, state: string[], setter: (v: string[]) => void) => {
+    setter(state.includes(item) ? state.filter(i => i !== item) : [...state, item]);
   };
 
-  const handleAddCustomSkill = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && customSkill.trim()) {
-      e.preventDefault();
-      if (!selectedSkills.includes(customSkill.trim())) {
-        setSelectedSkills(prev => [...prev, customSkill.trim()]);
-      }
-      setCustomSkill('');
-    }
-  };
+  const filteredCategories = useMemo(() => {
+    if (!techSearch.trim()) return TECHNOLOGY_CATEGORIES;
+    const lowerSearch = techSearch.toLowerCase();
+    return TECHNOLOGY_CATEGORIES.map(cat => ({
+      ...cat,
+      items: cat.items.filter(item => item.toLowerCase().includes(lowerSearch))
+    })).filter(cat => cat.items.length > 0);
+  }, [techSearch]);
 
   const addPortfolioProject = () => {
     setPortfolio([...portfolio, { id: Date.now().toString(), name: '', description: '', url: '', repo: '' }]);
@@ -66,26 +90,36 @@ export default function DeveloperOnboardingPage() {
     setPortfolio(prev => prev.filter(p => p.id !== id));
   };
 
+  const isStepValid = () => {
+    if (step === 1) return specializations.length > 0;
+    if (step === 2) return technologies.length > 0;
+    if (step === 3) return experience !== '';
+    if (step === 4) return services.length > 0;
+    if (step === 5) return true; // Portfolio is optional, but if added they should fill name (validated visually)
+    if (step === 6) return title.trim() !== '' && bio.trim() !== '';
+    return true;
+  };
+
   const handleSubmit = async () => {
     try {
       setIsLoading(true);
       await usersService.updateDeveloperProfile({
-        headline,
+        headline: title,
         bio,
-        skills: selectedSkills,
-        techStack: selectedSkills,
-        hourlyRate,
-        experienceYears: experience === 'Beginner' ? 1 : experience === 'Intermediate' ? 3 : 5,
-        portfolio: portfolio.map(p => ({
+        skills: [...specializations, ...services], // Combining areas of expertise and services for standard skills
+        techStack: technologies,
+        hourlyRate: 0, // Not asked in new flow
+        experienceYears: experience === 'Beginner' ? 1 : experience === 'Intermediate' ? 3 : experience === 'Advanced' ? 5 : 8,
+        portfolio: portfolio.filter(p => p.name).map(p => ({
           title: p.name,
           description: p.description,
           link: p.url,
           repo: p.repo,
         })),
         availability,
-        servicesOffered: services.split(',').map(s => s.trim()).filter(Boolean),
+        servicesOffered: services,
       });
-      navigate('/developer/dashboard');
+      setStep(7);
     } catch (err) {
       console.error('Developer onboarding error:', err);
     } finally {
@@ -94,8 +128,9 @@ export default function DeveloperOnboardingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex flex-col font-sans">
-      <header className="w-full border-b border-slate-200 py-4 px-6 bg-white flex items-center justify-center sm:justify-start shrink-0">
+    <div className="min-h-screen bg-white flex flex-col font-sans">
+      {/* Minimal Header */}
+      <header className="w-full border-b border-slate-100 py-4 px-6 flex items-center justify-between bg-white shrink-0 z-10 sticky top-0">
         <Link to="/" className="flex items-center gap-2 group">
           <span className="w-8 h-8 rounded-xl bg-[#2563EB] flex items-center justify-center text-white shadow-sm">
             <Code2 size={16} strokeWidth={2.5} />
@@ -104,183 +139,228 @@ export default function DeveloperOnboardingPage() {
             PataDev<span className="text-[#2563EB]"> Ke</span>
           </span>
         </Link>
+        {step < 7 && (
+          <div className="text-sm font-bold text-slate-400">
+            Step {step} of 6
+          </div>
+        )}
       </header>
 
-      <main className="flex-1 w-full max-w-3xl mx-auto px-5 py-12 flex flex-col">
-        {/* Progress Indicator */}
-        <div className="mb-10 w-full flex items-center justify-between relative">
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-0.5 bg-slate-200 -z-10" />
-          {[1, 2, 3, 4, 5].map((i) => (
-            <div key={i} className="flex flex-col items-center gap-2 bg-[#F8FAFC] px-2">
-              <div
-                className={cn(
-                  'w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-colors',
-                  step === i ? 'bg-[#2563EB] text-white ring-4 ring-blue-100' :
-                  step > i ? 'bg-[#1D4ED8] text-white' : 'bg-white border-2 border-slate-200 text-slate-400'
-                )}
-              >
-                {step > i ? <Check size={14} strokeWidth={3} /> : i}
-              </div>
-              <span className="hidden sm:block text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                {i === 1 ? 'Profile' : i === 2 ? 'Skills' : i === 3 ? 'Portfolio' : i === 4 ? 'Prefs' : 'Review'}
-              </span>
-            </div>
-          ))}
+      {/* Progress Bar (Subtle) */}
+      {step < 7 && (
+        <div className="w-full h-1 bg-slate-100">
+          <div 
+            className="h-full bg-[#2563EB] transition-all duration-300 ease-out" 
+            style={{ width: `${(step / 6) * 100}%` }}
+          />
         </div>
+      )}
 
-        <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 sm:p-10 flex-1 transition-all duration-300">
-          {/* STEP 1: Basic Profile */}
+      <main className="flex-1 w-full max-w-3xl mx-auto px-5 py-10 sm:py-16 flex flex-col">
+        <div className="flex-1">
+          {/* STEP 1: Specialization */}
           {step === 1 && (
-            <div className="animate-[fade-up_0.3s_ease-out_both]">
-              <h2 className="text-2xl font-extrabold text-[#0F172A] mb-2">Basic Profile</h2>
-              <p className="text-sm text-slate-500 mb-8">Let businesses know who you are and what you do.</p>
+            <div className="animate-[fade-up_0.4s_ease-out_both]">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] mb-3">What type of developer are you?</h1>
+              <p className="text-slate-500 mb-10 text-lg">Select your primary areas of expertise. You can choose more than one.</p>
               
-              <div className="space-y-5">
-                <div>
-                  <label className="block text-xs font-bold text-[#0F172A] mb-1.5">Professional Title</label>
-                  <input
-                    type="text"
-                    value={headline}
-                    onChange={(e) => setHeadline(e.target.value)}
-                    placeholder="e.g. Full Stack Developer"
-                    className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100 outline-none transition-all"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-[#0F172A] mb-1.5">Experience Level</label>
-                  <select
-                    value={experience}
-                    onChange={(e) => setExperience(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100 outline-none transition-all"
-                  >
-                    <option value="Beginner">Beginner (0-2 years)</option>
-                    <option value="Intermediate">Intermediate (3-5 years)</option>
-                    <option value="Advanced">Advanced (5+ years)</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-[#0F172A] mb-1.5">Short Bio</label>
-                  <textarea
-                    rows={4}
-                    value={bio}
-                    onChange={(e) => setBio(e.target.value)}
-                    placeholder="Briefly describe your background, expertise, and what you love building..."
-                    className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100 outline-none transition-all resize-none"
-                  />
-                </div>
+              <div className="flex flex-wrap gap-3">
+                {SPECIALIZATIONS.map(spec => {
+                  const isSelected = specializations.includes(spec);
+                  return (
+                    <button
+                      key={spec}
+                      onClick={() => toggleArrayItem(spec, specializations, setSpecializations)}
+                      className={cn(
+                        'px-5 py-3 rounded-full border-2 text-[15px] font-bold transition-all duration-200 outline-none focus:ring-4 focus:ring-blue-100',
+                        isSelected 
+                          ? 'border-[#2563EB] bg-blue-50 text-[#2563EB]' 
+                          : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300'
+                      )}
+                    >
+                      {spec}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           )}
 
-          {/* STEP 2: Skills */}
+          {/* STEP 2: Technologies */}
           {step === 2 && (
-            <div className="animate-[fade-up_0.3s_ease-out_both]">
-              <h2 className="text-2xl font-extrabold text-[#0F172A] mb-2">Skills & Tech Stack</h2>
-              <p className="text-sm text-slate-500 mb-8">Select or add the technologies you excel at.</p>
+            <div className="animate-[fade-up_0.4s_ease-out_both]">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] mb-3">What technologies do you work with?</h1>
+              <p className="text-slate-500 mb-8 text-lg">Select the languages, frameworks, databases, cloud platforms, and tools you use.</p>
               
-              <div className="mb-6">
-                <label className="block text-xs font-bold text-[#0F172A] mb-3">Popular Skills</label>
-                <div className="flex flex-wrap gap-2">
-                  {POPULAR_SKILLS.map(skill => {
-                    const isSelected = selectedSkills.includes(skill);
-                    return (
-                      <button
-                        key={skill}
-                        onClick={() => toggleSkill(skill)}
-                        className={cn(
-                          'inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all',
-                          isSelected ? 'bg-[#2563EB] text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                        )}
-                      >
-                        {isSelected ? <Check size={14} strokeWidth={3} /> : <Plus size={14} />}
-                        {skill}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-[#0F172A] mb-1.5">Add Custom Skill</label>
-                <input
-                  type="text"
-                  value={customSkill}
-                  onChange={(e) => setCustomSkill(e.target.value)}
-                  onKeyDown={handleAddCustomSkill}
-                  placeholder="Type skill and press Enter"
-                  className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100 outline-none transition-all"
-                />
-                {selectedSkills.filter(s => !POPULAR_SKILLS.includes(s)).length > 0 && (
-                  <div className="flex flex-wrap gap-2 mt-3">
-                    {selectedSkills.filter(s => !POPULAR_SKILLS.includes(s)).map(skill => (
-                      <div key={skill} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold bg-[#2563EB] text-white">
-                        {skill}
-                        <button onClick={() => toggleSkill(skill)} className="hover:text-blue-200"><Plus size={14} className="rotate-45" /></button>
-                      </div>
+              {technologies.length > 0 && (
+                <div className="mb-8 p-4 bg-slate-50 border border-slate-100 rounded-2xl">
+                  <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Selected ({technologies.length})</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {technologies.map(tech => (
+                      <span key={tech} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-sm font-bold text-[#0F172A] shadow-sm">
+                        {tech}
+                        <button onClick={() => toggleArrayItem(tech, technologies, setTechnologies)} className="text-slate-400 hover:text-red-500 transition-colors">
+                          <X size={14} strokeWidth={3} />
+                        </button>
+                      </span>
                     ))}
                   </div>
-                )}
+                </div>
+              )}
+
+              <div className="relative mb-8">
+                <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                <input
+                  type="text"
+                  placeholder="Search technologies..."
+                  value={techSearch}
+                  onChange={e => setTechSearch(e.target.value)}
+                  className="w-full pl-12 pr-4 py-4 rounded-xl bg-white border-2 border-slate-200 text-base font-medium focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100 outline-none transition-all"
+                />
+              </div>
+
+              <div className="space-y-8 h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                {filteredCategories.map(cat => (
+                  <div key={cat.name}>
+                    <h3 className="text-sm font-bold text-slate-800 mb-3">{cat.name}</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {cat.items.map(tech => {
+                        const isSelected = technologies.includes(tech);
+                        return (
+                          <button
+                            key={tech}
+                            onClick={() => toggleArrayItem(tech, technologies, setTechnologies)}
+                            className={cn(
+                              'px-4 py-2 rounded-lg border transition-all text-sm font-bold outline-none',
+                              isSelected 
+                                ? 'bg-[#2563EB] border-[#2563EB] text-white shadow-md' 
+                                : 'bg-white border-slate-200 text-slate-600 hover:border-[#2563EB] hover:text-[#2563EB]'
+                            )}
+                          >
+                            {isSelected && <Check size={14} className="inline mr-1.5 -ml-1" strokeWidth={3} />}
+                            {tech}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           )}
 
-          {/* STEP 3: Portfolio */}
+          {/* STEP 3: Experience */}
           {step === 3 && (
-            <div className="animate-[fade-up_0.3s_ease-out_both]">
-              <h2 className="text-2xl font-extrabold text-[#0F172A] mb-2">Portfolio</h2>
-              <p className="text-sm text-slate-500 mb-8">Showcase projects you're proud of.</p>
+            <div className="animate-[fade-up_0.4s_ease-out_both]">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] mb-3">How experienced are you?</h1>
+              <p className="text-slate-500 mb-10 text-lg">This helps us match you with projects that fit your skill level.</p>
               
-              <div className="space-y-6 mb-6">
-                {portfolio.map((proj, index) => (
-                  <div key={proj.id} className="p-5 border border-slate-200 rounded-2xl relative bg-slate-50">
-                    <button onClick={() => removePortfolio(proj.id)} className="absolute top-4 right-4 text-slate-400 hover:text-red-500 transition-colors">
-                      <Trash2 size={18} />
+              <div className="grid gap-4">
+                {EXPERIENCES.map(exp => (
+                  <button
+                    key={exp.level}
+                    onClick={() => setExperience(exp.level)}
+                    className={cn(
+                      'flex flex-col text-left p-5 rounded-2xl border-2 transition-all outline-none focus:ring-4 focus:ring-blue-100',
+                      experience === exp.level 
+                        ? 'border-[#2563EB] bg-blue-50 shadow-sm' 
+                        : 'border-slate-200 bg-white hover:border-blue-200 hover:bg-slate-50'
+                    )}
+                  >
+                    <span className={cn("font-bold text-lg mb-1", experience === exp.level ? 'text-[#2563EB]' : 'text-[#0F172A]')}>
+                      {exp.level}
+                    </span>
+                    <span className="text-slate-500 text-sm">{exp.desc}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* STEP 4: Services */}
+          {step === 4 && (
+            <div className="animate-[fade-up_0.4s_ease-out_both]">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] mb-3">What can you help businesses build?</h1>
+              <p className="text-slate-500 mb-10 text-lg">Select the services and solutions you offer to clients.</p>
+              
+              <div className="flex flex-wrap gap-3">
+                {SERVICES.map(srv => {
+                  const isSelected = services.includes(srv);
+                  return (
+                    <button
+                      key={srv}
+                      onClick={() => toggleArrayItem(srv, services, setServices)}
+                      className={cn(
+                        'px-5 py-3 rounded-full border-2 text-[15px] font-bold transition-all outline-none focus:ring-4 focus:ring-blue-100',
+                        isSelected 
+                          ? 'border-[#2563EB] bg-blue-50 text-[#2563EB]' 
+                          : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300'
+                      )}
+                    >
+                      {isSelected && <Check size={16} className="inline mr-2 -ml-1" strokeWidth={3} />}
+                      {srv}
                     </button>
-                    <h3 className="text-sm font-bold text-[#0F172A] mb-4">Project {index + 1}</h3>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* STEP 5: Portfolio */}
+          {step === 5 && (
+            <div className="animate-[fade-up_0.4s_ease-out_both]">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] mb-3">Showcase your work</h1>
+              <p className="text-slate-500 mb-10 text-lg">Add projects that demonstrate your skills and help businesses understand what you can build.</p>
+              
+              <div className="space-y-6 mb-8">
+                {portfolio.map((proj, index) => (
+                  <div key={proj.id} className="p-6 border-2 border-slate-200 rounded-2xl relative bg-white shadow-sm">
+                    <button onClick={() => removePortfolio(proj.id)} className="absolute top-5 right-5 text-slate-400 hover:text-red-500 transition-colors">
+                      <Trash2 size={20} />
+                    </button>
+                    <h3 className="text-sm font-bold text-slate-800 mb-5">Project {index + 1}</h3>
                     
-                    <div className="space-y-4">
+                    <div className="space-y-5">
                       <div>
-                        <label className="block text-[11px] font-bold text-[#0F172A] mb-1">Project Name</label>
+                        <label className="block text-xs font-bold text-[#0F172A] mb-1.5">Project Name <span className="text-red-500">*</span></label>
                         <input
                           type="text"
                           value={proj.name}
                           onChange={(e) => updatePortfolio(proj.id, 'name', e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:border-[#2563EB] outline-none"
+                          placeholder="e.g. E-commerce Dashboard"
+                          className="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm font-medium focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100 outline-none transition-all placeholder:text-slate-400"
                         />
                       </div>
                       <div>
-                        <label className="block text-[11px] font-bold text-[#0F172A] mb-1">Description</label>
+                        <label className="block text-xs font-bold text-[#0F172A] mb-1.5">Description</label>
                         <textarea
-                          rows={2}
+                          rows={3}
                           value={proj.description}
                           onChange={(e) => updatePortfolio(proj.id, 'description', e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:border-[#2563EB] outline-none resize-none"
+                          placeholder="What did you build and what problems did it solve?"
+                          className="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm font-medium focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100 outline-none transition-all resize-none placeholder:text-slate-400"
                         />
                       </div>
-                      <div className="grid sm:grid-cols-2 gap-4">
+                      <div className="grid sm:grid-cols-2 gap-5">
                         <div>
-                          <label className="block text-[11px] font-bold text-[#0F172A] mb-1">Live URL (optional)</label>
-                          <div className="relative">
-                            <Globe size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                            <input
-                              type="url"
-                              value={proj.url}
-                              onChange={(e) => updatePortfolio(proj.id, 'url', e.target.value)}
-                              className="w-full pl-8 pr-3 py-2 rounded-lg border border-slate-200 text-sm focus:border-[#2563EB] outline-none"
-                            />
-                          </div>
+                          <label className="block text-xs font-bold text-[#0F172A] mb-1.5">Live URL</label>
+                          <input
+                            type="url"
+                            value={proj.url}
+                            onChange={(e) => updatePortfolio(proj.id, 'url', e.target.value)}
+                            placeholder="https://..."
+                            className="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm font-medium focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100 outline-none transition-all placeholder:text-slate-400"
+                          />
                         </div>
                         <div>
-                          <label className="block text-[11px] font-bold text-[#0F172A] mb-1">Repository URL (optional)</label>
-                          <div className="relative">
-                            <Link2 size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                            <input
-                              type="url"
-                              value={proj.repo}
-                              onChange={(e) => updatePortfolio(proj.id, 'repo', e.target.value)}
-                              className="w-full pl-8 pr-3 py-2 rounded-lg border border-slate-200 text-sm focus:border-[#2563EB] outline-none"
-                            />
-                          </div>
+                          <label className="block text-xs font-bold text-[#0F172A] mb-1.5">Repository URL</label>
+                          <input
+                            type="url"
+                            value={proj.repo}
+                            onChange={(e) => updatePortfolio(proj.id, 'repo', e.target.value)}
+                            placeholder="https://github.com/..."
+                            className="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm font-medium focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100 outline-none transition-all placeholder:text-slate-400"
+                          />
                         </div>
                       </div>
                     </div>
@@ -290,134 +370,115 @@ export default function DeveloperOnboardingPage() {
 
               <button
                 onClick={addPortfolioProject}
-                className="w-full py-4 border-2 border-dashed border-slate-200 rounded-2xl text-sm font-bold text-slate-500 flex items-center justify-center gap-2 hover:border-[#2563EB] hover:text-[#2563EB] transition-colors"
+                className="w-full py-5 border-2 border-dashed border-slate-300 rounded-2xl text-base font-bold text-slate-500 flex items-center justify-center gap-2 hover:border-[#2563EB] hover:text-[#2563EB] hover:bg-blue-50 transition-all outline-none focus:ring-4 focus:ring-blue-100"
               >
-                <Plus size={18} />
+                <Plus size={20} />
                 Add a Project
               </button>
             </div>
           )}
 
-          {/* STEP 4: Preferences */}
-          {step === 4 && (
-            <div className="animate-[fade-up_0.3s_ease-out_both]">
-              <h2 className="text-2xl font-extrabold text-[#0F172A] mb-2">Work Preferences</h2>
-              <p className="text-sm text-slate-500 mb-8">Set expectations for clients.</p>
+          {/* STEP 6: Profile Info */}
+          {step === 6 && (
+            <div className="animate-[fade-up_0.4s_ease-out_both]">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] mb-3">Developer Profile</h1>
+              <p className="text-slate-500 mb-10 text-lg">Finalize your profile details for clients to see.</p>
               
-              <div className="space-y-5">
+              <div className="space-y-6">
                 <div>
-                  <label className="block text-xs font-bold text-[#0F172A] mb-1.5">Services Offered (comma separated)</label>
+                  <label className="block text-sm font-bold text-[#0F172A] mb-2">Professional Title <span className="text-red-500">*</span></label>
                   <input
                     type="text"
-                    value={services}
-                    onChange={(e) => setServices(e.target.value)}
-                    placeholder="e.g. UI/UX Design, Frontend Development, API Integration"
-                    className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100 outline-none transition-all"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="e.g. Full Stack Software Engineer"
+                    className="w-full px-5 py-4 rounded-xl border-2 border-slate-200 text-base font-medium focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100 outline-none transition-all placeholder:text-slate-400"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-[#0F172A] mb-1.5">Availability</label>
-                  <select
-                    value={availability}
-                    onChange={(e) => setAvailability(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100 outline-none transition-all"
-                  >
-                    <option value="Full-time">Full-time (40+ hrs/wk)</option>
-                    <option value="Part-time">Part-time (20-40 hrs/wk)</option>
-                    <option value="As needed">As needed (open to discussion)</option>
-                  </select>
+                  <label className="block text-sm font-bold text-[#0F172A] mb-2">Short Bio <span className="text-red-500">*</span></label>
+                  <textarea
+                    rows={4}
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                    placeholder="e.g. I build scalable web applications and APIs for growing businesses..."
+                    className="w-full px-5 py-4 rounded-xl border-2 border-slate-200 text-base font-medium focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100 outline-none transition-all resize-none placeholder:text-slate-400"
+                  />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-[#0F172A] mb-1.5">Expected Hourly Rate (KES)</label>
+                  <label className="block text-sm font-bold text-[#0F172A] mb-2">Availability</label>
                   <div className="relative">
-                    <DollarSign size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                    <input
-                      type="number"
-                      value={hourlyRate}
-                      onChange={(e) => setHourlyRate(Number(e.target.value))}
-                      className="w-full pl-11 pr-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100 outline-none transition-all"
-                    />
+                    <select
+                      value={availability}
+                      onChange={(e) => setAvailability(e.target.value)}
+                      className="w-full px-5 py-4 rounded-xl border-2 border-slate-200 text-base font-medium focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100 outline-none transition-all appearance-none bg-white"
+                    >
+                      <option value="Available now">Available now</option>
+                      <option value="Available this week">Available this week</option>
+                      <option value="Limited availability">Limited availability</option>
+                      <option value="Not currently available">Not currently available</option>
+                    </select>
+                    <div className="absolute inset-y-0 right-5 flex items-center pointer-events-none">
+                      <svg className="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           )}
 
-          {/* STEP 5: Review */}
-          {step === 5 && (
-            <div className="animate-[fade-up_0.3s_ease-out_both]">
-              <h2 className="text-2xl font-extrabold text-[#0F172A] mb-2">Review Profile</h2>
-              <p className="text-sm text-slate-500 mb-8">Make sure everything looks good before submitting.</p>
-              
-              <div className="space-y-6">
-                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                  <h3 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-3">Profile</h3>
-                  <p className="text-sm font-bold text-[#0F172A]">{headline || 'Not provided'}</p>
-                  <p className="text-xs text-slate-500 mt-1">{experience} Experience</p>
-                  <p className="text-sm text-slate-700 mt-3 whitespace-pre-wrap">{bio || 'No bio provided'}</p>
-                </div>
-                
-                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                  <h3 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-3">Skills</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedSkills.length > 0 ? selectedSkills.map(s => (
-                      <span key={s} className="px-2.5 py-1 rounded-md bg-white border border-slate-200 text-xs font-semibold text-slate-700">{s}</span>
-                    )) : <p className="text-sm text-slate-500">No skills added</p>}
-                  </div>
-                </div>
-
-                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                  <h3 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-3">Preferences</h3>
-                  <div className="flex gap-4">
-                    <div>
-                      <p className="text-[11px] font-semibold text-slate-500">Rate</p>
-                      <p className="text-sm font-bold text-[#0F172A]">KES {hourlyRate}/hr</p>
-                    </div>
-                    <div>
-                      <p className="text-[11px] font-semibold text-slate-500">Availability</p>
-                      <p className="text-sm font-bold text-[#0F172A]">{availability}</p>
-                    </div>
-                  </div>
-                </div>
+          {/* STEP 7: Completion */}
+          {step === 7 && (
+            <div className="py-20 flex flex-col items-center justify-center text-center animate-[fade-up_0.5s_ease-out_both]">
+              <div className="w-24 h-24 bg-blue-50 text-[#2563EB] rounded-full flex items-center justify-center mb-8 shadow-inner">
+                <CheckCircle2 size={48} strokeWidth={2.5} />
               </div>
+              <h2 className="text-4xl font-extrabold text-[#0F172A] mb-4">Your developer profile is ready.</h2>
+              <p className="text-slate-500 text-lg mb-12 max-w-md">
+                You're ready to discover projects that match your skills and start building with businesses.
+              </p>
+              <button
+                onClick={() => navigate('/developer/dashboard')}
+                className="w-full sm:w-auto inline-flex items-center justify-center px-12 py-4 rounded-full bg-[#2563EB] text-white font-bold text-[16px] hover:bg-[#1D4ED8] transition-all shadow-md focus:ring-4 focus:ring-blue-200 outline-none"
+              >
+                Go to Developer Dashboard
+              </button>
             </div>
           )}
         </div>
 
         {/* Bottom Navigation */}
-        <div className="mt-8 flex items-center justify-between">
-          <button
-            onClick={prevStep}
-            disabled={step === 1 || isLoading}
-            className={cn(
-              "flex items-center gap-2 px-6 py-3 rounded-full font-bold text-sm transition-all",
-              step === 1 ? "opacity-0 pointer-events-none" : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-[#0F172A]"
-            )}
-          >
-            <ArrowLeft size={16} /> Back
-          </button>
-
-          {step < 5 ? (
+        {step < 7 && (
+          <div className="mt-10 flex items-center justify-between pt-6 border-t border-slate-100">
             <button
-              onClick={nextStep}
-              className="flex items-center gap-2 px-8 py-3 rounded-full font-bold text-sm bg-[#2563EB] text-white hover:bg-[#1D4ED8] shadow-md transition-all"
-            >
-              Continue <ArrowRight size={16} />
-            </button>
-          ) : (
-            <button
-              onClick={handleSubmit}
-              disabled={isLoading}
-              className="flex items-center gap-2 px-8 py-3 rounded-full font-bold text-sm bg-[#2563EB] text-white hover:bg-[#1D4ED8] shadow-md transition-all"
-            >
-              {isLoading ? (
-                <><Loader2 size={16} className="animate-spin" /> Submitting...</>
-              ) : (
-                <><Check size={16} /> Complete Profile</>
+              onClick={prevStep}
+              className={cn(
+                "flex items-center gap-2 px-6 py-3.5 rounded-full font-bold text-[15px] transition-all outline-none focus:ring-4 focus:ring-slate-200",
+                step === 1 ? "opacity-0 pointer-events-none" : "bg-white border-2 border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-slate-300"
               )}
+            >
+              <ArrowLeft size={18} strokeWidth={2.5} /> Back
             </button>
-          )}
-        </div>
+
+            {step < 6 ? (
+              <button
+                onClick={nextStep}
+                disabled={!isStepValid()}
+                className="flex items-center gap-2 px-8 py-3.5 rounded-full font-bold text-[15px] transition-all outline-none focus:ring-4 focus:ring-blue-200 disabled:opacity-50 disabled:cursor-not-allowed bg-[#2563EB] text-white hover:bg-[#1D4ED8] shadow-md hover:shadow-lg"
+              >
+                Continue <ArrowRight size={18} strokeWidth={2.5} />
+              </button>
+            ) : (
+              <button
+                onClick={handleSubmit}
+                disabled={!isStepValid() || isLoading}
+                className="flex items-center gap-2 px-8 py-3.5 rounded-full font-bold text-[15px] transition-all outline-none focus:ring-4 focus:ring-blue-200 disabled:opacity-50 disabled:cursor-not-allowed bg-[#2563EB] text-white hover:bg-[#1D4ED8] shadow-md hover:shadow-lg"
+              >
+                {isLoading ? 'Saving...' : 'Complete Profile'}
+              </button>
+            )}
+          </div>
+        )}
       </main>
     </div>
   );
