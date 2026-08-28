@@ -4,6 +4,8 @@ interface EmptyStateProps {
   action?: React.ReactNode;
 }
 
+// Empty states are an invitation to act, not just an absence notice -
+// per the project's writing convention, always paired with what to do next.
 export default function EmptyState({ title, description, action }: EmptyStateProps) {
   return (
     <div className="text-center py-16 border border-dashed border-line rounded">

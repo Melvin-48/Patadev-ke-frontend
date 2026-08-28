@@ -4,98 +4,43 @@ import { useAuth } from '../../contexts/AuthContext';
 import { cn } from '../../lib/utils';
 
 export default function Navbar() {
-  const { user, isAuthenticated, logout } = useAuth();
-  const location = useLocation();
+  const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
-  const getDashboardPath = () => {
-    if (user?.role === 'CLIENT') return '/client/dashboard';
-    if (user?.role === 'DEVELOPER') return '/developer/dashboard';
-    if (user?.role === 'ADMIN') return '/admin/dashboard';
-    return '/client/dashboard';
-  };
-
-  const isActive = (path: string) => {
-    return location.pathname === path || (path !== '/' && location.pathname.startsWith(path));
-  };
-
-  // Get user initials
-  const initials = user?.name
-    ? user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()
-    : user?.email
-    ? user.email.substring(0, 2).toUpperCase()
-    : 'U';
+  function handleLogout() {
+    logout();
+    navigate('/');
+  }
 
   return (
-    <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-slate-200/50 shadow-xs select-none">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-        
-        {/* Left: Brand Logo */}
-        <Link
-          to="/"
-          className="inline-flex items-center gap-2.5 group transition-transform hover:scale-105 shrink-0"
-          aria-label="PataDev Ke Home"
-        >
-          <span className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-200 shadow-2xs">
-            <Code2 size={18} strokeWidth={2.5} />
-          </span>
-          <span className="font-extrabold text-lg text-[#07152F] tracking-tight">
-            PataDev <span className="text-primary">Ke</span>
-          </span>
+    <header className="border-b border-line bg-white">
+      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        <Link to="/" className="font-display font-bold text-lg text-ink">
+          PataDev <span className="text-amber-dark">Ke</span>
         </Link>
 
-        {/* Center / Nav Items */}
-        <nav className="hidden md:flex items-center gap-1 text-xs font-semibold">
-          {isAuthenticated && (
-            <Link
-              to={getDashboardPath()}
-              className={cn(
-                'px-3.5 py-1.5 rounded-xl transition-all duration-150',
-                isActive('/client/dashboard') || isActive('/developer/dashboard') || isActive('/admin/dashboard')
-                  ? 'bg-primary/10 text-primary font-extrabold'
-                  : 'text-slate-600 hover:text-[#07152F] hover:bg-slate-100/60',
-              )}
-            >
-              Dashboard
-            </Link>
-          )}
+        <nav className="flex items-center gap-4 text-sm">
+          <Link to="/projects" className="text-slate hover:text-ink">Browse Projects</Link>
 
-          <Link
-            to="/projects"
-            className={cn(
-              'px-3.5 py-1.5 rounded-xl transition-all duration-150',
-              isActive('/projects') && !isActive('/client/projects/new')
-                ? 'bg-primary/10 text-primary font-extrabold'
-                : 'text-slate-600 hover:text-[#07152F] hover:bg-slate-100/60',
-            )}
-          >
-            Projects
-          </Link>
-
-          <Link
-            to="/projects"
-            className={cn(
-              'px-3.5 py-1.5 rounded-xl transition-all duration-150',
-              isActive('/developers')
-                ? 'bg-primary/10 text-primary font-extrabold'
-                : 'text-slate-600 hover:text-[#07152F] hover:bg-slate-100/60',
-            )}
-          >
-            Browse Developers
-          </Link>
-
-          {isAuthenticated && (
-            <Link
-              to="/messages"
-              className={cn(
-                'px-3.5 py-1.5 rounded-xl transition-all duration-150',
-                isActive('/messages')
-                  ? 'bg-primary/10 text-primary font-extrabold'
-                  : 'text-slate-600 hover:text-[#07152F] hover:bg-slate-100/60',
-              )}
-            >
-              Messages
-            </Link>
+          {isAuthenticated ? (
+            <>
+              <Link to="/dashboard/notifications" className="text-slate hover:text-ink">Notifications</Link>
+              <Link to="/messages" className="text-slate hover:text-ink">Messages</Link>
+              <Link
+                to="/dashboard"
+                className="text-slate hover:text-ink"
+              >
+                Dashboard
+              </Link>
+              <Button variant="secondary" onClick={handleLogout}>Log out</Button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="text-slate hover:text-ink">Log in</Link>
+              <Link to="/register">
+                <Button>Get started</Button>
+              </Link>
+            </>
           )}
         </nav>
 

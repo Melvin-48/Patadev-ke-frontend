@@ -1,15 +1,13 @@
-import { ClientProfile, DeveloperProfile } from '../types/user.types';
+<<<<<<< HEAD
+import { apiClient } from '../../../lib/api/client';
 
 export const usersService = {
-  async updateClientProfile(data: ClientProfile): Promise<ClientProfile> {
-    // In real app, sends PUT/POST to /api/users/client-profile
-    console.log('Updating client profile API payload:', data);
-    return { ...data, updatedAt: new Date().toISOString() };
-  },
+  createClientProfile: (userId: string, data: { businessName: string; businessType?: string; phone?: string }) =>
+    apiClient.post(`/users/${userId}/client-profile`, data),
 
-  async updateDeveloperProfile(data: DeveloperProfile): Promise<DeveloperProfile> {
-    // In real app, sends PUT/POST to /api/users/developer-profile
-    console.log('Updating developer profile API payload:', data);
-    return { ...data, updatedAt: new Date().toISOString() };
-  },
+  createDeveloperProfile: (userId: string, data: { displayName: string; bio?: string; techStack: string[]; portfolioUrl?: string }) =>
+    apiClient.post(`/users/${userId}/developer-profile`, data),
 };
+=======
+// TODO: Implement Profile CRUD and verification API calls
+>>>>>>> origin/main

@@ -1,340 +1,55 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, AlertCircle, Loader2 } from 'lucide-react';
+import { FormEvent, useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import Card from '../../../components/ui/Card';
+import Input from '../../../components/ui/Input';
+import Button from '../../../components/ui/Button';
+import { authService } from '../services/auth.service';
 import { useAuth } from '../../../contexts/AuthContext';
-import { cn } from '../../../lib/utils';
-import AuthLayout from '../../../components/auth/AuthLayout';
-import AuthSocialButtons from '../../../components/auth/AuthSocialButtons';
-
-type UserRole = 'CLIENT' | 'DEVELOPER';
 
 export default function RegisterPage() {
-  const navigate = useNavigate();
-  const { register } = useAuth();
-
-  const [role, setRole] = useState<UserRole>('CLIENT');
-  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [agreeTerms, setAgreeTerms] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [role, setRole] = useState<'CLIENT' | 'DEVELOPER'>('CLIENT');
   const [error, setError] = useState<string | null>(null);
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-  const [fieldErrors, setFieldErrors] = useState<{
-    fullName?: string;
-    email?: string;
-    password?: string;
-    confirmPassword?: string;
-    agreeTerms?: string;
-  }>({});
-
-  const validate = () => {
-    const errors: {
-      fullName?: string;
-      email?: string;
-      password?: string;
-      confirmPassword?: string;
-      agreeTerms?: string;
-    } = {};
-
-    if (!fullName.trim()) {
-      errors.fullName = 'Full Name is required.';
-    }
-
-    if (!email) {
-      errors.email = 'Email address is required.';
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      errors.email = 'Please enter a valid email address.';
-    }
-
-    if (!password) {
-      errors.password = 'Password is required.';
-    } else if (password.length < 8) {
-      errors.password = 'Password must be at least 8 characters.';
-    }
-
-    if (!confirmPassword) {
-      errors.confirmPassword = 'Please confirm your password.';
-    } else if (password !== confirmPassword) {
-      errors.confirmPassword = 'Passwords do not match.';
-    }
-
-    if (!agreeTerms) {
-      errors.agreeTerms = 'You must agree to the Terms of Service and Privacy Policy.';
-    }
-
-    setFieldErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError(null);
-
-    if (!validate()) return;
-
     try {
-      setIsLoading(true);
-
-      // ────── 3-Second Loader Cycle ──────
-      await Promise.all([
-        register(email, password, role, fullName),
-        new Promise((resolve) => setTimeout(resolve, 3000)),
-      ]);
-
-      // Navigate to role-specific onboarding flow
-      if (role === 'CLIENT') {
-        navigate('/onboarding/client');
-      } else {
-        navigate('/onboarding/developer');
-      }
-    } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : 'Registration failed. Please try again.';
-      setError(errorMessage);
-    } finally {
-      setIsLoading(false);
+      const res = await authService.signUp(email, password, role);
+      login({ id: res.userId, email, role: res.role, verified: false }, res.accessToken);
+      navigate(`/dashboard/profile/setup/${role.toLowerCase()}`);
+    } catch {
+      setError('Could not create account. Try a different email.');
     }
-  };
+  }
 
   return (
-    <AuthLayout
-      title="Create your account"
-      description="Join PataDev and connect with businesses and developers."
-      brandHeadline="Build better.
-Connect smarter."
-      brandSubheadline="Where businesses find skilled developers and developers find meaningful projects."
-      bottomLink={
-        <span>
-          Already have an account?{' '}
-          <Link to="/signup" className="font-bold text-primary hover:underline">
-            Log in
-          </Link>
-        </span>
-      }
-    >
-      {/* Role Selection Segmented Control */}
-      <div className="mb-4">
-        <label className="block text-xs font-bold text-[#07152F] mb-1">Account Type</label>
-        <div className="grid grid-cols-2 rounded-lg bg-slate-100 p-1 border border-slate-200/60">
-          <button
-            type="button"
-            onClick={() => setRole('CLIENT')}
-            className={cn(
-              'py-1.5 px-3 rounded-md text-xs font-bold transition-all duration-150 cursor-pointer',
-              role === 'CLIENT'
-                ? 'bg-white text-primary shadow-xs'
-                : 'text-slate-600 hover:text-[#07152F]',
-            )}
-          >
-            Client
-          </button>
-          <button
-            type="button"
-            onClick={() => setRole('DEVELOPER')}
-            className={cn(
-              'py-1.5 px-3 rounded-md text-xs font-bold transition-all duration-150 cursor-pointer',
-              role === 'DEVELOPER'
-                ? 'bg-white text-primary shadow-xs'
-                : 'text-slate-600 hover:text-[#07152F]',
-            )}
-          >
-            Developer
-          </button>
-        </div>
-      </div>
-
-      {/* Error Banner */}
-      {error && (
-        <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-600 text-xs font-semibold flex items-center gap-2">
-          <AlertCircle size={15} className="shrink-0 text-red-500" />
-          <span>{error}</span>
-        </div>
-      )}
-
-      {/* Form */}
-      <form onSubmit={handleSubmit} noValidate className="space-y-3.5">
-        
-        {/* Full Name */}
-        <div>
-          <label htmlFor="fullName" className="block text-xs font-bold text-[#07152F] mb-1">
-            Full Name
-          </label>
-          <input
-            id="fullName"
-            type="text"
-            required
-            value={fullName}
-            onChange={(e) => {
-              setFullName(e.target.value);
-              if (fieldErrors.fullName) setFieldErrors(prev => ({ ...prev, fullName: undefined }));
-            }}
-            placeholder="John Doe"
-            className={cn(
-              'w-full px-3.5 py-2.5 rounded-lg bg-white border text-xs font-medium text-[#07152F] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all',
-              fieldErrors.fullName ? 'border-red-300 ring-1 ring-red-300' : 'border-slate-200',
-            )}
-          />
-          {fieldErrors.fullName && (
-            <p className="mt-1 text-[11px] font-medium text-red-500">{fieldErrors.fullName}</p>
-          )}
-        </div>
-
-        {/* Email Address */}
-        <div>
-          <label htmlFor="email" className="block text-xs font-bold text-[#07152F] mb-1">
-            Email address
-          </label>
-          <input
-            id="email"
-            type="email"
-            required
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              if (fieldErrors.email) setFieldErrors(prev => ({ ...prev, email: undefined }));
-            }}
-            placeholder="name@example.com"
-            className={cn(
-              'w-full px-3.5 py-2.5 rounded-lg bg-white border text-xs font-medium text-[#07152F] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all',
-              fieldErrors.email ? 'border-red-300 ring-1 ring-red-300' : 'border-slate-200',
-            )}
-          />
-          {fieldErrors.email && (
-            <p className="mt-1 text-[11px] font-medium text-red-500">{fieldErrors.email}</p>
-          )}
-        </div>
-
-        {/* Password */}
-        <div>
-          <label htmlFor="password" className="block text-xs font-bold text-[#07152F] mb-1">
-            Password
-          </label>
-          <div className="relative">
-            <input
-              id="password"
-              type={showPassword ? 'text' : 'password'}
-              required
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-                if (fieldErrors.password) setFieldErrors(prev => ({ ...prev, password: undefined }));
-              }}
-              placeholder="Enter your password"
-              className={cn(
-                'w-full px-3.5 py-2.5 pr-10 rounded-lg bg-white border text-xs font-medium text-[#07152F] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all',
-                fieldErrors.password ? 'border-red-300 ring-1 ring-red-300' : 'border-slate-200',
-              )}
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
-              aria-label={showPassword ? 'Hide password' : 'Show password'}
-            >
-              {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+    <div className="max-w-sm mx-auto px-6 py-20">
+      <h1 className="text-2xl mb-6">Create an account</h1>
+      <Card>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="flex gap-2">
+            <button type="button" onClick={() => setRole('CLIENT')}
+              className={`flex-1 py-2 rounded border text-sm ${role === 'CLIENT' ? 'border-ink bg-ink text-paper' : 'border-line text-slate'}`}>
+              I need a system built
+            </button>
+            <button type="button" onClick={() => setRole('DEVELOPER')}
+              className={`flex-1 py-2 rounded border text-sm ${role === 'DEVELOPER' ? 'border-ink bg-ink text-paper' : 'border-line text-slate'}`}>
+              I build systems
             </button>
           </div>
-          <p className="mt-1 text-[10px] text-slate-400">
-            Use at least 8 characters with a mix of letters, numbers, and symbols.
-          </p>
-          {fieldErrors.password && (
-            <p className="mt-1 text-[11px] font-medium text-red-500">{fieldErrors.password}</p>
-          )}
-        </div>
-
-        {/* Confirm Password */}
-        <div>
-          <label htmlFor="confirmPassword" className="block text-xs font-bold text-[#07152F] mb-1">
-            Confirm password
-          </label>
-          <div className="relative">
-            <input
-              id="confirmPassword"
-              type={showConfirmPassword ? 'text' : 'password'}
-              required
-              value={confirmPassword}
-              onChange={(e) => {
-                setConfirmPassword(e.target.value);
-                if (fieldErrors.confirmPassword) setFieldErrors(prev => ({ ...prev, confirmPassword: undefined }));
-              }}
-              placeholder="Confirm your password"
-              className={cn(
-                'w-full px-3.5 py-2.5 pr-10 rounded-lg bg-white border text-xs font-medium text-[#07152F] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all',
-                fieldErrors.confirmPassword ? 'border-red-300 ring-1 ring-red-300' : 'border-slate-200',
-              )}
-            />
-            <button
-              type="button"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
-              aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
-            >
-              {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-            </button>
-          </div>
-          {fieldErrors.confirmPassword && (
-            <p className="mt-1 text-[11px] font-medium text-red-500">{fieldErrors.confirmPassword}</p>
-          )}
-        </div>
-
-        {/* Terms Checkbox */}
-        <div>
-          <label className="flex items-start gap-2 cursor-pointer select-none text-xs text-slate-600">
-            <input
-              type="checkbox"
-              checked={agreeTerms}
-              onChange={(e) => {
-                setAgreeTerms(e.target.checked);
-                if (fieldErrors.agreeTerms) setFieldErrors(prev => ({ ...prev, agreeTerms: undefined }));
-              }}
-              className="w-4 h-4 mt-0.5 rounded text-primary focus:ring-primary border-slate-300 shrink-0"
-            />
-            <span>
-              I agree to the{' '}
-              <a href="#terms" className="font-semibold text-primary hover:underline">Terms of Service</a>{' '}
-              and{' '}
-              <a href="#privacy" className="font-semibold text-primary hover:underline font-semibold">Privacy Policy</a>.
-            </span>
-          </label>
-          {fieldErrors.agreeTerms && (
-            <p className="mt-1 text-[11px] font-medium text-red-500">{fieldErrors.agreeTerms}</p>
-          )}
-        </div>
-
-        {/* Create Account CTA Button with 3s loader cycle */}
-        <button
-          type="submit"
-          disabled={isLoading}
-          className={cn(
-            'relative overflow-hidden w-full inline-flex items-center justify-center py-2.5 px-4 rounded-lg font-bold text-white shadow-sm transition-all duration-150 text-xs mt-1',
-            isLoading
-              ? 'bg-primary/80 cursor-wait'
-              : 'bg-[#1769FF] hover:bg-blue-600 active:scale-[0.99]',
-          )}
-        >
-          {isLoading && (
-            <span className="absolute inset-0 bg-blue-700/50 animate-[pulse_1s_ease-in-out_infinite]" />
-          )}
-
-          <span className="relative z-10">
-            {isLoading ? (
-              <span className="inline-flex items-center gap-2">
-                <Loader2 size={16} className="animate-spin" />
-                <span>Creating account...</span>
-              </span>
-            ) : (
-              <span>Create account</span>
-            )}
-          </span>
-        </button>
-
-      </form>
-
-      {/* Social Signup */}
-      <AuthSocialButtons />
-    </AuthLayout>
+          <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <Input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          {error && <p className="text-danger text-sm">{error}</p>}
+          <Button type="submit" className="w-full">Create account</Button>
+        </form>
+      </Card>
+      <p className="text-sm text-slate mt-4 text-center">
+        Already have an account? <Link to="/login" className="text-ink underline">Log in</Link>
+      </p>
+    </div>
   );
 }

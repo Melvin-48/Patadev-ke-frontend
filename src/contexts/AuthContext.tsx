@@ -1,25 +1,23 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode } from 'react';
+import { setToken, clearToken } from '../lib/api/client';
 
-type UserRole = 'CLIENT' | 'DEVELOPER' | 'ADMIN';
+type Role = 'CLIENT' | 'DEVELOPER' | 'ADMIN';
 
-interface User {
+interface AuthUser {
   id: string;
   email: string;
-  role: UserRole;
-  name: string;
+  role: Role;
+  verified: boolean;
 }
 
-interface AuthContextType {
-  user: User | null;
+interface AuthContextValue {
+  user: AuthUser | null;
   isAuthenticated: boolean;
-  isLoading: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, role: UserRole, name: string) => Promise<void>;
-  forgotPassword: (email: string) => Promise<void>;
+  login: (user: AuthUser, token: string) => void;
   logout: () => void;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 // Default design preview user for development
 const DESIGN_PREVIEW_USER: User = {
@@ -30,48 +28,30 @@ const DESIGN_PREVIEW_USER: User = {
 };
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(DESIGN_PREVIEW_USER);
-  const [isLoading, setIsLoading] = useState(true);
+  // TODO: on mount, check localStorage for an existing token and re-fetch
+  // the current user (e.g. a GET /auth/me endpoint) instead of starting
+  // logged out on every page refresh.
+  const [user, setUser] = useState<AuthUser | null>(null);
 
-  useEffect(() => {
-    setIsLoading(false);
-  }, []);
+  function login(user: AuthUser, token: string) {
+    setToken(token);
+    setUser(user);
+  }
 
-  const login = async (email: string, _password: string) => {
-    setUser({
-      id: 'usr-logged-in',
-      email,
-      role: 'CLIENT',
-      name: email.split('@')[0],
-    });
-  };
-
-  const register = async (email: string, _password: string, role: UserRole, name: string) => {
-    setUser({
-      id: 'usr-registered',
-      email,
-      role,
-      name,
-    });
-  };
-
-  const forgotPassword = async (email: string) => {
-    console.log('Sending password reset email to:', email);
-  };
-
-  const logout = () => {
+  function logout() {
+    clearToken();
     setUser(null);
-  };
+  }
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, register, forgotPassword, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext);
-  if (context === undefined) throw new Error('useAuth must be used within an AuthProvider');
-  return context;
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error('useAuth must be used within AuthProvider');
+  return ctx;
 }
