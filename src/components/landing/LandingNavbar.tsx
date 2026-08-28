@@ -94,8 +94,8 @@ export default function LandingNavbar() {
             <span className="w-8 h-8 rounded-xl bg-[#2563EB] flex items-center justify-center text-white shadow-sm group-hover:bg-[#1D4ED8] transition-colors">
               <Code2 size={16} strokeWidth={2.5} />
             </span>
-            <span className="font-extrabold text-base text-[#0F172A] tracking-tight leading-none">
-              PataDev<span className="text-[#2563EB]"> Ke</span>
+            <span className={cn("font-extrabold text-base tracking-tight leading-none", scrolled ? "text-[#0F172A]" : "text-white")}>
+              PataDev<span className={cn(scrolled ? "text-[#2563EB]" : "text-white")}> Ke</span>
             </span>
           </Link>
 
@@ -110,7 +110,9 @@ export default function LandingNavbar() {
                     'px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer',
                     isActive
                       ? 'bg-[#2563EB] text-white font-semibold'
-                      : 'text-[#0F172A] hover:text-[#2563EB] hover:bg-blue-50'
+                      : scrolled
+                        ? 'text-[#0F172A] hover:text-[#2563EB] hover:bg-blue-50'
+                        : 'text-white/90 hover:text-white hover:bg-white/10'
                   )}
                 >
                   {item.label}
@@ -122,7 +124,12 @@ export default function LandingNavbar() {
           <div className="hidden lg:flex items-center gap-3">
             <Link
               to="/login"
-              className="px-5 py-2.5 rounded-full text-sm font-semibold text-[#0F172A] bg-white border border-slate-200 hover:bg-blue-50 hover:text-[#2563EB] transition-colors"
+              className={cn(
+                "px-5 py-2.5 rounded-full text-sm font-semibold transition-colors",
+                scrolled
+                  ? "text-[#0F172A] bg-white border border-slate-200 hover:bg-blue-50 hover:text-[#2563EB]"
+                  : "text-white bg-white/10 border border-white/20 hover:bg-white/20"
+              )}
             >
               Log In
             </Link>
@@ -135,7 +142,10 @@ export default function LandingNavbar() {
           </div>
 
           <button
-            className="lg:hidden p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-colors"
+            className={cn(
+              "lg:hidden p-2 rounded-xl transition-colors",
+              scrolled ? "text-slate-700 hover:bg-slate-100" : "text-white hover:bg-white/10"
+            )}
             onClick={() => setMenuOpen((o) => !o)}
             aria-label="Toggle navigation menu"
           >

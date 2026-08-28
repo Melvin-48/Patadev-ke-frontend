@@ -70,7 +70,7 @@ export default function HeroSection() {
       >
         <source src="/assets/video/hero.mp4" type="video/mp4" />
       </video>
-      <div className="absolute inset-0 z-0 bg-white/60 sm:bg-white/40 backdrop-blur-[1px]" />
+      <div className="absolute inset-0 z-0 bg-slate-900/50 sm:bg-slate-900/40 backdrop-blur-[1px]" />
 
       <div
         className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 relative z-10"
@@ -81,15 +81,15 @@ export default function HeroSection() {
         }}
       >
         <div className="max-w-3xl">
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-[#0F172A] leading-[1.1] tracking-tight mb-6 min-h-[140px] sm:min-h-[160px]">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white leading-[1.1] tracking-tight mb-6 min-h-[140px] sm:min-h-[160px]">
             Build Better.<br />
-            <span className={cn("text-[#2563EB]", currentPhraseObj.fontClass)}>
+            <span className={cn("text-blue-400 italic", currentPhraseObj.fontClass)}>
               {displayedText}
-              <span className="inline-block w-1 h-[1em] bg-[#2563EB] ml-1 animate-pulse align-middle" />
+              <span className="inline-block w-1 h-[1em] bg-blue-400 ml-1 animate-pulse align-middle" />
             </span>
           </h1>
 
-          <p className="text-lg sm:text-xl text-slate-800 font-medium leading-relaxed mb-10 max-w-2xl">
+          <p className="text-lg sm:text-xl text-white/90 font-medium leading-relaxed mb-10 max-w-2xl">
             Connect businesses with skilled developers to build, launch, and grow better digital products.
           </p>
 
