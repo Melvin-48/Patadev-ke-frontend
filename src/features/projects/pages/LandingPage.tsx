@@ -15,57 +15,28 @@ import FinalCTA from '../../../components/landing/FinalCTA';
 import LandingFooter from '../../../components/landing/LandingFooter';
 
 /**
- * PataDev Ke — Complete Marketplace Landing Page
+ * PataDev Ke — Complete Marketplace Landing Page (Clean, No Overlays)
  */
 export default function LandingPage() {
   return (
-    <div className="relative min-h-screen bg-white text-[#07152F] overflow-x-hidden">
-      
-      {/* ── Soft Ambient Decorative Background Blobs ── */}
-      <div aria-hidden="true" className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div
-          className="absolute -top-48 -right-48 w-[640px] h-[640px] rounded-full"
-          style={{
-            background: 'radial-gradient(circle, rgba(23,105,255,0.06) 0%, transparent 70%)',
-            filter: 'blur(90px)',
-          }}
-        />
-        <div
-          className="absolute top-[35%] -left-48 w-[520px] h-[520px] rounded-full"
-          style={{
-            background: 'radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 70%)',
-            filter: 'blur(80px)',
-          }}
-        />
-        <div
-          className="absolute bottom-[-100px] right-[10%] w-[500px] h-[500px] rounded-full"
-          style={{
-            background: 'radial-gradient(circle, rgba(56,189,248,0.06) 0%, transparent 70%)',
-            filter: 'blur(80px)',
-          }}
-        />
-      </div>
-
-      {/* ── Page Content ── */}
-      <div className="relative z-10">
-        <LandingNavbar />
-        <main>
-          <HeroSection />
-          <PartnersCarousel />
-          <StatsSection />
-          <PopularServicesSection />
-          <WhoItsForSection />
-          <FeaturedProjectsSection />
-          <AboutUsSection />
-          <HowItWorksSection />
-          <PricingSection />
-          <ContactSection />
-          <TrustIndicator />
-          <FaqSection />
-          <FinalCTA />
-        </main>
-        <LandingFooter />
-      </div>
+    <div className="min-h-screen bg-white text-[#07152F] overflow-x-hidden">
+      <LandingNavbar />
+      <main>
+        <HeroSection />
+        <PartnersCarousel />
+        <StatsSection />
+        <PopularServicesSection />
+        <WhoItsForSection />
+        <FeaturedProjectsSection />
+        <AboutUsSection />
+        <HowItWorksSection />
+        <PricingSection />
+        <ContactSection />
+        <TrustIndicator />
+        <FaqSection />
+        <FinalCTA />
+      </main>
+      <LandingFooter />
     </div>
   );
 }

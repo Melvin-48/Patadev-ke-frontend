@@ -33,27 +33,15 @@ export default function HeroSection() {
   return (
     <section
       id="home"
-      className="relative pt-24 pb-14 sm:pb-20 overflow-hidden bg-gradient-to-b from-[#EFF6FF] via-[#F8FAFC] to-white"
+      className="relative pt-24 pb-14 sm:pb-20 bg-gradient-to-b from-[#EFF6FF] via-[#F8FAFC] to-white"
     >
-      {/* ── Soft ambient background glow ── */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div
-          className="absolute -top-24 right-0 w-[550px] h-[550px] rounded-full opacity-35"
-          style={{ background: 'radial-gradient(circle, rgba(23,105,255,0.12) 0%, transparent 70%)', filter: 'blur(80px)' }}
-        />
-        <div
-          className="absolute top-1/3 -left-36 w-[400px] h-[400px] rounded-full opacity-25"
-          style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.10) 0%, transparent 70%)', filter: 'blur(75px)' }}
-        />
-      </div>
-
-      <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8">
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
-          {/* ── LEFT COLUMN: Text & Meaningful Search ── */}
+          {/* ── LEFT COLUMN: Text & Search ── */}
           <div className="lg:col-span-7 max-w-2xl">
 
-            {/* Contextual Badge (Clean text, NO sparkles) */}
+            {/* Contextual Badge */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold mb-6 border border-primary/15">
               <span className="w-1.5 h-1.5 rounded-full bg-primary" />
               <span>Kenya's Developer-Business Marketplace</span>
@@ -127,14 +115,13 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* ── RIGHT COLUMN: Integrated Visual ── */}
+          {/* ── RIGHT COLUMN: Clean Image ── */}
           <div className="lg:col-span-5 relative flex items-center justify-center">
             <div className="relative w-full max-w-lg lg:max-w-none">
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-primary/10 via-sky-100/40 to-indigo-100/30 blur-xl -z-10" />
               <img
                 src="/assets/images/landing/patadev-hero.png"
                 alt="PataDev Ke — Business and Developer Collaboration"
-                className="w-full h-auto rounded-3xl shadow-xl shadow-slate-200/60 border border-white/80 object-cover"
+                className="w-full h-auto rounded-3xl shadow-xl shadow-slate-200/60 border border-slate-100 object-cover"
                 loading="eager"
               />
             </div>
