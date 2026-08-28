@@ -11,27 +11,26 @@ const PARTNER_LOGOS = [
 
 export default function PartnersCarousel() {
   return (
-    <section className="py-8 bg-white border-b border-slate-100/80 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 mb-6 text-center">
-        <p className="text-xs font-extrabold uppercase tracking-widest text-slate-400">
+    <section className="py-12 bg-white border-b border-slate-200 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 mb-8 text-center">
+        <p className="text-sm font-extrabold uppercase tracking-widest text-slate-500">
           TRUSTED BY BUSINESSES ACROSS KENYA
         </p>
       </div>
 
-      {/* Marquee Container */}
       <div className="relative w-full overflow-hidden flex items-center">
-        {/* Marquee Track */}
-        <div className="flex gap-12 sm:gap-16 items-center animate-marquee whitespace-nowrap hover:[animation-play-state:paused]">
-          {[...PARTNER_LOGOS, ...PARTNER_LOGOS, ...PARTNER_LOGOS].map((p, i) => (
+        {/* We use 2 copies to make 0 -> -50% translation shift exactly 1 copy width */}
+        <div className="flex gap-12 sm:gap-16 items-center w-max animate-marquee whitespace-nowrap hover:[animation-play-state:paused]">
+          {[...PARTNER_LOGOS, ...PARTNER_LOGOS].map((p, i) => (
             <div
               key={`${p.name}-${i}`}
-              className="flex items-center justify-center flex-shrink-0 h-10 px-2"
+              className="flex items-center justify-center flex-shrink-0 h-12 px-4"
             >
               <img
                 src={p.src}
                 alt={p.name}
-                className="h-8 sm:h-9 max-w-[140px] w-auto object-contain transition-transform duration-200 hover:scale-105"
-                loading="eager"
+                className="h-10 sm:h-12 max-w-[160px] w-auto object-contain transition-transform duration-200"
+                loading="lazy"
               />
             </div>
           ))}

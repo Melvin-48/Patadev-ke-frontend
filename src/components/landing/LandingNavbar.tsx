@@ -73,77 +73,79 @@ export default function LandingNavbar() {
   return (
     <header
       className={cn(
-        'fixed top-0 inset-x-0 z-50 transition-all duration-300 ease-out flex justify-center',
-        scrolled ? 'pt-3 px-4' : 'pt-0 px-0',
+        'fixed left-0 right-0 z-50 transition-all duration-300 ease-in-out w-full',
+        scrolled ? 'top-3 sm:top-4 px-4' : 'top-0 px-0'
       )}
     >
       <div
         className={cn(
-          'w-full bg-white transition-all duration-300 ease-out flex items-center justify-between gap-4',
+          'w-full bg-white transition-all duration-300 ease-in-out flex items-center justify-between mx-auto',
           scrolled
-            ? 'max-w-5xl h-14 px-6 rounded-full border border-slate-200 shadow-md shadow-slate-200/50'
-            : 'max-w-7xl h-16 px-5 sm:px-8 rounded-none border-none shadow-none',
+            ? 'max-w-[1200px] h-14 px-6 rounded-full border border-slate-200 shadow-md'
+            : 'max-w-none h-[72px] px-5 sm:px-8 rounded-none border-none shadow-none'
         )}
       >
-        {/* ── Brand Logo ── */}
-        <Link
-          to="/"
-          className="flex items-center gap-2 flex-shrink-0 group"
-          aria-label="PataDev Ke Home"
-        >
-          <span className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center text-white shadow-2xs group-hover:bg-primary-600 transition-colors">
-            <Code2 size={16} strokeWidth={2.5} />
-          </span>
-          <span className="font-extrabold text-base text-[#07152F] tracking-tight leading-none">
-            PataDev<span className="text-primary"> Ke</span>
-          </span>
-        </Link>
-
-        {/* ── Centered Navigation Links ── */}
-        <nav className="hidden lg:flex items-center gap-1">
-          {NAV_ITEMS.map((item) => {
-            const isActive = activeSection === item.id;
-            return (
-              <button
-                key={item.label}
-                onClick={() => handleNavClick(item.href)}
-                className={cn(
-                  'px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 cursor-pointer',
-                  isActive
-                    ? 'bg-blue-50 text-primary font-semibold'
-                    : 'text-slate-600 hover:text-primary hover:bg-slate-100/70',
-                )}
-              >
-                {item.label}
-              </button>
-            );
-          })}
-        </nav>
-
-        {/* ── Right Action Buttons ── */}
-        <div className="hidden lg:flex items-center gap-2.5">
+        <div className="flex-1 max-w-7xl mx-auto w-full flex items-center justify-between gap-4">
+          {/* ── Brand Logo ── */}
           <Link
-            to="/login"
-            className="px-4 py-2 rounded-full text-xs font-semibold text-[#07152F] bg-white border border-slate-200 hover:bg-slate-50 hover:text-primary transition-colors shadow-2xs"
+            to="/"
+            className="flex items-center gap-2 flex-shrink-0 group"
+            aria-label="PataDev Ke Home"
           >
-            Log In
+            <span className="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-sm group-hover:bg-blue-700 transition-colors">
+              <Code2 size={16} strokeWidth={2.5} />
+            </span>
+            <span className="font-extrabold text-base text-slate-900 tracking-tight leading-none">
+              PataDev<span className="text-blue-600"> Ke</span>
+            </span>
           </Link>
-          <Link
-            to="/signup"
-            className="px-5 py-2 rounded-full text-xs font-semibold text-white bg-primary hover:bg-primary-600 transition-colors shadow-xs"
+
+          {/* ── Centered Navigation Links ── */}
+          <nav className="hidden lg:flex items-center gap-1">
+            {NAV_ITEMS.map((item) => {
+              const isActive = activeSection === item.id;
+              return (
+                <button
+                  key={item.label}
+                  onClick={() => handleNavClick(item.href)}
+                  className={cn(
+                    'px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer',
+                    isActive
+                      ? 'bg-blue-600 text-white font-semibold'
+                      : 'text-slate-700 hover:text-blue-600 hover:bg-blue-50'
+                  )}
+                >
+                  {item.label}
+                </button>
+              );
+            })}
+          </nav>
+
+          {/* ── Right Action Buttons ── */}
+          <div className="hidden lg:flex items-center gap-3">
+            <Link
+              to="/login"
+              className="px-5 py-2.5 rounded-full text-sm font-semibold text-slate-900 bg-white border border-[#dbe3f0] hover:bg-[#eff6ff] hover:text-blue-800 transition-colors"
+            >
+              Log In
+            </Link>
+            <Link
+              to="/signup"
+              className="px-6 py-2.5 rounded-full text-sm font-semibold text-white bg-blue-600 border-none hover:bg-blue-700 hover:shadow-sm hover:shadow-blue-500/25 transition-all"
+            >
+              Sign Up
+            </Link>
+          </div>
+
+          {/* ── Mobile Menu Toggle ── */}
+          <button
+            className="lg:hidden p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-colors"
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-label="Toggle navigation menu"
           >
-            Sign Up
-          </Link>
+            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
-
-        {/* ── Mobile Menu Toggle ── */}
-        <button
-          className="lg:hidden p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-colors"
-          onClick={() => setMenuOpen((o) => !o)}
-          aria-label="Toggle navigation menu"
-        >
-          {menuOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
       </div>
 
       {/* ── Mobile Drawer ── */}
@@ -156,28 +158,28 @@ export default function LandingNavbar() {
                 key={item.label}
                 onClick={() => handleNavClick(item.href)}
                 className={cn(
-                  'w-full text-left px-4 py-2.5 rounded-full text-sm font-medium transition-all',
+                  'w-full text-left px-4 py-3 rounded-full text-sm font-medium transition-all',
                   isActive
-                    ? 'bg-blue-50 text-primary font-semibold'
-                    : 'text-slate-700 hover:text-primary hover:bg-slate-50',
+                    ? 'bg-blue-600 text-white font-semibold'
+                    : 'text-slate-700 hover:text-blue-600 hover:bg-blue-50'
                 )}
               >
                 {item.label}
               </button>
             );
           })}
-          <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
+          <div className="pt-4 mt-2 border-t border-slate-100 flex flex-col gap-3">
             <Link
               to="/login"
               onClick={() => setMenuOpen(false)}
-              className="w-full text-center py-2.5 rounded-full text-sm font-semibold text-[#07152F] bg-white border border-slate-200 hover:bg-slate-50 transition-all"
+              className="w-full text-center py-3 rounded-full text-sm font-semibold text-slate-900 bg-white border border-slate-200 hover:bg-blue-50 hover:text-blue-800 transition-colors"
             >
               Log In
             </Link>
             <Link
               to="/signup"
               onClick={() => setMenuOpen(false)}
-              className="w-full text-center py-2.5 rounded-full text-sm font-semibold text-white bg-primary hover:bg-primary-600 transition-all shadow-xs"
+              className="w-full text-center py-3 rounded-full text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-colors"
             >
               Sign Up
             </Link>

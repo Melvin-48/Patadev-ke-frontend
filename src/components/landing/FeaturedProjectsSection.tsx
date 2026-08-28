@@ -107,19 +107,19 @@ function ProjectUiMockup({ type }: { type: RealProjectCardData['mockupType'] }) 
       <div className="w-full h-24 bg-gradient-to-br from-blue-50 to-indigo-50/60 rounded-xl p-2.5 flex flex-col justify-between border border-blue-100/60">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
-            <LayoutDashboard size={13} className="text-primary" />
-            <span className="text-[10px] font-bold text-[#07152F]">Nairobi Terminal #1</span>
+            <LayoutDashboard size={13} className="text-[#2563eb]" />
+            <span className="text-[10px] font-bold text-[#0F172A]">Nairobi Terminal #1</span>
           </div>
           <span className="text-[9px] font-extrabold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">ONLINE</span>
         </div>
         <div className="grid grid-cols-3 gap-1.5">
           <div className="bg-white p-1.5 rounded-lg border border-slate-100 text-center">
             <p className="text-[8px] text-slate-400">Sales</p>
-            <p className="text-[10px] font-extrabold text-[#07152F]">KES 45.2k</p>
+            <p className="text-[10px] font-extrabold text-[#0F172A]">KES 45.2k</p>
           </div>
           <div className="bg-white p-1.5 rounded-lg border border-slate-100 text-center">
             <p className="text-[8px] text-slate-400">Orders</p>
-            <p className="text-[10px] font-extrabold text-primary">128</p>
+            <p className="text-[10px] font-extrabold text-[#2563eb]">128</p>
           </div>
           <div className="bg-white p-1.5 rounded-lg border border-slate-100 text-center">
             <p className="text-[8px] text-slate-400">Items</p>
@@ -136,12 +136,12 @@ function ProjectUiMockup({ type }: { type: RealProjectCardData['mockupType'] }) 
         <div className="space-y-1">
           <div className="flex items-center gap-1">
             <Smartphone size={13} className="text-emerald-600" />
-            <span className="text-[10px] font-bold text-[#07152F]">Doctor Connect App</span>
+            <span className="text-[10px] font-bold text-[#0F172A]">Doctor Connect App</span>
           </div>
           <p className="text-[9px] text-slate-500">Dr. Sarah K. · Cardiology</p>
           <span className="inline-block text-[8px] font-bold text-white bg-emerald-600 px-2 py-0.5 rounded-md">Booked 10:30 AM</span>
         </div>
-        <div className="w-10 h-16 bg-white rounded-lg border border-slate-200 p-1 flex flex-col justify-between shadow-2xs">
+        <div className="w-10 h-16 bg-white rounded-lg border border-slate-200 p-1 flex flex-col justify-between shadow-sm">
           <div className="w-full h-1.5 bg-emerald-400 rounded-full" />
           <div className="space-y-1">
             <div className="w-full h-1 bg-slate-200 rounded" />
@@ -158,13 +158,13 @@ function ProjectUiMockup({ type }: { type: RealProjectCardData['mockupType'] }) 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
             <ShoppingBag size={13} className="text-cyan-600" />
-            <span className="text-[10px] font-bold text-[#07152F]">Store Checkout UI</span>
+            <span className="text-[10px] font-bold text-[#0F172A]">Store Checkout UI</span>
           </div>
           <span className="text-[9px] font-bold text-cyan-700 bg-cyan-100 px-1.5 py-0.5 rounded">M-PESA READY</span>
         </div>
         <div className="bg-white p-2 rounded-lg border border-slate-100 flex items-center justify-between">
           <div className="space-y-0.5">
-            <p className="text-[9px] font-bold text-[#07152F]">Order #8492</p>
+            <p className="text-[9px] font-bold text-[#0F172A]">Order #8492</p>
             <p className="text-[8px] text-slate-400">Total: KES 14,500</p>
           </div>
           <span className="text-[8px] font-extrabold text-emerald-600 bg-emerald-50 px-2 py-1 rounded">Paid</span>
@@ -178,7 +178,7 @@ function ProjectUiMockup({ type }: { type: RealProjectCardData['mockupType'] }) 
       <div className="w-full h-24 bg-gradient-to-br from-amber-50 to-orange-50/60 rounded-xl p-2.5 flex flex-col justify-between border border-amber-100/60">
         <div className="flex items-center gap-1.5">
           <Bot size={13} className="text-amber-600" />
-          <span className="text-[10px] font-bold text-[#07152F]">AI Assistant Console</span>
+          <span className="text-[10px] font-bold text-[#0F172A]">AI Assistant Console</span>
         </div>
         <div className="bg-white p-1.5 rounded-lg border border-slate-100 space-y-1">
           <p className="text-[8px] text-slate-500 font-mono">&gt; Processing query: "API docs..."</p>
@@ -194,7 +194,7 @@ function ProjectUiMockup({ type }: { type: RealProjectCardData['mockupType'] }) 
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5">
           <Database size={13} className="text-violet-600" />
-          <span className="text-[10px] font-bold text-[#07152F]">Database & Analytics</span>
+          <span className="text-[10px] font-bold text-[#0F172A]">Database & Analytics</span>
         </div>
         <Activity size={12} className="text-violet-500" />
       </div>
@@ -222,29 +222,30 @@ export default function FeaturedProjectsSection() {
   );
 
   return (
-    <section ref={ref} id="projects" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-5 sm:px-8">
+    <section ref={ref} id="projects" className="py-20 bg-[#F8FAFC]">
+      <div
+        className="max-w-7xl mx-auto px-5 sm:px-8"
+        style={{
+          opacity: isVisible ? 1 : 0,
+          transform: isVisible ? 'translateY(0)' : 'translateY(24px)',
+          transition: 'opacity 600ms cubic-bezier(0.22, 1, 0.36, 1), transform 600ms cubic-bezier(0.22, 1, 0.36, 1)',
+        }}
+      >
 
         {/* Header */}
-        <div
-          className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 transition-all duration-500"
-          style={{
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
-          }}
-        >
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
           <div>
-            <p className="text-xs font-extrabold uppercase tracking-widest text-primary mb-2">DISCOVER</p>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#07152F] tracking-tight">
+            <p className="text-xs font-extrabold uppercase tracking-widest text-[#2563eb] mb-2">DISCOVER</p>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">
               Explore projects
             </h2>
-            <p className="text-slate-500 mt-2 text-sm">
+            <p className="text-slate-600 mt-2 text-base">
               Opportunities from businesses looking for skilled developers.
             </p>
           </div>
           <Link
             to="/projects"
-            className="inline-flex items-center gap-1.5 text-sm font-bold text-primary hover:text-primary-600 transition-colors flex-shrink-0"
+            className="inline-flex items-center gap-1.5 text-sm font-bold text-[#2563eb] hover:text-blue-800 transition-colors flex-shrink-0"
           >
             View all projects <ArrowRight size={15} />
           </Link>
@@ -256,10 +257,10 @@ export default function FeaturedProjectsSection() {
             <button
               key={f}
               onClick={() => setActiveFilter(f)}
-              className={`px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
+              className={`px-5 py-2 rounded-full text-sm font-semibold transition-all cursor-pointer ${
                 activeFilter === f
-                  ? 'bg-primary text-white shadow-xs'
-                  : 'bg-slate-100 text-slate-600 hover:bg-primary/10 hover:text-primary'
+                  ? 'bg-[#2563eb] text-white shadow-sm'
+                  : 'bg-white text-slate-700 border border-slate-200 hover:bg-blue-50 hover:text-[#2563eb]'
               }`}
             >
               {f}
@@ -269,15 +270,10 @@ export default function FeaturedProjectsSection() {
 
         {/* Project Cards Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProjects.map((project, i) => (
+          {filteredProjects.map((project) => (
             <div
               key={project.id}
-              className="group bg-white rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md hover:border-primary/30 transition-all duration-300 overflow-hidden flex flex-col p-5 gap-4"
-              style={{
-                opacity: isVisible ? 1 : 0,
-                transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
-                transitionDelay: `${i * 70}ms`,
-              }}
+              className="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-400 transition-all duration-300 overflow-hidden flex flex-col p-5 gap-4"
             >
               {/* Product Visual UI Mockup */}
               <ProjectUiMockup type={project.mockupType} />
@@ -295,10 +291,10 @@ export default function FeaturedProjectsSection() {
 
               {/* Title & Description */}
               <div className="flex-1">
-                <h3 className="font-bold text-[#07152F] text-base leading-snug mb-1.5 group-hover:text-primary transition-colors">
+                <h3 className="font-bold text-[#0F172A] text-base leading-snug mb-1.5 group-hover:text-[#2563eb] transition-colors">
                   {project.title}
                 </h3>
-                <p className="text-xs text-slate-500 leading-relaxed line-clamp-2">
+                <p className="text-sm text-slate-600 leading-relaxed line-clamp-2">
                   {project.description}
                 </p>
               </div>
@@ -308,7 +304,7 @@ export default function FeaturedProjectsSection() {
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600"
+                    className="text-[11px] font-semibold px-2.5 py-1 rounded-md bg-slate-100 text-slate-700"
                   >
                     {tag}
                   </span>
@@ -316,21 +312,21 @@ export default function FeaturedProjectsSection() {
               </div>
 
               {/* Meta & CTA */}
-              <div className="flex items-center justify-between pt-3 border-t border-slate-100">
+              <div className="flex items-center justify-between pt-4 border-t border-slate-100">
                 <div>
-                  <p className="text-xs font-extrabold text-[#07152F]">{project.budgetLabel}</p>
-                  <div className="flex items-center gap-3 mt-0.5">
-                    <span className="flex items-center gap-1 text-[10px] text-slate-500 font-medium">
-                      <Clock3 size={11} /> {project.timeline}
+                  <p className="text-sm font-extrabold text-[#0F172A]">{project.budgetLabel}</p>
+                  <div className="flex items-center gap-3 mt-1">
+                    <span className="flex items-center gap-1 text-[11px] text-slate-500 font-medium">
+                      <Clock3 size={12} /> {project.timeline}
                     </span>
-                    <span className="flex items-center gap-1 text-[10px] text-slate-500 font-medium">
-                      <Users size={11} /> {project.proposals} proposals
+                    <span className="flex items-center gap-1 text-[11px] text-slate-500 font-medium">
+                      <Users size={12} /> {project.proposals} proposals
                     </span>
                   </div>
                 </div>
                 <Link
                   to={`/projects?id=${project.id}`}
-                  className="px-3.5 py-1.5 rounded-lg bg-primary/10 text-primary text-xs font-bold hover:bg-primary hover:text-white transition-all"
+                  className="px-4 py-2 rounded-full bg-blue-50 text-[#2563eb] text-xs font-bold hover:bg-[#2563eb] hover:text-white transition-colors"
                 >
                   View
                 </Link>
