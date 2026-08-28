@@ -6,7 +6,11 @@
 
 @layer base {
   body {
-    @apply bg-surface text-hero-text font-sans antialiased;
+    background-color: #F5F8FC;
+    color: #172033;
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* Smooth scrolling for anchor links */
