@@ -1,6 +1,7 @@
 import LandingNavbar from '../../../components/landing/LandingNavbar';
 import HeroSection from '../../../components/landing/HeroSection';
-import TrustStats from '../../../components/landing/StatsSection';
+import PartnersCarousel from '../../../components/landing/PartnersCarousel';
+import StatsSection from '../../../components/landing/StatsSection';
 import PopularServicesSection from '../../../components/landing/PopularServicesSection';
 import WhoItsForSection from '../../../components/landing/WhoItsForSection';
 import FeaturedProjectsSection from '../../../components/landing/FeaturedProjectsSection';
@@ -50,7 +51,8 @@ export default function LandingPage() {
         <LandingNavbar />
         <main>
           <HeroSection />
-          <TrustStats />
+          <PartnersCarousel />
+          <StatsSection />
           <PopularServicesSection />
           <WhoItsForSection />
           <FeaturedProjectsSection />

@@ -9,23 +9,23 @@ export default function FinalCTA() {
     <section ref={ref} className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
         <div
-          className="relative rounded-3xl bg-gradient-to-br from-primary via-primary-600 to-navy-700 text-white p-10 sm:p-16 text-center overflow-hidden shadow-xl shadow-primary/20 transition-all duration-500"
+          className="relative rounded-3xl bg-gradient-to-br from-[#07152F] via-[#0D45AD] to-[#1769FF] text-white p-10 sm:p-16 text-center overflow-hidden shadow-xl shadow-primary/25 transition-all duration-500"
           style={{
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
           }}
         >
           {/* Subtle background glow */}
-          <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
             <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-white/10 blur-3xl" />
             <div className="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-sky-400/20 blur-3xl" />
           </div>
 
           <div className="relative z-10 max-w-2xl mx-auto space-y-6">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
-              Build something great with the right developer.
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight text-white">
+              From idea to delivery, together.
             </h2>
-            <p className="text-blue-100 text-base sm:text-lg leading-relaxed">
+            <p className="text-blue-100 text-base sm:text-lg leading-relaxed font-normal">
               Whether you're hiring or looking for your next opportunity, PataDev helps you move from idea to delivery.
             </p>
 
@@ -39,9 +39,9 @@ export default function FinalCTA() {
               </Link>
               <Link
                 to="/projects"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-white/10 text-white font-bold text-sm border border-white/20 hover:bg-white/20 transition-all backdrop-blur-md"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-white/10 text-white font-bold text-sm border border-white/30 hover:bg-white/20 transition-all backdrop-blur-md"
               >
-                Find Projects
+                Find Developers
               </Link>
             </div>
           </div>

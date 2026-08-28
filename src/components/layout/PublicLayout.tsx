@@ -20,7 +20,7 @@ export default function PublicLayout() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
+      {!hideNavbar && <Navbar />}
       <main className="flex-1">
         <Outlet />
       </main>
