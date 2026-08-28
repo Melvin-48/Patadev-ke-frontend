@@ -18,7 +18,7 @@ const TESTIMONIALS: TestimonialItem[] = [
     clientName: 'David Mwangi',
     businessRole: 'Founder, RetailPay Kenya',
     initials: 'DM',
-    color: 'bg-primary/10 text-primary',
+    color: 'bg-blue-50 text-primary',
   },
   {
     id: 't2',
@@ -26,7 +26,7 @@ const TESTIMONIALS: TestimonialItem[] = [
     clientName: 'Amina Omondi',
     businessRole: 'Product Director, CareSync',
     initials: 'AO',
-    color: 'bg-emerald-100 text-emerald-700',
+    color: 'bg-emerald-50 text-emerald-700',
   },
   {
     id: 't3',
@@ -34,7 +34,7 @@ const TESTIMONIALS: TestimonialItem[] = [
     clientName: 'Brian Kipchumba',
     businessRole: 'CTO, AgriTech Solutions',
     initials: 'BK',
-    color: 'bg-violet-100 text-violet-700',
+    color: 'bg-violet-50 text-violet-700',
   },
   {
     id: 't4',
@@ -42,7 +42,7 @@ const TESTIMONIALS: TestimonialItem[] = [
     clientName: 'Grace Wambui',
     businessRole: 'Operations Lead, Uniflow Kenya',
     initials: 'GW',
-    color: 'bg-amber-100 text-amber-700',
+    color: 'bg-amber-50 text-amber-700',
   },
 ];
 
@@ -52,13 +52,13 @@ export default function TrustIndicator() {
   const { ref, isVisible } = useScrollReveal();
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Auto-play feature (5s interval, pauses on hover)
+  // Autoplay (6 seconds, pauses on interaction)
   useEffect(() => {
     if (isPaused) return;
 
     timerRef.current = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % TESTIMONIALS.length);
-    }, 5000);
+    }, 6000);
 
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
@@ -94,11 +94,11 @@ export default function TrustIndicator() {
           </p>
         </div>
 
-        {/* Testimonial Carousel Card Container */}
+        {/* Testimonial Carousel Solid Card Container */}
         <div
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
-          className="relative bg-gradient-to-b from-[#F8FAFC] to-white rounded-3xl border border-slate-200/80 p-8 sm:p-12 shadow-sm transition-all duration-500"
+          className="relative bg-[#F8FAFC] rounded-3xl border border-slate-200/80 p-8 sm:p-12 shadow-2xs transition-all duration-500"
           style={{
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
@@ -113,7 +113,7 @@ export default function TrustIndicator() {
             </p>
 
             <div className="flex items-center gap-3">
-              <div className={`w-11 h-11 rounded-xl ${TESTIMONIALS[currentIndex].color} font-extrabold text-sm flex items-center justify-center flex-shrink-0 shadow-2xs`}>
+              <div className={`w-11 h-11 rounded-full ${TESTIMONIALS[currentIndex].color} font-extrabold text-sm flex items-center justify-center flex-shrink-0 border border-slate-200/60`}>
                 {TESTIMONIALS[currentIndex].initials}
               </div>
               <div>
@@ -128,7 +128,7 @@ export default function TrustIndicator() {
           </div>
 
           {/* Carousel Controls (Prev/Next & Dots) */}
-          <div className="flex items-center justify-between pt-8 mt-6 border-t border-slate-200/60">
+          <div className="flex items-center justify-between pt-8 mt-6 border-t border-slate-200/80">
             
             {/* Pagination Dots */}
             <div className="flex items-center gap-2">
@@ -144,18 +144,18 @@ export default function TrustIndicator() {
               ))}
             </div>
 
-            {/* Arrows */}
+            {/* Previous & Next Buttons */}
             <div className="flex items-center gap-2">
               <button
                 onClick={handlePrev}
-                className="w-9 h-9 rounded-xl border border-slate-200 bg-white text-slate-700 hover:text-primary hover:border-primary/40 flex items-center justify-center transition-all cursor-pointer shadow-2xs"
+                className="w-10 h-10 rounded-full border border-slate-200 bg-white text-slate-700 hover:text-primary hover:border-primary/40 flex items-center justify-center transition-all cursor-pointer shadow-2xs"
                 aria-label="Previous testimonial"
               >
                 <ChevronLeft size={18} />
               </button>
               <button
                 onClick={handleNext}
-                className="w-9 h-9 rounded-xl border border-slate-200 bg-white text-slate-700 hover:text-primary hover:border-primary/40 flex items-center justify-center transition-all cursor-pointer shadow-2xs"
+                className="w-10 h-10 rounded-full border border-slate-200 bg-white text-slate-700 hover:text-primary hover:border-primary/40 flex items-center justify-center transition-all cursor-pointer shadow-2xs"
                 aria-label="Next testimonial"
               >
                 <ChevronRight size={18} />

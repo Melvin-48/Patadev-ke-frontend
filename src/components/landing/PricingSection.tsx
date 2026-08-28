@@ -26,7 +26,7 @@ export default function PricingSection() {
 
           {/* ── FOR BUSINESSES ── */}
           <div
-            className="bg-gradient-to-br from-primary/8 to-primary/4 border border-primary/15 rounded-3xl p-8 flex flex-col gap-6 transition-all duration-500"
+            className="bg-[#F8FAFC] border border-blue-100 rounded-3xl p-8 flex flex-col gap-6 transition-all duration-500 shadow-2xs"
             style={{
               opacity: isVisible ? 1 : 0,
               transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
@@ -45,17 +45,17 @@ export default function PricingSection() {
 
             <ul className="flex flex-col gap-3">
               {CLIENT_BENEFITS.map((b) => (
-                <li key={b} className="flex items-start gap-2.5 text-sm text-slate-700">
+                <li key={b} className="flex items-start gap-2.5 text-sm text-slate-700 font-medium">
                   <CheckCircle size={16} className="text-primary mt-0.5 flex-shrink-0" />
                   {b}
                 </li>
               ))}
             </ul>
 
-            <div className="mt-auto">
+            <div className="mt-auto pt-2">
               <Link
                 to="/signup"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-bold text-sm hover:bg-primary-600 transition-all shadow-md shadow-primary/25 hover:shadow-lg"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-white font-bold text-sm hover:bg-primary-600 transition-colors shadow-xs"
               >
                 Post a Project <ArrowRight size={15} strokeWidth={2.5} />
               </Link>
@@ -64,7 +64,7 @@ export default function PricingSection() {
 
           {/* ── FOR DEVELOPERS ── */}
           <div
-            className="bg-gradient-to-br from-violet-50 to-indigo-50/50 border border-violet-100 rounded-3xl p-8 flex flex-col gap-6 transition-all duration-500"
+            className="bg-[#F8FAFC] border border-violet-100 rounded-3xl p-8 flex flex-col gap-6 transition-all duration-500 shadow-2xs"
             style={{
               opacity: isVisible ? 1 : 0,
               transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
@@ -83,17 +83,17 @@ export default function PricingSection() {
 
             <ul className="flex flex-col gap-3">
               {DEV_BENEFITS.map((b) => (
-                <li key={b} className="flex items-start gap-2.5 text-sm text-slate-700">
+                <li key={b} className="flex items-start gap-2.5 text-sm text-slate-700 font-medium">
                   <CheckCircle size={16} className="text-violet-600 mt-0.5 flex-shrink-0" />
                   {b}
                 </li>
               ))}
             </ul>
 
-            <div className="mt-auto">
+            <div className="mt-auto pt-2">
               <Link
                 to="/projects"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-violet-600 text-white font-bold text-sm hover:bg-violet-700 transition-all shadow-md shadow-violet-300/30 hover:shadow-lg"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-violet-600 text-white font-bold text-sm hover:bg-violet-700 transition-colors shadow-xs"
               >
                 Find Projects <ArrowRight size={15} strokeWidth={2.5} />
               </Link>

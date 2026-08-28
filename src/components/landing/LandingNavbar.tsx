@@ -17,17 +17,16 @@ const NAV_ITEMS: NavItem[] = [
 ];
 
 export default function LandingNavbar() {
-  const [menuOpen, setMenuOpen]       = useState(false);
-  const [scrolled, setScrolled]       = useState(false);
+  const [menuOpen, setMenuOpen]           = useState(false);
+  const [scrolled, setScrolled]           = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const navigate = useNavigate();
 
-  // Handle scroll effect & section active state detection
+  // Handle scroll detection and section awareness
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      // Section awareness
       const scrollPos = window.scrollY + 140;
       const sectionIds = ['home', 'categories', 'projects', 'how-it-works'];
 
@@ -48,7 +47,6 @@ export default function LandingNavbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Handle window resize
   useEffect(() => {
     const onResize = () => {
       if (window.innerWidth >= 1024) setMenuOpen(false);
@@ -75,16 +73,16 @@ export default function LandingNavbar() {
   return (
     <header
       className={cn(
-        'fixed top-0 inset-x-0 z-50 transition-all duration-300 ease-out flex justify-center px-4',
-        scrolled ? 'pt-3' : 'pt-0',
+        'fixed top-0 inset-x-0 z-50 transition-all duration-300 ease-out flex justify-center',
+        scrolled ? 'pt-3 px-4' : 'pt-0 px-0',
       )}
     >
       <div
         className={cn(
-          'w-full transition-all duration-300 ease-out flex items-center justify-between gap-4',
+          'w-full bg-white transition-all duration-300 ease-out flex items-center justify-between gap-4',
           scrolled
-            ? 'max-w-5xl h-14 px-6 rounded-full bg-white/90 backdrop-blur-xl border border-slate-200/70 shadow-md shadow-slate-200/50'
-            : 'max-w-7xl h-16 px-5 sm:px-8 rounded-none bg-white/60 backdrop-blur-md border-none shadow-none',
+            ? 'max-w-5xl h-14 px-6 rounded-full border border-slate-200 shadow-md shadow-slate-200/50'
+            : 'max-w-7xl h-16 px-5 sm:px-8 rounded-none border-none shadow-none',
         )}
       >
         {/* ── Brand Logo ── */}
@@ -93,7 +91,7 @@ export default function LandingNavbar() {
           className="flex items-center gap-2 flex-shrink-0 group"
           aria-label="PataDev Ke Home"
         >
-          <span className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center text-white shadow-xs group-hover:bg-primary-600 transition-colors">
+          <span className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center text-white shadow-2xs group-hover:bg-primary-600 transition-colors">
             <Code2 size={16} strokeWidth={2.5} />
           </span>
           <span className="font-extrabold text-base text-[#07152F] tracking-tight leading-none">
@@ -101,7 +99,7 @@ export default function LandingNavbar() {
           </span>
         </Link>
 
-        {/* ── Centered Nav Links (Desktop) ── */}
+        {/* ── Centered Navigation Links ── */}
         <nav className="hidden lg:flex items-center gap-1">
           {NAV_ITEMS.map((item) => {
             const isActive = activeSection === item.id;
@@ -110,10 +108,10 @@ export default function LandingNavbar() {
                 key={item.label}
                 onClick={() => handleNavClick(item.href)}
                 className={cn(
-                  'px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 cursor-pointer',
+                  'px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 cursor-pointer',
                   isActive
-                    ? 'bg-primary/10 text-primary font-bold'
-                    : 'text-slate-600 hover:text-primary hover:bg-slate-100/60',
+                    ? 'bg-blue-50 text-primary font-semibold'
+                    : 'text-slate-600 hover:text-primary hover:bg-slate-100/70',
                 )}
               >
                 {item.label}
@@ -126,13 +124,13 @@ export default function LandingNavbar() {
         <div className="hidden lg:flex items-center gap-2.5">
           <Link
             to="/login"
-            className="px-4 py-2 rounded-xl text-xs font-bold text-[#07152F] hover:text-primary hover:bg-slate-100 transition-colors"
+            className="px-4 py-2 rounded-full text-xs font-semibold text-[#07152F] bg-white border border-slate-200 hover:bg-slate-50 hover:text-primary transition-colors shadow-2xs"
           >
             Log In
           </Link>
           <Link
             to="/signup"
-            className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-primary hover:bg-primary-600 transition-all shadow-xs shadow-primary/20"
+            className="px-5 py-2 rounded-full text-xs font-semibold text-white bg-primary hover:bg-primary-600 transition-colors shadow-xs"
           >
             Sign Up
           </Link>
@@ -150,7 +148,7 @@ export default function LandingNavbar() {
 
       {/* ── Mobile Drawer ── */}
       {menuOpen && (
-        <div className="lg:hidden absolute top-full inset-x-4 mt-2 bg-white/95 backdrop-blur-xl border border-slate-200/80 rounded-2xl p-4 space-y-1 shadow-xl">
+        <div className="lg:hidden absolute top-full inset-x-4 mt-2 bg-white border border-slate-200 rounded-2xl p-4 space-y-1 shadow-lg">
           {NAV_ITEMS.map((item) => {
             const isActive = activeSection === item.id;
             return (
@@ -158,9 +156,9 @@ export default function LandingNavbar() {
                 key={item.label}
                 onClick={() => handleNavClick(item.href)}
                 className={cn(
-                  'w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold transition-all',
+                  'w-full text-left px-4 py-2.5 rounded-full text-sm font-medium transition-all',
                   isActive
-                    ? 'bg-primary/10 text-primary font-bold'
+                    ? 'bg-blue-50 text-primary font-semibold'
                     : 'text-slate-700 hover:text-primary hover:bg-slate-50',
                 )}
               >
@@ -172,14 +170,14 @@ export default function LandingNavbar() {
             <Link
               to="/login"
               onClick={() => setMenuOpen(false)}
-              className="w-full text-center py-2.5 rounded-xl text-sm font-bold text-[#07152F] border border-slate-200 hover:bg-slate-50 transition-all"
+              className="w-full text-center py-2.5 rounded-full text-sm font-semibold text-[#07152F] bg-white border border-slate-200 hover:bg-slate-50 transition-all"
             >
               Log In
             </Link>
             <Link
               to="/signup"
               onClick={() => setMenuOpen(false)}
-              className="w-full text-center py-2.5 rounded-xl text-sm font-bold text-white bg-primary hover:bg-primary-600 transition-all shadow-xs"
+              className="w-full text-center py-2.5 rounded-full text-sm font-semibold text-white bg-primary hover:bg-primary-600 transition-all shadow-xs"
             >
               Sign Up
             </Link>

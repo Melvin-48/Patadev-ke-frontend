@@ -9,7 +9,7 @@ export default function FinalCTA() {
     <section ref={ref} className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
         <div
-          className="rounded-3xl bg-gradient-to-br from-[#EFF6FF] via-[#F5F9FF] to-[#DBEAFE] border border-blue-100/80 p-10 sm:p-16 text-center shadow-xs transition-all duration-500"
+          className="rounded-3xl bg-[#F8FAFC] border border-slate-200/80 p-10 sm:p-16 text-center shadow-2xs transition-all duration-500"
           style={{
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
@@ -26,14 +26,14 @@ export default function FinalCTA() {
             <div className="flex flex-wrap items-center justify-center gap-4 pt-3">
               <Link
                 to="/signup"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-primary text-white font-bold text-sm hover:bg-primary-600 transition-all shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-primary text-white font-bold text-sm hover:bg-primary-600 transition-all shadow-md shadow-primary/20"
               >
                 Post a Project
                 <ArrowRight size={16} strokeWidth={2.5} />
               </Link>
               <Link
                 to="/projects"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-white text-[#07152F] font-bold text-sm border border-slate-200 hover:border-primary/40 hover:bg-slate-50 transition-all shadow-xs"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white text-[#07152F] font-bold text-sm border border-slate-200 hover:bg-slate-50 transition-all shadow-2xs"
               >
                 Find Developers
               </Link>
