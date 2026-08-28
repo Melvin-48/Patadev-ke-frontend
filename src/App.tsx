@@ -86,7 +86,7 @@ function Avatar({ initials, color = 'blue', small = false }: { initials: string;
   return <span className={`avatar avatar-${color} ${small ? 'avatar-small' : ''}`}>{initials}</span>;
 }
 
-function App() {
+function MockDashboard() {
   const [role, setRole] = useState<Role>('client');
   const [view, setView] = useState<View>('overview');
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -239,4 +239,4 @@ function Footer({ go, notify }: { go: (view: View) => void; notify: (message: st
   );
 }
 
-export default App;
+export default MockDashboard;

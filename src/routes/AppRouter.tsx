@@ -15,6 +15,9 @@ import ForgotPasswordPage from '../features/auth/pages/ForgotPasswordPage';
 import ClientOnboardingPage from '../features/users/pages/ClientOnboardingPage';
 import DeveloperOnboardingPage from '../features/users/pages/DeveloperOnboardingPage';
 
+// Mock Dashboard from origin/main (full self-contained SPA shell)
+import MockDashboard from '../App';
+
 import ClientDashboard from '../features/projects/pages/ClientDashboard';
 import PostProjectPage from '../features/projects/pages/PostProjectPage';
 
@@ -31,6 +34,7 @@ export default function AppRouter() {
     <Routes>
       {/* Public Routes */}
       <Route element={<PublicLayout />}>
+        {/* Your landing page stays at / */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/projects" element={<BrowseProjectsPage />} />
         <Route path="/login" element={<LoginPage />} />
@@ -41,10 +45,17 @@ export default function AppRouter() {
         <Route path="/onboarding/developer" element={<DeveloperOnboardingPage />} />
       </Route>
 
-      {/* Client Routes */}
+      {/*
+       * /dashboard — the mock frontend pulled from origin/main.
+       * Rendered outside any layout wrapper since it's a fully
+       * self-contained shell with its own sidebar + topbar.
+       * Auth guard is bypassed for design/preview phase.
+       */}
+      <Route path="/dashboard" element={<MockDashboard />} />
+
+      {/* Client Routes (real authenticated dashboard) */}
       <Route element={<ProtectedRoute allowedRoles={['CLIENT', 'ADMIN']} />}>
         <Route element={<ClientLayout />}>
-          <Route path="/dashboard" element={<ClientDashboard />} />
           <Route path="/client/dashboard" element={<ClientDashboard />} />
           <Route path="/client/projects/new" element={<PostProjectPage />} />
           <Route path="/dashboard/projects/new" element={<PostProjectPage />} />
