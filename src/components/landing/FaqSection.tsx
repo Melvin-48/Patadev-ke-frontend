@@ -1,110 +1,105 @@
 import { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { Plus, Minus } from 'lucide-react';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
 import { cn } from '../../lib/utils';
 
 const FAQS = [
   {
-    q: 'What is PataDev Ke?',
-    a: 'PataDev Ke is Kenya’s developer-business marketplace. We connect local businesses looking to build web and mobile applications with vetted, skilled developers.',
+    q: 'How does PataDev Ke work?',
+    a: 'PataDev Ke connects Kenyan businesses with verified local developers. Businesses post projects, developers submit proposals, and the work is completed securely through milestone-based payments.'
   },
   {
-    q: 'How do I post a project?',
-    a: 'Simply click "Post a Project", describe what you want to build, specify your estimated budget and timeline, and publish. Skilled developers will review your brief and submit proposals.',
+    q: 'How do businesses find developers?',
+    a: 'Businesses can either post a project and receive proposals directly from interested developers, or they can browse our directory of categorized developer services and invite them to bid.'
   },
   {
     q: 'How do developers submit proposals?',
-    a: 'Developers can browse open project listings, review the project requirements, and submit a detailed proposal outlining their approach, cost, and milestone schedule.',
-  },
-  {
-    q: 'How do milestones work?',
-    a: 'Projects are split into clear milestones (e.g. Design, Core Build, Testing, Launch). Funds for each milestone are held securely in escrow and released to the developer once you approve the completed work.',
+    a: 'Once a developer creates a profile and gets verified, they can browse the "Find Projects" board and submit custom proposals, including timelines and milestone breakdowns.'
   },
   {
     q: 'How are project payments handled?',
-    a: 'Payments are made in KES. You fund each milestone before work begins. Once you review and approve the completed milestone deliverable, payment is transferred to the developer.',
+    a: 'Payments are held securely in escrow by PataDev Ke before the project (or milestone) begins. Funds are only released to the developer once the business approves the completed work.'
   },
   {
-    q: 'How does the platform fee work?',
-    a: 'PataDev Ke charges a simple, transparent platform fee of 6% to cover payment infrastructure, escrow protection, and continuous support.',
+    q: 'What are milestones?',
+    a: 'Milestones are specific, measurable stages of a project (e.g., "Design Approval", "Database Setup", "Final Delivery"). They help organize the workflow and tie payments to clear deliverables.'
   },
+  {
+    q: 'What is the platform fee?',
+    a: 'PataDev Ke charges a flat 6% platform fee on all transactions. This covers payment processing, escrow services, and platform maintenance. There are no hidden fees.'
+  },
+  {
+    q: 'Can I communicate with a developer before hiring?',
+    a: 'Yes. Once a developer submits a proposal, you can use our built-in messaging system to ask questions, clarify requirements, and ensure they are the right fit before accepting their bid.'
+  },
+  {
+    q: 'How are payments released?',
+    a: 'Upon completion of a milestone, the developer requests payment. The business reviews the work, and upon approval, the funds in escrow for that specific milestone are released to the developer.'
+  }
 ];
 
 export default function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const { ref, isVisible } = useScrollReveal();
 
-  const toggle = (i: number) => {
-    setOpenIndex(openIndex === i ? null : i);
+  const toggleFaq = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
-    <section ref={ref} id="faqs" className="py-20 bg-[#F8FAFC]">
-      <div className="max-w-3xl mx-auto px-5 sm:px-8">
-        
+    <section ref={ref} id="faq" className="py-24 bg-[#F8FAFC]">
+      <div
+        className="max-w-3xl mx-auto px-5 sm:px-8"
+        style={{
+          opacity: isVisible ? 1 : 0,
+          transform: isVisible ? 'translateY(0)' : 'translateY(24px)',
+          transition: 'opacity 600ms cubic-bezier(0.22, 1, 0.36, 1), transform 600ms cubic-bezier(0.22, 1, 0.36, 1)',
+        }}
+      >
         {/* Header */}
-        <div
-          className="text-center mb-12 transition-all duration-500"
-          style={{
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
-          }}
-        >
-          <p className="text-xs font-extrabold uppercase tracking-widest text-primary mb-2">FAQ</p>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#07152F] tracking-tight">
-            Frequently Asked Questions
+        <div className="text-center mb-16">
+          <p className="text-xs font-extrabold uppercase tracking-widest text-[#2563EB] mb-3">Support</p>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">
+            Frequently asked questions
           </h2>
-          <p className="text-slate-500 mt-2 text-sm">
-            Everything you need to know about getting started on PataDev Ke.
-          </p>
         </div>
 
-        {/* Smooth CSS Grid Height Accordions */}
-        <div className="space-y-3">
-          {FAQS.map((faq, i) => {
-            const isOpen = openIndex === i;
+        {/* Accordion */}
+        <div className="space-y-4">
+          {FAQS.map((faq, index) => {
+            const isOpen = openIndex === index;
             return (
               <div
-                key={faq.q}
-                className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden transition-all duration-200"
-                style={{
-                  opacity: isVisible ? 1 : 0,
-                  transform: isVisible ? 'translateY(0)' : 'translateY(15px)',
-                  transitionDelay: `${i * 60}ms`,
-                }}
+                key={index}
+                className={cn(
+                  'border border-slate-200 rounded-2xl bg-white overflow-hidden transition-all duration-300',
+                  isOpen ? 'shadow-md border-[#2563EB]/30' : 'shadow-sm hover:border-slate-300'
+                )}
               >
                 <button
-                  onClick={() => toggle(i)}
-                  className="w-full px-6 py-4 text-left flex items-center justify-between gap-4 text-[#07152F] font-bold text-sm sm:text-base hover:text-primary transition-colors cursor-pointer"
+                  onClick={() => toggleFaq(index)}
+                  className="w-full flex items-center justify-between p-6 text-left focus:outline-none"
+                  aria-expanded={isOpen}
                 >
-                  <span>{faq.q}</span>
-                  <ChevronDown
-                    size={18}
-                    className={cn(
-                      'text-slate-400 flex-shrink-0 transition-transform duration-300',
-                      isOpen && 'rotate-180 text-primary',
-                    )}
-                  />
+                  <span className={cn('text-base font-bold', isOpen ? 'text-[#2563EB]' : 'text-[#0F172A]')}>
+                    {faq.q}
+                  </span>
+                  <span className={cn('flex-shrink-0 ml-4 transition-transform duration-300', isOpen ? 'text-[#2563EB]' : 'text-slate-400')}>
+                    {isOpen ? <Minus size={20} /> : <Plus size={20} />}
+                  </span>
                 </button>
-
-                {/* Smooth CSS Grid Expand/Collapse Container */}
                 <div
-                  className={cn(
-                    'grid transition-all duration-300 ease-in-out',
-                    isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0',
-                  )}
+                  className="overflow-hidden transition-all duration-500 ease-in-out"
+                  style={{ maxHeight: isOpen ? '200px' : '0px', opacity: isOpen ? 1 : 0 }}
                 >
-                  <div className="overflow-hidden">
-                    <div className="px-6 pb-5 pt-1 text-sm text-slate-500 leading-relaxed border-t border-slate-100">
-                      {faq.a}
-                    </div>
-                  </div>
+                  <p className="px-6 pb-6 text-slate-600 text-[15px] leading-relaxed">
+                    {faq.a}
+                  </p>
                 </div>
               </div>
             );
           })}
         </div>
-
       </div>
     </section>
   );
