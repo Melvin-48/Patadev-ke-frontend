@@ -48,12 +48,12 @@ export default function LandingFooter() {
           </div>
 
           <div>
-            <h3 className="font-bold text-white mb-5 tracking-wide text-sm">PLATFORM</h3>
+            <h3 className="font-bold text-white mb-5 tracking-wide text-sm">SUPPORT</h3>
             <ul className="space-y-3">
-              <li><a href="#" className="text-sm text-white/80 hover:text-white transition-colors">About PataDev</a></li>
-              <li><a href="#" className="text-sm text-white/80 hover:text-white transition-colors">FAQs</a></li>
               <li><a href="#" className="text-sm text-white/80 hover:text-white transition-colors">Help Center</a></li>
-              <li><a href="#" className="text-sm text-white/80 hover:text-white transition-colors">Contact Support</a></li>
+              <li><a href="#" className="text-sm text-white/80 hover:text-white transition-colors">FAQs</a></li>
+              <li><Link to="/terms" className="text-sm text-white/80 hover:text-white transition-colors">Terms of Service</Link></li>
+              <li><Link to="/privacy" className="text-sm text-white/80 hover:text-white transition-colors">Privacy Policy</Link></li>
             </ul>
           </div>
 
@@ -68,8 +68,8 @@ export default function LandingFooter() {
             </p>
           </div>
           <div className="flex items-center gap-6">
-            <a href="#" className="text-sm text-white/70 hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="text-sm text-white/70 hover:text-white transition-colors">Terms of Service</a>
+            <Link to="/privacy" className="text-sm text-white/70 hover:text-white transition-colors">Privacy Policy</Link>
+            <Link to="/terms" className="text-sm text-white/70 hover:text-white transition-colors">Terms of Service</Link>
           </div>
         </div>
 
