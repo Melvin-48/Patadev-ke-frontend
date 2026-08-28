@@ -6,13 +6,10 @@ import { cn } from '../../../lib/utils';
 import AuthLayout from '../../../components/auth/AuthLayout';
 import AuthSocialButtons from '../../../components/auth/AuthSocialButtons';
 
-type UserRole = 'CLIENT' | 'DEVELOPER';
-
 export default function RegisterPage() {
   const navigate = useNavigate();
   const { register } = useAuth();
 
-  const [role, setRole] = useState<UserRole>('CLIENT');
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -81,16 +78,12 @@ export default function RegisterPage() {
 
       // ────── 3-Second Loader Cycle ──────
       await Promise.all([
-        register(email, password, role, fullName),
+        register(email, password, 'CLIENT', fullName), // Default role until onboarding
         new Promise((resolve) => setTimeout(resolve, 3000)),
       ]);
 
-      // Navigate to role-specific onboarding flow
-      if (role === 'CLIENT') {
-        navigate('/onboarding/client');
-      } else {
-        navigate('/onboarding/developer');
-      }
+      // Navigate to main onboarding flow
+      navigate('/onboarding');
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Registration failed. Please try again.';
       setError(errorMessage);
@@ -115,37 +108,6 @@ Connect smarter."
         </span>
       }
     >
-      {/* Role Selection Segmented Control */}
-      <div className="mb-4">
-        <label className="block text-xs font-bold text-[#07152F] mb-1">Account Type</label>
-        <div className="grid grid-cols-2 rounded-lg bg-slate-100 p-1 border border-slate-200/60">
-          <button
-            type="button"
-            onClick={() => setRole('CLIENT')}
-            className={cn(
-              'py-1.5 px-3 rounded-md text-xs font-bold transition-all duration-150 cursor-pointer',
-              role === 'CLIENT'
-                ? 'bg-white text-primary shadow-xs'
-                : 'text-slate-600 hover:text-[#07152F]',
-            )}
-          >
-            Client
-          </button>
-          <button
-            type="button"
-            onClick={() => setRole('DEVELOPER')}
-            className={cn(
-              'py-1.5 px-3 rounded-md text-xs font-bold transition-all duration-150 cursor-pointer',
-              role === 'DEVELOPER'
-                ? 'bg-white text-primary shadow-xs'
-                : 'text-slate-600 hover:text-[#07152F]',
-            )}
-          >
-            Developer
-          </button>
-        </div>
-      </div>
-
       {/* Error Banner */}
       {error && (
         <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-600 text-xs font-semibold flex items-center gap-2">

@@ -14,6 +14,7 @@ import RegisterPage from '../features/auth/pages/RegisterPage';
 import ForgotPasswordPage from '../features/auth/pages/ForgotPasswordPage';
 import ClientOnboardingPage from '../features/users/pages/ClientOnboardingPage';
 import DeveloperOnboardingPage from '../features/users/pages/DeveloperOnboardingPage';
+import RoleSelectionPage from '../features/users/pages/RoleSelectionPage';
 
 // Mock Dashboard from origin/main (full self-contained SPA shell)
 import MockDashboard from '../App';
@@ -41,6 +42,7 @@ export default function AppRouter() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/signup" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/onboarding" element={<RoleSelectionPage />} />
         <Route path="/onboarding/client" element={<ClientOnboardingPage />} />
         <Route path="/onboarding/developer" element={<DeveloperOnboardingPage />} />
       </Route>
