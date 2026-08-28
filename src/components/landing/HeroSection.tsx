@@ -1,12 +1,45 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Search, ArrowRight } from 'lucide-react';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
+import { cn } from '../../lib/utils';
+
+const TYPING_PHRASES = [
+  { text: 'Connect Smarter.', fontClass: 'font-sans' },
+  { text: 'Build Faster.', fontClass: 'font-mono tracking-tighter' },
+  { text: 'Scale Effortlessly.', fontClass: 'font-serif italic' },
+  { text: 'Innovate Daily.', fontClass: 'font-sans font-black' },
+];
 
 export default function HeroSection() {
   const [query, setQuery] = useState('');
   const navigate = useNavigate();
   const { ref, isVisible } = useScrollReveal();
+
+  // Typing Effect State
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(TYPING_PHRASES[0].text.length);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const currentPhrase = TYPING_PHRASES[phraseIndex].text;
+    let timeoutId: ReturnType<typeof setTimeout>;    if (!isDeleting && charIndex === currentPhrase.length) {
+      // Pause at the end of the full word
+      timeoutId = setTimeout(() => setIsDeleting(true), 2000);
+    } else if (isDeleting && charIndex === 0) {
+      // Move to next word when fully deleted
+      setIsDeleting(false);
+      setPhraseIndex((prev) => (prev + 1) % TYPING_PHRASES.length);
+    } else {
+      // Typing or deleting characters
+      const delay = isDeleting ? 40 : 80;
+      timeoutId = setTimeout(() => {
+        setCharIndex((prev) => prev + (isDeleting ? -1 : 1));
+      }, delay);
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [charIndex, isDeleting, phraseIndex]);
 
   const handleSearch = (e?: FormEvent) => {
     if (e) e.preventDefault();
@@ -18,19 +51,24 @@ export default function HeroSection() {
     }
   };
 
-  const handleSuggestionClick = (suggestion: string) => {
-    setQuery(suggestion);
-    navigate(`/projects?search=${encodeURIComponent(suggestion)}`);
-  };
+  const currentPhraseObj = TYPING_PHRASES[phraseIndex];
+  const displayedText = currentPhraseObj.text.substring(0, charIndex);
 
   return (
     <section
       id="home"
       ref={ref}
-      className="relative pt-32 pb-24 sm:pt-40 sm:pb-32 bg-[#F8FAFC]"
+      className="relative pt-20 pb-20 sm:pt-28 sm:pb-28 bg-[#F8FAFC] overflow-hidden"
     >
+      {/* Background Image with Overlay */}
+      <div 
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/assets/images/landing/patadev-hero.png')" }}
+      />
+      <div className="absolute inset-0 z-0 bg-white/90 sm:bg-white/80 backdrop-blur-[2px]" />
+
       <div
-        className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12"
+        className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 relative z-10"
         style={{
           opacity: isVisible ? 1 : 0,
           transform: isVisible ? 'translateY(0)' : 'translateY(24px)',
@@ -38,23 +76,22 @@ export default function HeroSection() {
         }}
       >
         <div className="max-w-3xl">
-          <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-blue-100/50 text-[#2563EB] text-xs font-bold mb-8 border border-blue-200 uppercase tracking-widest">
-            KENYA'S DEVELOPER-BUSINESS MARKETPLACE
-          </div>
-
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-[#0F172A] leading-[1.1] tracking-tight mb-6">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-[#0F172A] leading-[1.1] tracking-tight mb-6 min-h-[140px] sm:min-h-[160px]">
             Build Better.<br />
-            <span className="text-[#2563EB]">Connect Smarter.</span>
+            <span className={cn("text-[#2563EB]", currentPhraseObj.fontClass)}>
+              {displayedText}
+              <span className="inline-block w-1 h-[1em] bg-[#2563EB] ml-1 animate-pulse align-middle" />
+            </span>
           </h1>
 
-          <p className="text-lg sm:text-xl text-slate-600 leading-relaxed mb-10 max-w-2xl">
+          <p className="text-lg sm:text-xl text-slate-800 font-medium leading-relaxed mb-10 max-w-2xl">
             Connect businesses with skilled developers to build, launch, and grow better digital products.
           </p>
 
           {/* Marketplace Search Bar */}
           <form
             onSubmit={handleSearch}
-            className="bg-white rounded-full border border-slate-300 p-2 flex items-center gap-2 mb-6 max-w-2xl shadow-sm focus-within:border-[#2563EB] focus-within:ring-2 focus-within:ring-blue-100 transition-all"
+            className="bg-white rounded-full border border-slate-300 p-2 flex items-center gap-2 mb-10 max-w-2xl shadow-sm focus-within:border-[#2563EB] focus-within:ring-2 focus-within:ring-blue-100 transition-all"
           >
             <div className="flex-1 flex items-center gap-3 px-4">
               <Search size={22} className="text-slate-400 flex-shrink-0" />
@@ -74,21 +111,6 @@ export default function HeroSection() {
             </button>
           </form>
 
-          {/* Search Intent Suggestions */}
-          <div className="flex flex-wrap items-center gap-2 mb-12 max-w-2xl">
-            <span className="text-[13px] font-medium text-slate-500 mr-2">Popular:</span>
-            {['Web development', 'Mobile app', 'E-commerce', 'AI & Machine Learning', 'Backend development'].map((suggestion) => (
-              <button
-                key={suggestion}
-                type="button"
-                onClick={() => handleSuggestionClick(suggestion)}
-                className="text-[13px] font-medium text-slate-600 bg-white border border-slate-200 hover:bg-blue-50 hover:text-[#2563EB] hover:border-blue-200 px-3.5 py-1.5 rounded-full transition-colors cursor-pointer"
-              >
-                {suggestion}
-              </button>
-            ))}
-          </div>
-
           {/* Primary & Secondary CTAs */}
           <div className="flex flex-wrap items-center gap-4">
             <Link
@@ -100,7 +122,7 @@ export default function HeroSection() {
             </Link>
             <Link
               to="/projects"
-              className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-white text-[#0F172A] font-bold text-[15px] border border-slate-300 hover:bg-slate-50 hover:border-slate-400 transition-colors"
+              className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-white text-[#0F172A] font-bold text-[15px] border border-slate-300 hover:bg-slate-50 hover:border-slate-400 transition-colors shadow-sm"
             >
               Find Projects
             </Link>

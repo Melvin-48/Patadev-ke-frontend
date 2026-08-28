@@ -12,6 +12,19 @@ const PARTNER_LOGOS = [
 export default function PartnersCarousel() {
   return (
     <section className="py-12 bg-white border-b border-slate-200 overflow-hidden">
+      <style>{`
+        @keyframes scrollMarquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-scroll-marquee {
+          animation: scrollMarquee 25s linear infinite;
+        }
+        .animate-scroll-marquee:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
+      
       <div className="max-w-7xl mx-auto px-5 sm:px-8 mb-8 text-center">
         <p className="text-sm font-extrabold uppercase tracking-widest text-slate-500">
           TRUSTED BY BUSINESSES ACROSS KENYA
@@ -20,7 +33,7 @@ export default function PartnersCarousel() {
 
       <div className="relative w-full overflow-hidden flex items-center">
         {/* We use 2 copies to make 0 -> -50% translation shift exactly 1 copy width */}
-        <div className="flex gap-12 sm:gap-16 items-center w-max animate-marquee whitespace-nowrap hover:[animation-play-state:paused]">
+        <div className="flex gap-12 sm:gap-16 items-center w-max animate-scroll-marquee whitespace-nowrap">
           {[...PARTNER_LOGOS, ...PARTNER_LOGOS].map((p, i) => (
             <div
               key={`${p.name}-${i}`}
