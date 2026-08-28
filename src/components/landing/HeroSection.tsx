@@ -62,10 +62,10 @@ export default function HeroSection() {
     >
       {/* Background Image with Overlay */}
       <div 
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 z-0 bg-contain bg-center bg-no-repeat"
         style={{ backgroundImage: "url('/assets/images/landing/patadev-hero.png')" }}
       />
-      <div className="absolute inset-0 z-0 bg-white/90 sm:bg-white/80 backdrop-blur-[2px]" />
+      <div className="absolute inset-0 z-0 bg-white/60 sm:bg-white/40 backdrop-blur-[1px]" />
 
       <div
         className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 relative z-10"
