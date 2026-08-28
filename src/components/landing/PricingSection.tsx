@@ -66,7 +66,7 @@ export default function PricingSection() {
 
           {/* Content (For Developers) */}
           <div className="order-1 lg:order-2">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-blue-50 text-[#2563EB] text-xs font-bold uppercase tracking-widest mb-6 border border-blue-100">
+            <span className="inline-block text-[#2563EB] text-xs font-extrabold uppercase tracking-widest mb-6">
               For Developers
             </span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0F172A] tracking-tight leading-tight mb-6">
