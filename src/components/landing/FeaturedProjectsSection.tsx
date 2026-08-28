@@ -215,9 +215,11 @@ export default function FeaturedProjectsSection() {
       >
 
         {/* Header */}
-        <div className="mb-6">
-          <p className="text-[11px] font-extrabold uppercase tracking-widest text-slate-400 mb-2">EXPLORE PROJECTS</p>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight mb-3">
+        <div className="mb-10 text-center max-w-2xl mx-auto">
+          <span className="inline-block text-[#2563EB] text-xs font-extrabold uppercase tracking-widest mb-4">
+            EXPLORE PROJECTS
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight mb-4">
             Projects worth building
           </h2>
           <p className="text-slate-600 text-lg">
