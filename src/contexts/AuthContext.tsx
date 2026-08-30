@@ -1,42 +1,78 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 import { setToken, clearToken } from '../lib/api/client';
 
-type Role = 'CLIENT' | 'DEVELOPER' | 'ADMIN';
+export type Role = 'CLIENT' | 'DEVELOPER' | 'ADMIN';
 
-interface AuthUser {
+export interface AuthUser {
   id: string;
   email: string;
+  name?: string;
   role: Role;
   verified: boolean;
 }
 
+const defaultUser: AuthUser = {
+  id: 'usr_jordan',
+  email: 'jordan@buildbetter.co',
+  name: 'Jordan Davis',
+  role: 'CLIENT',
+  verified: true,
+};
+
 interface AuthContextValue {
-  user: AuthUser | null;
+  user: AuthUser;
   isAuthenticated: boolean;
   login: (user: AuthUser, token: string) => void;
   logout: () => void;
+  switchRole: (role: 'CLIENT' | 'DEVELOPER' | 'ADMIN') => void;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  // TODO: on mount, check localStorage for an existing token and re-fetch
-  // the current user (e.g. a GET /auth/me endpoint) instead of starting
-  // logged out on every page refresh.
-  const [user, setUser] = useState<AuthUser | null>(null);
+  const [user, setUser] = useState<AuthUser>(() => {
+    try {
+      const stored = localStorage.getItem('patadev_user');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed && parsed.role) return parsed;
+      }
+    } catch {
+      // ignore
+    }
+    return defaultUser;
+  });
 
-  function login(user: AuthUser, token: string) {
+  function login(newUser: AuthUser, token: string) {
     setToken(token);
-    setUser(user);
+    try {
+      localStorage.setItem('patadev_user', JSON.stringify(newUser));
+    } catch {
+      // ignore
+    }
+    setUser(newUser);
   }
 
   function logout() {
     clearToken();
-    setUser(null);
+    localStorage.removeItem('patadev_user');
+    setUser(defaultUser);
+  }
+
+  function switchRole(nextRole: Role) {
+    setUser((prev) => {
+      const updated = { ...prev, role: nextRole };
+      try {
+        localStorage.setItem('patadev_user', JSON.stringify(updated));
+      } catch {
+        // ignore
+      }
+      return updated;
+    });
   }
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: true, login, logout, switchRole }}>
       {children}
     </AuthContext.Provider>
   );

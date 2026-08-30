@@ -1,27 +1,13 @@
-<<<<<<< HEAD
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CheckCircle2, LockKeyhole, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Check, LockKeyhole, Sparkles } from 'lucide-react';
 import PageHeader from '../../../components/dashboard/PageHeader';
 import { useToast, Toast } from '../../../components/dashboard/useToast';
 
-const budgetOptions = [
-  'KES 150,000 – KES 300,000',
-  'KES 300,000 – KES 500,000',
-  'KES 500,000 – KES 800,000',
-  'KES 800,000 – KES 1,200,000',
-  'KES 1,200,000 – KES 2,000,000',
-  'KES 2,000,000+',
-];
-
-// Post / draft a new project (CRM or POS) as a client. Saves as DRAFT -
-// the client publishes later, matching the draft/publish flow on the backend.
-// TODO: wire to projectsService.create on submit, keep the success toast.
 export default function PostProjectPage() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [systemType, setSystemType] = useState<'CRM' | 'POS'>('CRM');
-  const [budget, setBudget] = useState(budgetOptions[0]);
+  const [budget, setBudget] = useState('$8,000 – $12,000');
   const navigate = useNavigate();
   const { toast, notify } = useToast();
 
@@ -38,7 +24,11 @@ export default function PostProjectPage() {
         eyebrow="NEW PROJECT"
         title="Tell us what you’re building"
         description="Give great developers the context they need to bring your idea to life."
-        action={<button className="button button-quiet" onClick={() => navigate('/dashboard/projects')}>Cancel</button>}
+        action={
+          <button className="button button-quiet" onClick={() => navigate('/dashboard/projects')}>
+            Cancel
+          </button>
+        }
       />
 
       <div className="form-layout">
@@ -54,7 +44,11 @@ export default function PostProjectPage() {
 
           <label>
             Project title <span>Required</span>
-            <input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="e.g. Build a customer management platform" />
+            <input
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
+              placeholder="e.g. Build a customer management platform"
+            />
           </label>
 
           <label>
@@ -71,15 +65,20 @@ export default function PostProjectPage() {
           <div className="form-two-col">
             <label>
               System type
-              <select value={systemType} onChange={(event) => setSystemType(event.target.value as 'CRM' | 'POS')}>
-                <option value="CRM">CRM - customer management</option>
-                <option value="POS">POS - point of sale</option>
+              <select>
+                <option>Web application</option>
+                <option>Mobile application</option>
+                <option>SaaS platform</option>
+                <option>Business software</option>
               </select>
             </label>
             <label>
-              Estimated budget (KES)
+              Estimated budget
               <select value={budget} onChange={(event) => setBudget(event.target.value)}>
-                {budgetOptions.map((option) => <option key={option}>{option}</option>)}
+                <option>$5,000 – $8,000</option>
+                <option>$8,000 – $12,000</option>
+                <option>$12,000 – $18,000</option>
+                <option>$20,000+</option>
               </select>
             </label>
           </div>
@@ -87,19 +86,19 @@ export default function PostProjectPage() {
           <div className="form-footer">
             <span><LockKeyhole size={14} />Your project is private until you publish it.</span>
             <button className="button button-primary" disabled={!canSubmit} onClick={handleSubmit}>
-              <CheckCircle2 size={16} /> Save as draft
+              Save as draft <ArrowUpRight size={15} />
             </button>
           </div>
         </section>
 
-        <aside className="panel form-aside">
-          <div className="eyebrow">QUICK TIPS</div>
-          <h2>A brief that wins</h2>
-          <p>The clearest briefs attract the strongest proposals. Three things matter most:</p>
-          <ul className="tips-list">
-            <li>Name the outcome, not just the features.</li>
-            <li>Be honest about budget - ranges help developers price well.</li>
-            <li>Pick the system type (CRM or POS) that fits your workflow.</li>
+        <aside className="form-aside">
+          <div className="aside-illustration"><Sparkles size={28} /></div>
+          <h3>Make it easy to say yes.</h3>
+          <p>Projects with a clear goal, budget, and timeline get better proposals from the right people.</p>
+          <ul>
+            <li><Check size={15} />Start with the outcome you want</li>
+            <li><Check size={15} />Mention must-have features</li>
+            <li><Check size={15} />Share your ideal timeline</li>
           </ul>
         </aside>
       </div>
@@ -108,6 +107,3 @@ export default function PostProjectPage() {
     </>
   );
 }
-=======
-// TODO: Implement Multi-step Project Posting Wizard
->>>>>>> origin/main

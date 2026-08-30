@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { apiClient } from '../../../lib/api/client';
 import { Bid } from '../../../types';
 
@@ -10,6 +9,4 @@ export const bidsService = {
   accept: (bidId: string) => apiClient.post(`/bids/${bidId}/accept`),
   decline: (bidId: string) => apiClient.post(`/bids/${bidId}/decline`),
 };
-=======
-// TODO: Implement API calls for submitting and managing bids
->>>>>>> origin/main
+

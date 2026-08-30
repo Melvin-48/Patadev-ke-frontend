@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { apiClient } from '../../../lib/api/client';
 import { supabase } from '../../../lib/supabase/client';
 import { Message } from '../../../types';
@@ -17,6 +16,4 @@ export const messagesService = {
     return () => { supabase.removeChannel(channel); };
   },
 };
-=======
-// TODO: Implement WebSocket connection and message API
->>>>>>> origin/main
+

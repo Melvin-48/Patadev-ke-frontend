@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { apiClient } from '../../../lib/api/client';
 import { Project } from '../../../types';
 
@@ -12,6 +11,4 @@ export const projectsService = {
   publish: (id: string) => apiClient.post(`/projects/${id}/publish`),
   cancel: (id: string) => apiClient.post(`/projects/${id}/cancel`),
 };
-=======
-// TODO: Implement CRUD API calls for projects
->>>>>>> origin/main
+

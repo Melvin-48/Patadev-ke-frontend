@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { apiClient } from '../../../lib/api/client';
 
 export const adminService = {
@@ -9,6 +8,4 @@ export const adminService = {
   // TODO: reports endpoints once GET/PATCH /admin/reports exist on the backend
   // (per the lightweight dispute-report design agreed on).
 };
-=======
-// TODO: Implement Admin-specific API calls (force release, ban, etc.)
->>>>>>> origin/main
+

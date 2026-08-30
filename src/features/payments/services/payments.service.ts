@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { apiClient } from '../../../lib/api/client';
 
 interface LedgerEntry {
@@ -13,6 +12,4 @@ interface LedgerEntry {
 export const paymentsService = {
   history: (bidId: string) => apiClient.get<LedgerEntry[]>(`/payments/bid/${bidId}`),
 };
-=======
-// TODO: Implement Stripe Connect API integration calls
->>>>>>> origin/main
+

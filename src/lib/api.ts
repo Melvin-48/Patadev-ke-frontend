@@ -1,8 +1,4 @@
-import axios from 'axios';
+import { apiClient } from './api/client';
 
-export const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000/api',
-  headers: { 'Content-Type': 'application/json' },
-});
-
-// TODO: Add request/response interceptors for JWT token injection here
+export const api = apiClient;
+export { apiClient };
