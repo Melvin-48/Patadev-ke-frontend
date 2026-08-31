@@ -44,12 +44,18 @@ export default function LoginPage() {
       setIsLoading(true);
       
       // ────── 3-Second Loader Cycle ──────
-      await Promise.all([
+      const [user] = await Promise.all([
         login(email, password),
         new Promise((resolve) => setTimeout(resolve, 3000)),
       ]);
 
-      navigate('/projects');
+      if (!user) {
+        navigate('/onboarding');
+      } else if (user.role === 'ADMIN') {
+        navigate('/admin', { replace: true });
+      } else {
+        navigate('/dashboard', { replace: true });
+      }
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Invalid credentials. Please try again.';
       setError(errorMessage);

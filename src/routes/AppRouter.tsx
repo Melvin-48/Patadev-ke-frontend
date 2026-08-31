@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoute from '../components/common/ProtectedRoute';
+import { useAuth } from '../contexts/AuthContext';
 
 // Layouts
 import PublicLayout from '../components/layout/PublicLayout';
@@ -17,6 +18,7 @@ import DeveloperOnboardingPage from '../features/users/pages/DeveloperOnboarding
 import RoleSelectionPage from '../features/users/pages/RoleSelectionPage';
 import TermsPage from '../features/projects/pages/TermsPage';
 import PrivacyPage from '../features/projects/pages/PrivacyPage';
+import AuthCallbackPage from '../features/auth/pages/AuthCallbackPage';
 
 // Mock Dashboard from origin/main (full self-contained SPA shell)
 import MockDashboard from '../App';
@@ -31,6 +33,17 @@ import MessagesPage from '../features/messages/pages/MessagesPage';
 
 import AdminDashboard from '../features/admin/pages/AdminDashboard';
 import DisputesPage from '../features/admin/pages/DisputesPage';
+
+function DashboardRouter() {
+  const { user } = useAuth();
+  
+  if (!user) return <Navigate to="/login" replace />;
+  if (user.role === 'CLIENT') return <ClientLayout><ClientDashboard /></ClientLayout>;
+  if (user.role === 'DEVELOPER') return <DeveloperLayout><DevDashboard /></DeveloperLayout>;
+  if (user.role === 'ADMIN') return <Navigate to="/admin/dashboard" replace />;
+  
+  return <Navigate to="/onboarding" replace />;
+}
 
 export default function AppRouter() {
   return (
@@ -49,15 +62,16 @@ export default function AppRouter() {
         <Route path="/onboarding/developer" element={<DeveloperOnboardingPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/auth/callback" element={<AuthCallbackPage />} />
       </Route>
 
       {/*
-       * /dashboard — the mock frontend pulled from origin/main.
-       * Rendered outside any layout wrapper since it's a fully
-       * self-contained shell with its own sidebar + topbar.
-       * Auth guard is bypassed for design/preview phase.
+       * Dynamic /dashboard route
+       * Based on authenticated user role, render ClientDashboard or DevDashboard.
        */}
-      <Route path="/dashboard" element={<MockDashboard />} />
+      <Route element={<ProtectedRoute allowedRoles={['CLIENT', 'DEVELOPER']} />}>
+        <Route path="/dashboard" element={<DashboardRouter />} />
+      </Route>
 
       {/* Client Routes (real authenticated dashboard) */}
       <Route element={<ProtectedRoute allowedRoles={['CLIENT', 'ADMIN']} />}>

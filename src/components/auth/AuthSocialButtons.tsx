@@ -1,7 +1,18 @@
+import { supabase } from '../../lib/supabase/client';
+
 export default function AuthSocialButtons() {
-  const handleGoogleLogin = () => {
-    // Triggers OAuth Google login flow
+  const handleGoogleLogin = async () => {
     console.log('Initiating Google OAuth login...');
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+
+    if (error) {
+      console.error('Google login error:', error.message);
+    }
   };
 
   return (

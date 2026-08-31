@@ -1,7 +1,7 @@
 import { Outlet, Link } from 'react-router-dom';
 import Navbar from './Navbar';
 
-export default function DeveloperLayout() {
+export default function DeveloperLayout({ children }: { children?: React.ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -12,7 +12,7 @@ export default function DeveloperLayout() {
           <Link to="/messages" className="block px-3 py-2 rounded hover:bg-line/40 text-ink">Messages</Link>
           <Link to="/developer/payments" className="block px-3 py-2 rounded hover:bg-line/40 text-ink">Earnings</Link>
         </aside>
-        <main className="flex-1"><Outlet /></main>
+        <main className="flex-1">{children || <Outlet />}</main>
       </div>
     </div>
   );
