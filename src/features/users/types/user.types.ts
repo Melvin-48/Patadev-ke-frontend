@@ -1,1 +1,1 @@
-// TODO: Define UserProfile, DeveloperProfile types
+﻿// TODO: Define UserProfile, DeveloperProfile types

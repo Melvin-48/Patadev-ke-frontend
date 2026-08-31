@@ -1,6 +1,6 @@
-import { Link, useNavigate } from 'react-router-dom';
+﻿import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import Button from '../ui/Button';
+import { Button } from "../ui/Button";
 
 export default function Navbar() {
   const { user, isAuthenticated, logout } = useAuth();
@@ -32,3 +32,5 @@ export default function Navbar() {
     </header>
   );
 }
+
+

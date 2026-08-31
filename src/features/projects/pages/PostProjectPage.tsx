@@ -1,1 +1,16 @@
-// TODO: Implement Multi-step Project Posting Wizard
+﻿import React from "react";
+
+const PostProjectPage: React.FC = () => {
+  return (
+    <div className="min-h-screen p-6">
+      <div className="mx-auto max-w-6xl">
+        <h1 className="text-2xl font-bold">PostProjectPage</h1>
+        <p className="mt-2 text-gray-600">
+          PataDev page is ready.
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default PostProjectPage;

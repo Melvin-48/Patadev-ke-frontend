@@ -1,1 +1,16 @@
-// TODO: Implement Login Page with React Hook Form + Zod validation
+﻿import React from "react";
+
+const LoginPage: React.FC = () => {
+  return (
+    <div className="min-h-screen p-6">
+      <div className="mx-auto max-w-6xl">
+        <h1 className="text-2xl font-bold">LoginPage</h1>
+        <p className="mt-2 text-gray-600">
+          PataDev page is ready.
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default LoginPage;

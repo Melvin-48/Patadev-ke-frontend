@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+﻿import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 type UserRole = 'CLIENT' | 'DEVELOPER' | 'ADMIN';
 
@@ -28,7 +28,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(false);
   }, []);
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, _password: string) => {
     // TODO: Implement actual API call
     console.log('Logging in', email);
   };
@@ -50,3 +50,7 @@ export function useAuth() {
   if (context === undefined) throw new Error('useAuth must be used within an AuthProvider');
   return context;
 }
+
+
+
+

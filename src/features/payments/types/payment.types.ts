@@ -1,1 +1,1 @@
-// TODO: Define EscrowAccount, Transaction, Withdrawal types
+﻿// TODO: Define EscrowAccount, Transaction, Withdrawal types
