@@ -1,11 +1,11 @@
-﻿import React, { useState } from "react";
+﻿import React from "react";
 import { Card } from "../../../components/ui/Card";
 import { Button } from "../../../components/ui/Button";
-import { Badge } from "../../../components/ui/Badge";
+
 import {
   Users, Briefcase, DollarSign, Clock,
-  UserCheck, UserX, TrendingUp, AlertCircle,
-  CheckCircle, XCircle, Eye, MoreVertical
+  UserCheck, AlertCircle,
+  Eye
 } from "lucide-react";
 
 const AdminDashboard: React.FC = () => {
@@ -115,3 +115,8 @@ const AdminDashboard: React.FC = () => {
 };
 
 export default AdminDashboard;
+
+
+
+
+

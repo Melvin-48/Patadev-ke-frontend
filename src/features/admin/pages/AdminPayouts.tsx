@@ -4,7 +4,7 @@ import { Button } from "../../../components/ui/Button";
 import { Badge } from "../../../components/ui/Badge";
 import { Input } from "../../../components/ui/Input";
 import {
-  DollarSign, Search, Filter, CheckCircle,
+  DollarSign, Search, CheckCircle,
   XCircle, Clock, Download, Eye
 } from "lucide-react";
 
@@ -132,3 +132,5 @@ const AdminPayouts: React.FC = () => {
 };
 
 export default AdminPayouts;
+
+

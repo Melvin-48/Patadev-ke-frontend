@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../../../components/ui/Button";
 import { Input } from "../../../components/ui/Input";
 import { Card } from "../../../components/ui/Card";
-import { Code, Award, Globe, CheckCircle, Github, Linkedin } from "lucide-react";
+import { Award } from "lucide-react";
 
 const DeveloperOnboarding: React.FC = () => {
   const navigate = useNavigate();
@@ -166,3 +166,5 @@ const DeveloperOnboarding: React.FC = () => {
 };
 
 export default DeveloperOnboarding;
+
+

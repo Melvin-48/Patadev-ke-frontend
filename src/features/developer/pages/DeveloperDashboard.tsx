@@ -1,17 +1,17 @@
 ﻿import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Card } from "../../../components/ui/Card";
 import { Button } from "../../../components/ui/Button";
 import { Badge } from "../../../components/ui/Badge";
 import { 
   TrendingUp, Briefcase, DollarSign, Clock,
-  Users, MessageCircle, Star, Award,
-  BarChart3, Eye, CheckCircle
+  MessageCircle, Award,
+  Eye, CheckCircle
 } from "lucide-react";
 
 const DeveloperDashboard: React.FC = () => {
   const navigate = useNavigate();
-  const [stats, setStats] = useState({
+  const [stats] = useState({
     activeBids: 8,
     wonProjects: 3,
     completedProjects: 5,
@@ -130,3 +130,8 @@ const DeveloperDashboard: React.FC = () => {
 };
 
 export default DeveloperDashboard;
+
+
+
+
+

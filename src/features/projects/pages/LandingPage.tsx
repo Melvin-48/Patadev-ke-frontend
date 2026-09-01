@@ -1,7 +1,7 @@
 ﻿import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../../../components/ui/Button";
-import { Briefcase, Users, Shield, Star, TrendingUp, Award } from "lucide-react";
+import { Briefcase, Users, Shield } from "lucide-react";
 
 const LandingPage: React.FC = () => {
   return (
@@ -73,3 +73,5 @@ const LandingPage: React.FC = () => {
 };
 
 export default LandingPage;
+
+

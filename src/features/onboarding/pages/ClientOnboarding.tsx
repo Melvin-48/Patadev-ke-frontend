@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../../../components/ui/Button";
 import { Input } from "../../../components/ui/Input";
 import { Card } from "../../../components/ui/Card";
-import { Building2, Globe, Users, CheckCircle } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 
 const ClientOnboarding: React.FC = () => {
   const navigate = useNavigate();
@@ -145,3 +145,5 @@ const ClientOnboarding: React.FC = () => {
 };
 
 export default ClientOnboarding;
+
+

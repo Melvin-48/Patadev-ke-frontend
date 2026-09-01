@@ -4,8 +4,8 @@ import { Button } from "../../../components/ui/Button";
 import { Badge } from "../../../components/ui/Badge";
 import {
   Bell, MessageCircle, Briefcase, DollarSign,
-  CheckCircle, Clock, UserPlus, Award,
-  Filter, CheckCheck
+  Award,
+  CheckCheck
 } from "lucide-react";
 
 const NotificationsPage: React.FC = () => {
@@ -86,3 +86,6 @@ const NotificationsPage: React.FC = () => {
 };
 
 export default NotificationsPage;
+
+
+

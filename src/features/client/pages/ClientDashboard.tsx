@@ -1,17 +1,17 @@
-﻿import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+﻿import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card } from "../../../components/ui/Card";
 import { Button } from "../../../components/ui/Button";
 import { Badge } from "../../../components/ui/Badge";
 import { 
   Plus, FolderOpen, Clock, DollarSign, 
-  Users, MessageCircle, TrendingUp, Briefcase,
-  Eye, Edit, MoreVertical
+  Users, MessageCircle, Briefcase,
+  Eye, Edit
 } from "lucide-react";
 
 const ClientDashboard: React.FC = () => {
   const navigate = useNavigate();
-  const [stats, setStats] = useState({
+  const [stats] = useState({
     projects: 12,
     activeProjects: 4,
     completedProjects: 6,

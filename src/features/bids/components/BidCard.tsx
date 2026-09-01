@@ -2,7 +2,7 @@
 import { Card } from '../../../components/ui/Card';
 import { Badge } from '../../../components/ui/Badge';
 import { Button } from '../../../components/ui/Button';
-import { DollarSign, Clock, User, CheckCircle, XCircle } from 'lucide-react';
+import { DollarSign, Clock, CheckCircle, XCircle } from 'lucide-react';
 
 export interface BidCardProps {
   id: string;
@@ -17,12 +17,10 @@ export interface BidCardProps {
 }
 
 export const BidCard: React.FC<BidCardProps> = ({
-  id,
   amount,
   message,
   status,
   developerName,
-  developerAvatar,
   createdAt,
   onAccept,
   onReject
@@ -99,3 +97,7 @@ export const BidCard: React.FC<BidCardProps> = ({
 };
 
 export default BidCard;
+
+
+
+
