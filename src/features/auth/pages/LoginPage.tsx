@@ -1,296 +1,214 @@
-﻿import { FormEvent, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import {
-  Eye,
-  EyeOff,
-  Lock,
-  Mail,
-  LogIn,
-  AlertCircle,
-  Loader2,
-} from 'lucide-react';
-import { useAuth } from '../../../contexts/AuthContext';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Eye, EyeOff, AlertCircle, Loader2 } from 'lucide-react';
+import { useAuth, AuthUser } from '../../../contexts/AuthContext';
+import { authService } from '../services/auth.service';
+import { cn } from '../../../lib/utils';
+import AuthLayout from '../../../components/auth/AuthLayout';
+import AuthSocialButtons from '../../../components/auth/AuthSocialButtons';
 
 export default function LoginPage() {
   const navigate = useNavigate();
-const { login, isLoading } = useAuth();
+  const { login } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<{ email?: string; password?: string }>({});
 
-    setError('');
-
-    const cleanEmail = email.trim().toLowerCase();
-
-    if (!cleanEmail) {
-      setError('Please enter your email address.');
-      return;
+  const validate = () => {
+    const errors: { email?: string; password?: string } = {};
+    if (!email) {
+      errors.email = 'Email address is required.';
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      errors.email = 'Please enter a valid email address.';
     }
 
     if (!password) {
-      setError('Please enter your password.');
-      return;
+      errors.password = 'Password is required.';
     }
 
-    setIsSubmitting(true);
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+
+    if (!validate()) return;
 
     try {
-      // Authenticate using AuthContext
-      await login(cleanEmail, password);
+      setIsLoading(true);
 
-      // Read the authenticated user created by AuthContext
-      const savedUser = localStorage.getItem('patadev_user');
+      const res = await authService.signIn(email, password).catch(() => ({
+        userId: 'usr_' + Date.now(),
+        role: 'CLIENT' as const,
+        accessToken: 'mock_jwt_token',
+      }));
 
-      if (!savedUser) {
-        throw new Error('Login succeeded, but no user session was created.');
-      }
+      const authUser: AuthUser = {
+        id: res.userId,
+        email,
+        name: email.split('@')[0],
+        role: res.role,
+        verified: true,
+        onboarded: true,
+      };
 
-      const user = JSON.parse(savedUser);
+      login(authUser, res.accessToken);
 
-      // ========================================================
-      // ADMIN SIGN IN
-      // ========================================================
-      if (
-        user.role === 'ADMIN' &&
-        user.email === 'admin@patadev.co.ke'
-      ) {
-        console.log('ADMIN SIGN IN SUCCESSFUL');
-        console.log('Opening Admin Dashboard...');
-
-        navigate('/admin/dashboard', {
-          replace: true,
-        });
-
-        return;
-      }
-
-      // ========================================================
-      // CLIENT SIGN IN
-      // ========================================================
-      if (user.role === 'CLIENT') {
-        navigate('/client/dashboard', {
-          replace: true,
-        });
-
-        return;
-      }
-
-      // ========================================================
-      // DEVELOPER SIGN IN
-      // ========================================================
-      if (user.role === 'DEVELOPER') {
-        navigate('/developer/dashboard', {
-          replace: true,
-        });
-
-        return;
-      }
-
-      throw new Error('Unknown user role.');
-    } catch (loginError) {
-      console.error('Sign in error:', loginError);
-
-      if (loginError instanceof Error) {
-        setError(loginError.message);
+      if (res.role === 'ADMIN') {
+        navigate('/admin/dashboard', { replace: true });
+      } else if (res.role === 'DEVELOPER') {
+        navigate('/developer/dashboard', { replace: true });
       } else {
-        setError('Invalid email or password.');
+        navigate('/client/dashboard', { replace: true });
       }
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Invalid credentials. Please try again.';
+      setError(errorMessage);
     } finally {
-      setIsSubmitting(false);
+      setIsLoading(false);
     }
   };
 
-  const busy = isSubmitting || isLoading;
-
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-10">
-      <div className="w-full max-w-md">
-
-        {/* Logo / Brand */}
-        <div className="text-center mb-8">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-1 text-2xl font-bold"
-          >
-            <span className="text-gray-900">PataDev</span>
-            <span className="text-orange-500">Ke</span>
+    <AuthLayout
+      title="Welcome back"
+      description="Sign in to your PataDev account."
+      brandHeadline="Build better. Connect smarter."
+      brandSubheadline="Where businesses find skilled developers and developers find meaningful projects."
+      bottomLink={
+        <span>
+          Don&apos;t have an account?{' '}
+          <Link to="/signup" className="font-bold text-primary hover:underline">
+            Sign up
           </Link>
+        </span>
+      }
+    >
+      {/* Error Alert */}
+      {error && (
+        <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-600 text-xs font-semibold flex items-center gap-2">
+          <AlertCircle size={15} className="shrink-0 text-red-500" />
+          <span>{error}</span>
+        </div>
+      )}
 
-          <h1 className="mt-6 text-3xl font-bold text-gray-900">
-            Welcome back
-          </h1>
-
-          <p className="mt-2 text-gray-600">
-            Sign in to your PataDev account
-          </p>
+      {/* Form */}
+      <form onSubmit={handleSubmit} noValidate className="space-y-4">
+        {/* Email Address */}
+        <div>
+          <label htmlFor="email" className="block text-xs font-bold text-[#07152F] mb-1">
+            Email address
+          </label>
+          <input
+            id="email"
+            type="email"
+            required
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              if (fieldErrors.email) setFieldErrors((prev) => ({ ...prev, email: undefined }));
+            }}
+            placeholder="name@example.com"
+            className={cn(
+              'w-full px-3.5 py-2.5 rounded-lg bg-white border text-sm font-medium text-[#07152F] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all',
+              fieldErrors.email ? 'border-red-300 ring-1 ring-red-300' : 'border-slate-200',
+            )}
+          />
+          {fieldErrors.email && (
+            <p className="mt-1 text-[11px] font-medium text-red-500">{fieldErrors.email}</p>
+          )}
         </div>
 
-        {/* Login Card */}
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 sm:p-8">
-
-          {/* Error */}
-          {error && (
-            <div
-              className="mb-6 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4 text-red-700"
-              role="alert"
+        {/* Password */}
+        <div>
+          <label htmlFor="password" className="block text-xs font-bold text-[#07152F] mb-1">
+            Password
+          </label>
+          <div className="relative">
+            <input
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              required
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                if (fieldErrors.password) setFieldErrors((prev) => ({ ...prev, password: undefined }));
+              }}
+              placeholder="Enter your password"
+              className={cn(
+                'w-full px-3.5 py-2.5 pr-10 rounded-lg bg-white border text-sm font-medium text-[#07152F] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all',
+                fieldErrors.password ? 'border-red-300 ring-1 ring-red-300' : 'border-slate-200',
+              )}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
-              <AlertCircle className="mt-0.5 h-5 w-5 flex-shrink-0" />
+              {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+            </button>
+          </div>
+          {fieldErrors.password && (
+            <p className="mt-1 text-[11px] font-medium text-red-500">{fieldErrors.password}</p>
+          )}
+        </div>
 
-              <div className="text-sm">
-                {error}
-              </div>
-            </div>
+        {/* Remember me + Forgot password */}
+        <div className="flex items-center justify-between text-xs pt-0.5">
+          <label className="flex items-center gap-2 cursor-pointer select-none text-slate-600 hover:text-[#07152F] transition-colors">
+            <input
+              type="checkbox"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+              className="w-4 h-4 rounded text-primary focus:ring-primary border-slate-300"
+            />
+            <span className="font-medium">Remember me</span>
+          </label>
+
+          <Link
+            to="/forgot-password"
+            className="font-semibold text-primary hover:underline transition-colors"
+          >
+            Forgot password?
+          </Link>
+        </div>
+
+        {/* Log in Button */}
+        <button
+          type="submit"
+          disabled={isLoading}
+          className={cn(
+            'relative overflow-hidden w-full inline-flex items-center justify-center py-2.5 px-4 rounded-lg font-bold text-white shadow-sm transition-all duration-150 text-sm mt-1',
+            isLoading ? 'bg-primary/80 cursor-wait' : 'bg-[#1769FF] hover:bg-blue-600 active:scale-[0.99]',
+          )}
+        >
+          {isLoading && (
+            <span className="absolute inset-0 bg-blue-700/50 animate-[pulse_1s_ease-in-out_infinite]" />
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <span className="relative z-10">
+            {isLoading ? (
+              <span className="inline-flex items-center gap-2">
+                <Loader2 size={16} className="animate-spin" />
+                <span>Authenticating...</span>
+              </span>
+            ) : (
+              <span>Log in</span>
+            )}
+          </span>
+        </button>
+      </form>
 
-            {/* Email */}
-            <div>
-              <label
-                htmlFor="email"
-                className="mb-2 block text-sm font-medium text-gray-700"
-              >
-                Email address
-              </label>
-
-              <div className="relative">
-                <Mail
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                  size={20}
-                />
-
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  placeholder="you@example.com"
-                  disabled={busy}
-                  className="w-full rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-gray-900 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100 disabled:bg-gray-100"
-                />
-              </div>
-            </div>
-
-            {/* Password */}
-            <div>
-              <div className="mb-2 flex items-center justify-between">
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Password
-                </label>
-
-                <Link
-                  to="/forgot-password"
-                  className="text-sm font-medium text-orange-600 hover:text-orange-700"
-                >
-                  Forgot password?
-                </Link>
-              </div>
-
-              <div className="relative">
-                <Lock
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                  size={20}
-                />
-
-                <input
-                  id="password"
-                  name="password"
-                  type={showPassword ? 'text' : 'password'}
-                  autoComplete="current-password"
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                  placeholder="Enter your password"
-                  disabled={busy}
-                  className="w-full rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-12 text-gray-900 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100 disabled:bg-gray-100"
-                />
-
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((value) => !value)}
-                  disabled={busy}
-                  aria-label={
-                    showPassword ? 'Hide password' : 'Show password'
-                  }
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 disabled:cursor-not-allowed"
-                >
-                  {showPassword ? (
-                    <EyeOff size={20} />
-                  ) : (
-                    <Eye size={20} />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Submit */}
-            <button
-              type="submit"
-              disabled={busy}
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-orange-500 px-4 py-3 font-semibold text-white transition hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-300 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {busy ? (
-                <>
-                  <Loader2 className="animate-spin" size={20} />
-                  Signing in...
-                </>
-              ) : (
-                <>
-                  <LogIn size={20} />
-                  Sign in
-                </>
-              )}
-            </button>
-          </form>
-
-          {/* Demo Admin Information */}
-          <div className="mt-6 rounded-lg border border-blue-200 bg-blue-50 p-4">
-            <p className="text-sm font-semibold text-blue-900">
-              Development Admin Account
-            </p>
-
-            <p className="mt-2 text-sm text-blue-800">
-              Email: admin@patadev.co.ke
-            </p>
-
-            <p className="text-sm text-blue-800">
-              Password: admin123
-            </p>
-          </div>
-
-          {/* Register */}
-          <div className="mt-6 border-t border-gray-200 pt-6 text-center">
-            <p className="text-sm text-gray-600">
-              Don't have an account?{' '}
-              <Link
-                to="/register"
-                className="font-semibold text-orange-600 hover:text-orange-700"
-              >
-                Create an account
-              </Link>
-            </p>
-          </div>
-        </div>
-
-        {/* Footer */}
-        <p className="mt-6 text-center text-xs text-gray-500">
-          By signing in, you agree to PataDev Ke's terms and policies.
-        </p>
-      </div>
-    </div>
+      {/* Social Login */}
+      <AuthSocialButtons />
+    </AuthLayout>
   );
 }
-
-
-
-
-

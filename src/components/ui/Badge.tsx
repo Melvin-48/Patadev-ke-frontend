@@ -1,39 +1,23 @@
-﻿import React from "react";
+import { cn } from '../../lib/utils';
 
-export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  variant?: "default" | "success" | "warning" | "danger" | "info";
-  children?: React.ReactNode;
+interface BadgeProps {
+  children: React.ReactNode;
+  tone?: 'neutral' | 'success' | 'danger' | 'amber';
 }
 
-export function Badge({
-  variant = "default",
-  className = "",
-  children,
-  ...props
-}: BadgeProps) {
-
-  const variants = {
-    default: "bg-gray-100 text-gray-800",
-    success: "bg-green-100 text-green-800",
-    warning: "bg-yellow-100 text-yellow-800",
-    danger: "bg-red-100 text-red-800",
-    info: "bg-blue-100 text-blue-800"
+// Used for project/bid/milestone status - keeps status colour meaning
+// consistent everywhere it appears instead of each page picking its own.
+export default function Badge({ children, tone = 'neutral' }: BadgeProps) {
+  const tones = {
+    neutral: 'bg-line text-slate',
+    success: 'bg-success/10 text-success',
+    danger: 'bg-danger/10 text-danger',
+    amber: 'bg-amber/15 text-amber-dark',
   };
 
   return (
-    <span
-      className={
-        "inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium " +
-        variants[variant] +
-        " " +
-        className
-      }
-      {...props}
-    >
+    <span className={cn('px-2 py-0.5 rounded text-xs font-medium', tones[tone])}>
       {children}
     </span>
   );
 }
-
-export default Badge;
-

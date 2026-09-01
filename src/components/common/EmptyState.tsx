@@ -1,56 +1,17 @@
-﻿import React from "react";
-
 interface EmptyStateProps {
-  icon?: React.ReactNode;
   title: string;
   description?: string;
-  action?: {
-    label: string;
-    onClick: () => void;
-  };
-  className?: string;
+  action?: React.ReactNode;
 }
 
-export function EmptyState({
-  icon,
-  title,
-  description,
-  action,
-  className = ""
-}: EmptyStateProps) {
-
+// Empty states are an invitation to act, not just an absence notice -
+// per the project's writing convention, always paired with what to do next.
+export default function EmptyState({ title, description, action }: EmptyStateProps) {
   return (
-    <div className={"text-center py-12 " + className}>
-
-      {icon && (
-        <div className="mx-auto mb-4">
-          {icon}
-        </div>
-      )}
-
-      <h3 className="text-lg font-semibold text-gray-900 mb-2">
-        {title}
-      </h3>
-
-      {description && (
-        <p className="text-gray-500 mb-6">
-          {description}
-        </p>
-      )}
-
-      {action && (
-        <button
-          type="button"
-          onClick={action.onClick}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-        >
-          {action.label}
-        </button>
-      )}
-
+    <div className="text-center py-16 border border-dashed border-line rounded">
+      <p className="font-display font-semibold text-ink">{title}</p>
+      {description && <p className="text-slate text-sm mt-1">{description}</p>}
+      {action && <div className="mt-4">{action}</div>}
     </div>
   );
 }
-
-export default EmptyState;
-

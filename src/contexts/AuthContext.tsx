@@ -1,116 +1,94 @@
-﻿import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode } from 'react';
+import { setToken, clearToken } from '../lib/api/client';
 
-type UserRole = 'CLIENT' | 'DEVELOPER' | 'ADMIN';
+export type Role = 'CLIENT' | 'DEVELOPER' | 'ADMIN';
 
-interface User {
+export interface AuthUser {
   id: string;
   email: string;
-  role: UserRole;
-  name: string;
+  name?: string;
+  role: Role | null;
+  verified: boolean;
+  onboarded?: boolean;
 }
 
-interface AuthContextType {
-  user: User | null;
+interface AuthContextValue {
+  user: AuthUser | null;
   isAuthenticated: boolean;
-  isLoading: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (user: AuthUser, token: string) => void;
   logout: () => void;
+  updateUser: (partial: Partial<AuthUser>) => void;
+  setRole: (role: Role) => void;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-const STORAGE_KEY = 'patadev_user';
+const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
+  const [user, setUser] = useState<AuthUser | null>(() => {
     try {
-      const savedUser = localStorage.getItem(STORAGE_KEY);
-
-      if (savedUser) {
-        const parsedUser = JSON.parse(savedUser) as User;
-        setUser(parsedUser);
+      const stored = localStorage.getItem('patadev_user');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed && (parsed.id || parsed.email)) return parsed;
       }
-    } catch (error) {
-      console.error('Failed to restore authentication:', error);
-      localStorage.removeItem(STORAGE_KEY);
-    } finally {
-      setIsLoading(false);
+    } catch {
+      // ignore
     }
-  }, []);
+    // Default logged in user for development / demo
+    return {
+      id: 'usr_jordan',
+      email: 'jordan@buildbetter.co',
+      name: 'Jordan Davis',
+      role: 'CLIENT',
+      verified: true,
+      onboarded: true,
+    };
+  });
 
-  const login = async (email: string, password: string) => {
-    const normalizedEmail = email.trim().toLowerCase();
-
-    // Demo ADMIN account
-    if (
-      normalizedEmail === 'admin@patadev.co.ke' &&
-      password === 'admin123'
-    ) {
-      const adminUser: User = {
-        id: 'admin-001',
-        email: 'admin@patadev.co.ke',
-        role: 'ADMIN',
-        name: 'PataDev Administrator',
-      };
-
-      setUser(adminUser);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(adminUser));
-      return;
+  function login(newUser: AuthUser, token: string) {
+    setToken(token);
+    try {
+      localStorage.setItem('patadev_user', JSON.stringify(newUser));
+      localStorage.setItem('patadev_token', token);
+    } catch {
+      // ignore
     }
+    setUser(newUser);
+  }
 
-    // Demo CLIENT account
-    if (
-      normalizedEmail === 'client@patadev.co.ke' &&
-      password === 'client123'
-    ) {
-      const clientUser: User = {
-        id: 'client-001',
-        email: 'client@patadev.co.ke',
-        role: 'CLIENT',
-        name: 'Demo Client',
-      };
-
-      setUser(clientUser);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(clientUser));
-      return;
-    }
-
-    // Demo DEVELOPER account
-    if (
-      normalizedEmail === 'developer@patadev.co.ke' &&
-      password === 'developer123'
-    ) {
-      const developerUser: User = {
-        id: 'developer-001',
-        email: 'developer@patadev.co.ke',
-        role: 'DEVELOPER',
-        name: 'Demo Developer',
-      };
-
-      setUser(developerUser);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(developerUser));
-      return;
-    }
-
-    throw new Error('Invalid email or password');
-  };
-
-  const logout = () => {
+  function logout() {
+    clearToken();
+    localStorage.removeItem('patadev_user');
+    localStorage.removeItem('patadev_token');
     setUser(null);
-    localStorage.removeItem(STORAGE_KEY);
-  };
+  }
+
+  function updateUser(partial: Partial<AuthUser>) {
+    setUser((prev) => {
+      if (!prev) return null;
+      const updated = { ...prev, ...partial };
+      try {
+        localStorage.setItem('patadev_user', JSON.stringify(updated));
+      } catch {
+        // ignore
+      }
+      return updated;
+    });
+  }
+
+  function setRole(role: Role) {
+    updateUser({ role, onboarded: true });
+  }
 
   return (
     <AuthContext.Provider
       value={{
         user,
         isAuthenticated: !!user,
-        isLoading,
         login,
         logout,
+        updateUser,
+        setRole,
       }}
     >
       {children}
@@ -119,11 +97,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext);
-
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-
-  return context;
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error('useAuth must be used within AuthProvider');
+  return ctx;
 }

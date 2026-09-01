@@ -1,50 +1,17 @@
-﻿import { api } from '../../../lib/api';
+import { apiClient } from '../../../lib/api/client';
 
-export interface LoginData {
-  email: string;
-  password: string;
+interface AuthResponse {
+  accessToken: string;
+  userId: string;
+  role: 'CLIENT' | 'DEVELOPER' | 'ADMIN';
 }
 
-export interface RegisterData {
-  email: string;
-  password: string;
-  name: string;
-  role: 'CLIENT' | 'DEVELOPER';
-}
-
-export interface AuthResponse {
-  user: {
-    id: string;
-    email: string;
-    name: string;
-    role: string;
-  };
-  token: string;
-}
-
+// Calls the NestJS backend, which proxies to Supabase Auth server-side -
+// this frontend never talks to Supabase directly for auth.
 export const authService = {
-  async login(data: LoginData): Promise<AuthResponse> {
-    const response = await api.post('/auth/login', data);
-    return response.data;
-  },
+  signUp: (email: string, password: string, role: 'CLIENT' | 'DEVELOPER') =>
+    apiClient.post<AuthResponse>('/auth/sign-up', { email, password, role }),
 
-  async register(data: RegisterData): Promise<AuthResponse> {
-    const response = await api.post('/auth/register', data);
-    return response.data;
-  },
-
-  async logout(): Promise<void> {
-    await api.post('/auth/logout');
-  },
-
-  async getCurrentUser(): Promise<AuthResponse['user'] | null> {
-    try {
-      const response = await api.get('/auth/me');
-      return response.data;
-    } catch {
-      return null;
-    }
-  }
+  signIn: (email: string, password: string) =>
+    apiClient.post<AuthResponse>('/auth/sign-in', { email, password }),
 };
-
-export default authService;

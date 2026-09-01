@@ -1,21 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoute from '../components/common/ProtectedRoute';
-
-import ProjectDetailsPage from '../features/projects/pages/ProjectDetailsPage';
-import PlaceBidPage from '../features/projects/pages/PlaceBidPage';
-import MyProjectsPage from '../features/projects/pages/MyProjectsPage';
-import EditProjectPage from '../features/projects/pages/EditProjectPage';
-import MyBidsPage from '../features/bids/pages/MyBidsPage';
-import ProjectBidsViewPage from '../features/bids/pages/ProjectBidsViewPage';
-import EngagementsMilestonesPage from '../features/milestones/pages/EngagementsMilestonesPage';
-import AdminAccountsPage from '../features/admin/pages/AdminAccountsPage';
-import AdminProjectsPage from '../features/admin/pages/AdminProjectsPage';
-import ForgotPasswordPage from '../features/auth/pages/ForgotPasswordPage';
-import ClientOnboarding from '../features/onboarding/pages/ClientOnboarding';
-import DeveloperOnboarding from '../features/onboarding/pages/DeveloperOnboarding';
-import DeveloperDashboard from '../features/developer/pages/DeveloperDashboard';
-import NotificationsPage from '../features/notifications/pages/NotificationsPage';
-import AdminPayouts from '../features/admin/pages/AdminPayouts';
+import { useAuth } from '../contexts/AuthContext';
 
 // Layouts
 import PublicLayout from '../components/layout/PublicLayout';
@@ -23,81 +8,127 @@ import ClientLayout from '../components/layout/ClientLayout';
 import DeveloperLayout from '../components/layout/DeveloperLayout';
 import AdminLayout from '../components/layout/AdminLayout';
 
-// Pages (Placeholders - Devs will build these in their feature folders)
+// Public & Marketing Pages
 import LandingPage from '../features/projects/pages/LandingPage';
 import LoginPage from '../features/auth/pages/LoginPage';
 import RegisterPage from '../features/auth/pages/RegisterPage';
+import ForgotPasswordPage from '../features/auth/pages/ForgotPasswordPage';
+import TermsPage from '../features/projects/pages/TermsPage';
+import PrivacyPage from '../features/projects/pages/PrivacyPage';
+import AuthCallbackPage from '../features/auth/pages/AuthCallbackPage';
 
+// Onboarding Pages
+import RoleSelectionPage from '../features/users/pages/RoleSelectionPage';
+import ClientOnboardingPage from '../features/users/pages/ClientOnboardingPage';
+import DeveloperOnboardingPage from '../features/users/pages/DeveloperOnboardingPage';
+
+// Client Workspace Pages
 import ClientDashboard from '../features/projects/pages/ClientDashboard';
+import MyProjectsPage from '../features/projects/pages/MyProjectsPage';
 import PostProjectPage from '../features/projects/pages/PostProjectPage';
+import ProjectBidsPage from '../features/projects/pages/ProjectBidsPage';
 
+// Developer Workspace Pages
 import DevDashboard from '../features/bids/pages/DevDashboard';
 import BrowseProjectsPage from '../features/projects/pages/BrowseProjectsPage';
+import MyBidsPage from '../features/bids/pages/MyBidsPage';
 
-import MessagesPage from '../features/messages/pages/MessagesPage';
+// Shared & Engagement Pages
+import EngagementDetailPage from '../features/engagements/pages/EngagementDetailPage';
+import SettingsPage from '../features/users/pages/SettingsPage';
+import NotificationsPage from '../features/notifications/pages/NotificationsPage';
 
+// Admin Pages
 import AdminDashboard from '../features/admin/pages/AdminDashboard';
+import AdminAccountsPage from '../features/admin/pages/AdminAccountsPage';
+import AdminProjectsPage from '../features/admin/pages/AdminProjectsPage';
+import AdminPayouts from '../features/admin/pages/AdminPayouts';
 import DisputesPage from '../features/admin/pages/DisputesPage';
+
+/**
+ * Dynamic /dashboard router that strictly locks the user into their selected role.
+ */
+function DashboardRouter() {
+  const { user, isAuthenticated } = useAuth();
+
+  if (!isAuthenticated || !user) return <Navigate to="/login" replace />;
+  if (user.role === 'CLIENT') return <ClientLayout><ClientDashboard /></ClientLayout>;
+  if (user.role === 'DEVELOPER') return <DeveloperLayout><DevDashboard /></DeveloperLayout>;
+  if (user.role === 'ADMIN') return <Navigate to="/admin/dashboard" replace />;
+
+  return <Navigate to="/onboarding" replace />;
+}
 
 export default function AppRouter() {
   return (
     <Routes>
-      {/* Public Routes */}
-      <Route element={<PublicLayout />}>
-        <Route path="/" element={<LandingPage />} />
-                <Route path="/projects" element={<BrowseProjectsPage />} />
-        <Route path="/projects/:id" element={<ProjectDetailsPage />} />
-        <Route path="/projects/:id/place-bid" element={<PlaceBidPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      {/* Public Pages */}
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/signup" element={<RegisterPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/auth/callback" element={<AuthCallbackPage />} />
+      <Route path="/terms" element={<TermsPage />} />
+      <Route path="/privacy" element={<PrivacyPage />} />
+
+      {/* Onboarding Flow */}
+      <Route path="/onboarding" element={<RoleSelectionPage />} />
+      <Route path="/onboarding/client" element={<ClientOnboardingPage />} />
+      <Route path="/onboarding/developer" element={<DeveloperOnboardingPage />} />
+
+      {/* Dynamic Role-Locked Dashboard */}
+      <Route element={<ProtectedRoute allowedRoles={['CLIENT', 'DEVELOPER']} />}>
+        <Route path="/dashboard" element={<DashboardRouter />} />
       </Route>
 
-      {/* Client Routes */}
+      {/* Client-Only Routes */}
       <Route element={<ProtectedRoute allowedRoles={['CLIENT', 'ADMIN']} />}>
         <Route element={<ClientLayout />}>
           <Route path="/client/dashboard" element={<ClientDashboard />} />
-                    <Route path="/client/projects/new" element={<PostProjectPage />} />
           <Route path="/client/projects" element={<MyProjectsPage />} />
-          <Route path="/client/projects/:id/edit" element={<EditProjectPage />} />
-          <Route path="/client/projects/:id/bids" element={<ProjectBidsViewPage />} />
-          <Route path="/onboarding/client" element={<ClientOnboarding />} />
+          <Route path="/client/projects/new" element={<PostProjectPage />} />
+          <Route path="/client/projects/:id/bids" element={<ProjectBidsPage />} />
+          <Route path="/client/engagements/:bidId" element={<EngagementDetailPage />} />
+          <Route path="/client/settings" element={<SettingsPage />} />
+          <Route path="/client/notifications" element={<NotificationsPage />} />
         </Route>
       </Route>
 
-      {/* Developer Routes */}
+      {/* Developer-Only Routes */}
       <Route element={<ProtectedRoute allowedRoles={['DEVELOPER', 'ADMIN']} />}>
         <Route element={<DeveloperLayout />}>
-                    <Route path="/developer/dashboard" element={<DevDashboard />} />
-          <Route path="/developer/my-bids" element={<MyBidsPage />} />
-          <Route path="/developer/dashboard" element={<DeveloperDashboard />} />
-          <Route path="/onboarding/developer" element={<DeveloperOnboarding />} />
-          <Route path="/developer/engagements/:bidId/milestones" element={<EngagementsMilestonesPage />} />
+          <Route path="/developer/dashboard" element={<DevDashboard />} />
+          <Route path="/projects" element={<BrowseProjectsPage />} />
+          <Route path="/browse" element={<BrowseProjectsPage />} />
+          <Route path="/bids" element={<MyBidsPage />} />
+          <Route path="/developer/engagements/:bidId" element={<EngagementDetailPage />} />
+          <Route path="/developer/payments" element={<EngagementDetailPage />} />
+          <Route path="/developer/settings" element={<SettingsPage />} />
+          <Route path="/developer/notifications" element={<NotificationsPage />} />
         </Route>
       </Route>
 
       {/* Shared Authenticated Routes */}
       <Route element={<ProtectedRoute allowedRoles={['CLIENT', 'DEVELOPER', 'ADMIN']} />}>
-        <Route path="/messages" element={<MessagesPage />} />
-        <Route path="/notifications" element={<NotificationsPage />} />
+        <Route path="/messages" element={<DashboardRouter />} />
+        <Route path="/messages/:bidId" element={<EngagementDetailPage />} />
       </Route>
 
-      {/* Admin Routes */}
+      {/* Admin-Only Routes */}
       <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
         <Route element={<AdminLayout />}>
           <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                    <Route path="/admin/disputes" element={<DisputesPage />} />
           <Route path="/admin/accounts" element={<AdminAccountsPage />} />
           <Route path="/admin/projects" element={<AdminProjectsPage />} />
           <Route path="/admin/payouts" element={<AdminPayouts />} />
+          <Route path="/admin/disputes" element={<DisputesPage />} />
         </Route>
       </Route>
 
+      {/* Catch-all Fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
-
-
-
