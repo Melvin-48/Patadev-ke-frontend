@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate} from 'react-router-dom';
 import { 
   ArrowLeft, DollarSign, Clock, User, CheckCircle, 
@@ -6,7 +6,7 @@ import {
   AlertCircle, Search, Download
 } from 'lucide-react';
 import { Card } from '../../../components/ui/Card';
-import { Button } from "@/components/ui/Button";
+import { Button } from "../../../components/ui/Button";
 import { Badge } from '../../../components/ui/Badge';
 import { Input } from '../../../components/ui/Input';
 import { LoadingSpinner } from '../../../components/common/LoadingSpinner';

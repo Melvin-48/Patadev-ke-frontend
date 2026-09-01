@@ -7,7 +7,7 @@ interface BadgeProps {
 
 // Used for project/bid/milestone status - keeps status colour meaning
 // consistent everywhere it appears instead of each page picking its own.
-export default function Badge({ children, tone = 'neutral' }: BadgeProps) {
+export function Badge({ children, tone = 'neutral' }: BadgeProps) {
   const tones = {
     neutral: 'bg-line text-slate',
     success: 'bg-success/10 text-success',
@@ -21,3 +21,5 @@ export default function Badge({ children, tone = 'neutral' }: BadgeProps) {
     </span>
   );
 }
+
+export default Badge;

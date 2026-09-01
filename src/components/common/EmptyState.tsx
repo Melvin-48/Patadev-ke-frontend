@@ -6,7 +6,7 @@ interface EmptyStateProps {
 
 // Empty states are an invitation to act, not just an absence notice -
 // per the project's writing convention, always paired with what to do next.
-export default function EmptyState({ title, description, action }: EmptyStateProps) {
+export function EmptyState({ title, description, action }: EmptyStateProps) {
   return (
     <div className="text-center py-16 border border-dashed border-line rounded">
       <p className="font-display font-semibold text-ink">{title}</p>
@@ -15,3 +15,5 @@ export default function EmptyState({ title, description, action }: EmptyStatePro
     </div>
   );
 }
+
+export default EmptyState;

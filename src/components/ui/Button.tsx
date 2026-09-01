@@ -5,7 +5,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'danger';
 }
 
-export default function Button({ variant = 'primary', className, ...props }: ButtonProps) {
+export function Button({ variant = 'primary', className, ...props }: ButtonProps) {
   const variants = {
     primary: 'bg-ink text-paper hover:bg-ink/90',
     secondary: 'bg-transparent text-ink border border-line hover:bg-line/40',
@@ -25,3 +25,5 @@ export default function Button({ variant = 'primary', className, ...props }: But
     />
   );
 }
+
+export default Button;

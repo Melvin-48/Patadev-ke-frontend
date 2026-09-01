@@ -1,1 +1,1 @@
-﻿// TODO: Define Conversation, Message types
+// TODO: Define Conversation, Message types

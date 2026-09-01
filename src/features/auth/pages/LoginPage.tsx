@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, AlertCircle, Loader2 } from 'lucide-react';
 import { useAuth, AuthUser } from '../../../contexts/AuthContext';
 import { authService } from '../services/auth.service';
+import { usersService } from '../../users/services/users.service';
 import { cn } from '../../../lib/utils';
 import AuthLayout from '../../../components/auth/AuthLayout';
 import AuthSocialButtons from '../../../components/auth/AuthSocialButtons';
@@ -44,29 +45,47 @@ export default function LoginPage() {
     try {
       setIsLoading(true);
 
-      const res = await authService.signIn(email, password).catch(() => ({
-        userId: 'usr_' + Date.now(),
-        role: 'CLIENT' as const,
-        accessToken: 'mock_jwt_token',
-      }));
+      // 1. Authenticate with the NestJS backend (which uses Supabase Auth)
+      const res = await authService.signIn(email, password);
 
-      const authUser: AuthUser = {
+      // 2. Attach the token so the next request is authenticated
+      const tempUser: AuthUser = {
         id: res.userId,
         email,
         name: email.split('@')[0],
         role: res.role,
         verified: true,
-        onboarded: true,
+        onboarded: !!res.role,
       };
+      login(tempUser, res.accessToken);
 
-      login(authUser, res.accessToken);
+      // 3. Fetch the authoritative backend profile to get the real role
+      try {
+        const backendUser = await usersService.getMe() as any;
+        if (backendUser?.role) {
+          const fullUser: AuthUser = {
+            id: backendUser.id || res.userId,
+            email: backendUser.email || email,
+            name: backendUser.name || backendUser.displayName || email.split('@')[0],
+            role: backendUser.role,
+            verified: backendUser.verified ?? true,
+            onboarded: !!backendUser.role,
+          };
+          login(fullUser, res.accessToken);
+          navigate('/dashboard', { replace: true });
+          return;
+        }
+      } catch {
+        // /users/me failed – likely a backend error, not a missing profile.
+        // Use the role from the auth response.
+      }
 
-      if (res.role === 'ADMIN') {
-        navigate('/admin/dashboard', { replace: true });
-      } else if (res.role === 'DEVELOPER') {
-        navigate('/developer/dashboard', { replace: true });
+      // Fallback: use role from auth response
+      if (res.role) {
+        navigate('/dashboard', { replace: true });
       } else {
-        navigate('/client/dashboard', { replace: true });
+        // No role – new user, needs to complete registration
+        navigate('/onboarding', { replace: true });
       }
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Invalid credentials. Please try again.';

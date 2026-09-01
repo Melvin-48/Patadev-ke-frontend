@@ -1,1 +1,1 @@
-﻿// TODO: Implement Client Profile & Payment Settings
+// TODO: Implement Client Profile & Payment Settings

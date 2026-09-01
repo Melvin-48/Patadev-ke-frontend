@@ -1,95 +1,70 @@
-﻿import type { UserAccount, AdminProject } from '../types/admin.types';
+import { apiClient } from '../../../lib/api/client';
 
-const demoAccounts: UserAccount[] = [
-  {
-    id: '1',
-    name: 'John Doe',
-    email: 'john@example.com',
-    role: 'CLIENT',
-    status: 'ACTIVE',
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: '2',
-    name: 'Jane Smith',
-    email: 'jane@example.com',
-    role: 'DEVELOPER',
-    status: 'PENDING',
-    createdAt: new Date().toISOString()
-  }
-];
-
-const demoProjects: AdminProject[] = [
-  {
-    id: '1',
-    title: 'E-commerce Website',
-    description: 'Build a full e-commerce platform',
-    budget: 5000,
-    status: 'OPEN',
-    client: {
-      id: '1',
-      name: 'John Doe'
-    },
-    createdAt: new Date().toISOString()
-  }
-];
+export interface AdminListResponse<T> {
+  items: T[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
 
 export const adminService = {
-
-  async getAccounts(): Promise<UserAccount[]> {
-    return demoAccounts;
+  // ── Users ────────────────────────────────────────────────────────
+  async getAccounts(params?: { role?: string; status?: string; search?: string }): Promise<AdminListResponse<any>> {
+    const query = new URLSearchParams();
+    if (params?.role) query.set('role', params.role);
+    if (params?.status) query.set('status', params.status);
+    if (params?.search) query.set('search', params.search);
+    return apiClient.get(`/admin/users?${query.toString()}`);
   },
 
-  async getProjects(): Promise<AdminProject[]> {
-    return demoProjects;
+  async updateAccountStatus(userId: string, status: string): Promise<void> {
+    return apiClient.patch(`/admin/users/${userId}/status`, { status });
   },
 
-  async approveAccount(id: string): Promise<void> {
-    const account = demoAccounts.find(a => a.id === id);
+  async verifyDeveloper(userId: string, decision: 'APPROVED' | 'REJECTED', rejectionReason?: string): Promise<void> {
+    return apiClient.post('/admin/verify-developer', { userId, decision, rejectionReason });
+  },
 
-    if (account) {
-      account.status = 'ACTIVE';
+  // ── Projects ─────────────────────────────────────────────────────
+  async getProjects(params?: { status?: string; search?: string }): Promise<AdminListResponse<any>> {
+    const query = new URLSearchParams();
+    if (params?.status) query.set('status', params.status);
+    if (params?.search) query.set('search', params.search);
+    // Since there is no /admin/projects, we use the public /projects endpoint
+    // If the backend /projects returns { data, meta }, we adapt it
+    const res: any = await apiClient.get(`/projects?${query.toString()}`);
+    // Adapt response if it differs from AdminListResponse
+    if (res.data && Array.isArray(res.data)) {
+      return { items: res.data, total: res.meta?.total || res.data.length, page: 1, pageSize: 20 };
     }
+    return res; // Fallback
   },
 
-  async suspendAccount(id: string): Promise<void> {
-    const account = demoAccounts.find(a => a.id === id);
-
-    if (account) {
-      account.status = 'SUSPENDED';
-    }
+  async moderateListing(projectId: string, action: 'APPROVE' | 'REMOVE'): Promise<void> {
+    return apiClient.post('/admin/moderate-listing', { projectId, action });
   },
 
-  async removeProject(id: string): Promise<void> {
-    const index = demoProjects.findIndex(p => p.id === id);
-
-    if (index !== -1) {
-      demoProjects.splice(index, 1);
-    }
+  // ── Payouts ──────────────────────────────────────────────────────
+  // Note: Backend does not currently provide a GET /admin/payouts endpoint.
+  // We can only confirm payouts when we have a milestoneId.
+  async confirmPayout(milestoneId: string): Promise<void> {
+    return apiClient.post('/payments/confirm-payout', { milestoneId });
   },
 
-  async updateAccountStatus(
-    id: string,
-    status: string
-  ): Promise<void> {
-
-    const account = demoAccounts.find(a => a.id === id);
-
-    if (account) {
-      account.status = status;
-    }
+  // ── Disputes ─────────────────────────────────────────────────────
+  async getDisputes(params?: { status?: string }): Promise<AdminListResponse<any>> {
+    const query = new URLSearchParams();
+    if (params?.status) query.set('status', params.status);
+    return apiClient.get(`/admin/disputes?${query.toString()}`);
   },
 
-  async updateProjectStatus(
-    id: string,
-    status: string
-  ): Promise<void> {
+  async resolveDispute(disputeId: string, decision: string, resolutionNote: string): Promise<void> {
+    return apiClient.patch(`/admin/disputes/${disputeId}`, { decision, resolutionNote });
+  },
 
-    const project = demoProjects.find(p => p.id === id);
-
-    if (project) {
-      project.status = status;
-    }
+  // ── Stats ────────────────────────────────────────────────────────
+  async getFinancialReport(): Promise<any> {
+    return apiClient.get('/admin/financial-report');
   }
 };
 

@@ -1,1 +1,1 @@
-﻿// TODO: Implement Notification Dropdown UI
+// TODO: Implement Notification Dropdown UI

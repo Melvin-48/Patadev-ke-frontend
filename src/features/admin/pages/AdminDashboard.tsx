@@ -1,114 +1,186 @@
-﻿import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card } from "../../../components/ui/Card";
 import { Button } from "../../../components/ui/Button";
+import { LoadingSpinner } from "../../../components/common/LoadingSpinner";
+import { EmptyState } from "../../../components/common/EmptyState";
+import { adminService } from "../services/admin.service";
+import { Link } from "react-router-dom";
 
 import {
   Users, Briefcase, DollarSign, Clock,
-  UserCheck, AlertCircle,
-  Eye
+  UserCheck, AlertCircle, CheckCircle,
+  Eye, FileText
 } from "lucide-react";
 
-const AdminDashboard: React.FC = () => {
-  const stats = {
-    totalUsers: 1250,
-    activeUsers: 980,
-    pendingApprovals: 23,
-    totalProjects: 340,
-    activeProjects: 180,
-    totalRevenue: 125000
-  };
+import { useAuth } from "../../../contexts/AuthContext";
 
-  const recentActivity = [
-    { id: 1, user: "John Doe", action: "Registered", time: "2 mins ago", type: "user" },
-    { id: 2, user: "Jane Smith", action: "Submitted Project", time: "15 mins ago", type: "project" },
-    { id: 3, user: "Alice Johnson", action: "Needs Approval", time: "1 hour ago", type: "pending" }
-  ];
+const AdminDashboard: React.FC = () => {
+  const { user } = useAuth();
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    pendingApprovals: 0,
+    activeProjects: 0,
+    totalRevenue: 0,
+  });
+  const [pendingActions, setPendingActions] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [usersRes, pendingUsersRes, projectsRes, disputesRes, financialRes] = await Promise.allSettled([
+          adminService.getAccounts(),
+          adminService.getAccounts({ status: 'PENDING' }),
+          adminService.getProjects({ status: 'OPEN' }),
+          adminService.getDisputes({ status: 'OPEN' }),
+          adminService.getFinancialReport().catch(() => ({ totalRevenue: 0 }))
+        ]);
+
+        const totalUsers = usersRes.status === 'fulfilled' ? usersRes.value.total : 0;
+        const pendingUsers = pendingUsersRes.status === 'fulfilled' ? pendingUsersRes.value : { total: 0, items: [] };
+        const activeProjects = projectsRes.status === 'fulfilled' ? projectsRes.value.total : 0;
+        const revenue = financialRes.status === 'fulfilled' ? (financialRes.value.totalRevenue || financialRes.value.totalCommission || 0) : 0;
+        const pendingDisputes = disputesRes.status === 'fulfilled' ? disputesRes.value.items : [];
+
+        setStats({
+          totalUsers,
+          pendingApprovals: pendingUsers.total,
+          activeProjects,
+          totalRevenue: revenue
+        });
+
+        // Combine pending actions
+        const actions: any[] = [];
+        pendingUsers.items.slice(0, 5).forEach((u: any) => {
+          actions.push({
+            id: `u-${u.id}`,
+            label: `Account Approval: ${u.email}`,
+            type: "account",
+            time: new Date(u.createdAt).toLocaleDateString(),
+            link: "/admin/accounts"
+          });
+        });
+        pendingDisputes.slice(0, 5).forEach((d: any) => {
+          actions.push({
+            id: `d-${d.id}`,
+            label: `Open Dispute against ${d.against?.email || 'Unknown'}`,
+            type: "dispute",
+            time: new Date(d.createdAt).toLocaleDateString(),
+            link: "/admin/disputes"
+          });
+        });
+        setPendingActions(actions);
+      } catch (err) {
+        console.error("Failed to load dashboard data", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex h-[50vh] items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
-        <p className="text-gray-500">Monitor and manage the platform</p>
+        <h1 className="font-display text-2xl font-bold text-ink">Admin Dashboard</h1>
+        <p className="text-slate">Monitor and manage platform operations</p>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <Card className="p-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <Users className="w-5 h-5 text-blue-600" />
+            <div className="p-2 bg-primary-100 rounded-lg">
+              <Users className="w-5 h-5 text-primary-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-500">Total Users</p>
-              <p className="text-xl font-bold text-gray-900">{stats.totalUsers}</p>
+              <p className="text-sm text-slate">Total Users</p>
+              <p className="text-xl font-bold text-ink">{stats.totalUsers}</p>
             </div>
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-yellow-100 rounded-lg">
-              <Clock className="w-5 h-5 text-yellow-600" />
+            <div className="p-2 bg-amber/15 rounded-lg">
+              <Clock className="w-5 h-5 text-amber-dark" />
             </div>
             <div>
-              <p className="text-sm text-gray-500">Pending Approvals</p>
-              <p className="text-xl font-bold text-yellow-600">{stats.pendingApprovals}</p>
+              <p className="text-sm text-slate">Pending Approvals</p>
+              <p className="text-xl font-bold text-amber-dark">{stats.pendingApprovals}</p>
             </div>
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-green-100 rounded-lg">
-              <Briefcase className="w-5 h-5 text-green-600" />
+            <div className="p-2 bg-success/10 rounded-lg">
+              <Briefcase className="w-5 h-5 text-success" />
             </div>
             <div>
-              <p className="text-sm text-gray-500">Active Projects</p>
-              <p className="text-xl font-bold text-green-600">{stats.activeProjects}</p>
+              <p className="text-sm text-slate">Active Projects</p>
+              <p className="text-xl font-bold text-success">{stats.activeProjects}</p>
             </div>
           </div>
         </Card>
-        <Card className="p-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-purple-100 rounded-lg">
-              <DollarSign className="w-5 h-5 text-purple-600" />
+        {user?.role === 'SUPER_ADMIN' && (
+          <Card className="p-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-purple-100 rounded-lg">
+                <DollarSign className="w-5 h-5 text-purple-600" />
+              </div>
+              <div>
+                <p className="text-sm text-slate">Platform Revenue</p>
+                <p className="text-xl font-bold text-purple-600">KES {stats.totalRevenue.toLocaleString()}</p>
+              </div>
             </div>
-            <div>
-              <p className="text-sm text-gray-500">Total Revenue</p>
-              <p className="text-xl font-bold text-purple-600">${stats.totalRevenue.toLocaleString()}</p>
-            </div>
-          </div>
-        </Card>
+          </Card>
+        )}
       </div>
 
-      {/* Recent Activity */}
-      <h2 className="text-xl font-semibold text-gray-900 mb-4">Recent Activity</h2>
-      <Card className="p-4">
-        <div className="space-y-4">
-          {recentActivity.map((item) => (
-            <div key={item.id} className="flex items-center justify-between py-2 border-b last:border-0">
-              <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-lg ${
-                  item.type === "pending" ? "bg-yellow-100" :
-                  item.type === "project" ? "bg-blue-100" :
-                  "bg-green-100"
-                }`}>
-                  {item.type === "pending" ? <AlertCircle className="w-4 h-4 text-yellow-600" /> :
-                   item.type === "project" ? <Briefcase className="w-4 h-4 text-blue-600" /> :
-                   <UserCheck className="w-4 h-4 text-green-600" />}
+      {/* Pending Actions */}
+      <h2 className="font-display text-lg font-semibold text-ink mb-4">Pending Actions</h2>
+      <Card className="p-0 overflow-hidden">
+        {pendingActions.length === 0 ? (
+          <div className="p-8">
+            <EmptyState 
+              title="No Pending Actions" 
+              description="You're all caught up! There are no pending approvals or disputes."
+            />
+          </div>
+        ) : (
+          <div className="divide-y divide-line">
+            {pendingActions.map((item) => (
+              <div key={item.id} className="flex items-center justify-between p-4 hover:bg-slate/5 transition-colors">
+                <div className="flex items-center gap-3">
+                  <div className={`p-2 rounded-lg ${
+                    item.type === "account" ? "bg-amber/15 text-amber-dark" : "bg-danger/10 text-danger"
+                  }`}>
+                    {item.type === "account" ? <UserCheck className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
+                  </div>
+                  <div>
+                    <p className="font-medium text-ink">{item.label}</p>
+                    <p className="text-sm text-slate">{item.type === "account" ? "Needs Verification" : "Awaiting Resolution"}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-medium text-gray-900">{item.user}</p>
-                  <p className="text-sm text-gray-500">{item.action}</p>
+                <div className="flex items-center gap-4">
+                  <span className="text-sm text-slate">{item.time}</span>
+                  <Link to={item.link}>
+                    <Button variant="secondary" className="px-2 py-1 text-xs">
+                      <Eye className="w-4 h-4 mr-1 inline-block" /> View
+                    </Button>
+                  </Link>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
-                <span className="text-sm text-gray-400">{item.time}</span>
-                <Button variant="ghost" size="sm">
-                  <Eye className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </Card>
     </div>
   );
