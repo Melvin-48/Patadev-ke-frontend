@@ -1,9 +1,12 @@
-import { Bell, Check, LockKeyhole, UserRound } from 'lucide-react';
+import { Check, LockKeyhole, UserRound } from 'lucide-react';
 import PageHeader from '../../../components/dashboard/PageHeader';
 import Avatar from '../../../components/dashboard/Avatar';
 import { useToast, Toast } from '../../../components/dashboard/useToast';
 import { useAuth } from '../../../contexts/AuthContext';
 
+// Profile settings, role-aware: clients edit company details, developers
+// edit their pitch, skills and portfolio. TODO: load current values from
+// GET /users/me and persist via usersService.
 export default function SettingsPage() {
   const { user } = useAuth();
   const { toast, notify } = useToast();
@@ -25,39 +28,34 @@ export default function SettingsPage() {
       <div className="settings-layout">
         <nav className="settings-nav">
           <button className="active"><UserRound size={16} /> Profile</button>
-          <button onClick={() => notify('Security settings')}><LockKeyhole size={16} /> Security</button>
-          <button onClick={() => notify('Notification preferences')}><Bell size={16} /> Notifications</button>
+          <button><LockKeyhole size={16} /> Security</button>
         </nav>
 
         <section className="panel settings-form">
           <div className="profile-cover">
-            <div className="profile-large"><Avatar initials="JD" /></div>
-            <button className="button button-outline" onClick={() => notify('Change photo opened')}>
-              Change photo
-            </button>
+            <div className="profile-large"><Avatar initials="PD" /></div>
+            <button className="button button-outline">Change photo</button>
           </div>
-
           <div className="settings-section">
             <span className="eyebrow">PERSONAL INFORMATION</span>
             <h2>{isClient ? 'Tell developers who you are' : 'Show clients what you can do'}</h2>
             <div className="form-two-col">
-              <label>First name<input defaultValue="Jordan" /></label>
-              <label>Last name<input defaultValue="Davis" /></label>
+              <label>First name<input defaultValue="Peter" /></label>
+              <label>Last name<input defaultValue="Kamau" /></label>
             </div>
-            <label>Email address<input defaultValue={user?.email || 'jordan@buildbetter.co'} type="email" /></label>
-
-            {!isClient ? (
+            <label>Email address<input defaultValue={user?.email ?? ''} type="email" /></label>
+            {isClient ? (
               <>
-                <label>Professional headline<input defaultValue="Senior full-stack developer helping teams build better software" /></label>
-                <label>About you<textarea rows={5} defaultValue="I partner with ambitious teams to turn complex ideas into simple, useful products." /></label>
-                <label>Skills<input defaultValue="React, TypeScript, Node.js, PostgreSQL, AWS" /></label>
-                <label>Portfolio URL<input defaultValue="https://jordan.dev" /></label>
+                <label>Business name<input defaultValue="Kamau Stores Ltd." /></label>
+                <label>About your business<textarea rows={5} defaultValue="We run a growing retail chain and need systems to match." /></label>
+                <label>Phone number<input defaultValue="+254 712 345 678" /></label>
               </>
             ) : (
               <>
-                <label>Company name<input defaultValue="Davis & Co." /></label>
-                <label>About your company<textarea rows={5} defaultValue="We build tools that help independent businesses do their best work." /></label>
-                <label>Website URL<input defaultValue="https://davisandco.co" /></label>
+                <label>Professional headline<input defaultValue="Senior full-stack developer building systems for Kenyan businesses" /></label>
+                <label>About you<textarea rows={5} defaultValue="I partner with ambitious teams to turn complex ideas into simple, useful products." /></label>
+                <label>Skills<input defaultValue="React, TypeScript, Node.js, PostgreSQL, AWS" /></label>
+                <label>Portfolio URL<input defaultValue="https://myportfolio.dev" /></label>
               </>
             )}
           </div>

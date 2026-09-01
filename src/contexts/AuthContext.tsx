@@ -7,46 +7,49 @@ export interface AuthUser {
   id: string;
   email: string;
   name?: string;
-  role: Role;
+  role: Role | null;
   verified: boolean;
+  onboarded?: boolean;
 }
 
-const defaultUser: AuthUser = {
-  id: 'usr_jordan',
-  email: 'jordan@buildbetter.co',
-  name: 'Jordan Davis',
-  role: 'CLIENT',
-  verified: true,
-};
-
 interface AuthContextValue {
-  user: AuthUser;
+  user: AuthUser | null;
   isAuthenticated: boolean;
   login: (user: AuthUser, token: string) => void;
   logout: () => void;
-  switchRole: (role: 'CLIENT' | 'DEVELOPER' | 'ADMIN') => void;
+  updateUser: (partial: Partial<AuthUser>) => void;
+  setRole: (role: Role) => void;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<AuthUser>(() => {
+  const [user, setUser] = useState<AuthUser | null>(() => {
     try {
       const stored = localStorage.getItem('patadev_user');
       if (stored) {
         const parsed = JSON.parse(stored);
-        if (parsed && parsed.role) return parsed;
+        if (parsed && (parsed.id || parsed.email)) return parsed;
       }
     } catch {
       // ignore
     }
-    return defaultUser;
+    // Default logged in user for development / demo
+    return {
+      id: 'usr_jordan',
+      email: 'jordan@buildbetter.co',
+      name: 'Jordan Davis',
+      role: 'CLIENT',
+      verified: true,
+      onboarded: true,
+    };
   });
 
   function login(newUser: AuthUser, token: string) {
     setToken(token);
     try {
       localStorage.setItem('patadev_user', JSON.stringify(newUser));
+      localStorage.setItem('patadev_token', token);
     } catch {
       // ignore
     }
@@ -56,12 +59,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   function logout() {
     clearToken();
     localStorage.removeItem('patadev_user');
-    setUser(defaultUser);
+    localStorage.removeItem('patadev_token');
+    setUser(null);
   }
 
-  function switchRole(nextRole: Role) {
+  function updateUser(partial: Partial<AuthUser>) {
     setUser((prev) => {
-      const updated = { ...prev, role: nextRole };
+      if (!prev) return null;
+      const updated = { ...prev, ...partial };
       try {
         localStorage.setItem('patadev_user', JSON.stringify(updated));
       } catch {
@@ -71,8 +76,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
   }
 
+  function setRole(role: Role) {
+    updateUser({ role, onboarded: true });
+  }
+
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: true, login, logout, switchRole }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        isAuthenticated: !!user,
+        login,
+        logout,
+        updateUser,
+        setRole,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

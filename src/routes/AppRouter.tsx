@@ -1,25 +1,42 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
+import ProtectedRoute from '../components/common/ProtectedRoute';
+import { useAuth } from '../contexts/AuthContext';
 
-// Dashboard Shell Layout (Exact Match of App.tsx Shell)
-import DashboardLayout from '../components/layout/DashboardLayout';
+// Layouts
+import PublicLayout from '../components/layout/PublicLayout';
+import ClientLayout from '../components/layout/ClientLayout';
+import DeveloperLayout from '../components/layout/DeveloperLayout';
 import AdminLayout from '../components/layout/AdminLayout';
 
-// Feature Pages (Exact Matches of App.tsx Views)
-import DashboardOverviewPage from '../features/dashboard/pages/DashboardOverviewPage';
-import MyProjectsPage from '../features/projects/pages/MyProjectsPage';
-import PostProjectPage from '../features/projects/pages/PostProjectPage';
-import BrowseProjectsPage from '../features/projects/pages/BrowseProjectsPage';
-import ProjectBidsPage from '../features/projects/pages/ProjectBidsPage';
-import MyBidsPage from '../features/bids/pages/MyBidsPage';
-import EngagementDetailPage from '../features/engagements/pages/EngagementDetailPage';
-import MilestonesPage from '../features/milestones/pages/MilestonesPage';
-import PaymentHistoryPage from '../features/payments/pages/PaymentHistoryPage';
-import NotificationsPage from '../features/notifications/pages/NotificationsPage';
-import SettingsPage from '../features/users/pages/SettingsPage';
-import ClientProfileSetupPage from '../features/users/pages/ClientProfileSetupPage';
-import DeveloperProfileSetupPage from '../features/users/pages/DeveloperProfileSetupPage';
+// Public & Marketing Pages
+import LandingPage from '../features/projects/pages/LandingPage';
 import LoginPage from '../features/auth/pages/LoginPage';
 import RegisterPage from '../features/auth/pages/RegisterPage';
+import ForgotPasswordPage from '../features/auth/pages/ForgotPasswordPage';
+import TermsPage from '../features/projects/pages/TermsPage';
+import PrivacyPage from '../features/projects/pages/PrivacyPage';
+import AuthCallbackPage from '../features/auth/pages/AuthCallbackPage';
+
+// Onboarding Pages
+import RoleSelectionPage from '../features/users/pages/RoleSelectionPage';
+import ClientOnboardingPage from '../features/users/pages/ClientOnboardingPage';
+import DeveloperOnboardingPage from '../features/users/pages/DeveloperOnboardingPage';
+
+// Client Workspace Pages
+import ClientDashboard from '../features/projects/pages/ClientDashboard';
+import MyProjectsPage from '../features/projects/pages/MyProjectsPage';
+import PostProjectPage from '../features/projects/pages/PostProjectPage';
+import ProjectBidsPage from '../features/projects/pages/ProjectBidsPage';
+
+// Developer Workspace Pages
+import DevDashboard from '../features/bids/pages/DevDashboard';
+import BrowseProjectsPage from '../features/projects/pages/BrowseProjectsPage';
+import MyBidsPage from '../features/bids/pages/MyBidsPage';
+
+// Shared & Engagement Pages
+import EngagementDetailPage from '../features/engagements/pages/EngagementDetailPage';
+import SettingsPage from '../features/users/pages/SettingsPage';
+import NotificationsPage from '../features/notifications/pages/NotificationsPage';
 
 // Admin Pages
 import AdminDashboardPage from '../features/admin/pages/AdminDashboardPage';
@@ -30,66 +47,91 @@ import ReviewReportsPage from '../features/admin/pages/ReviewReportsPage';
 import DisputesPage from '../features/admin/pages/DisputesPage';
 import UserModerationPage from '../features/admin/pages/UserModerationPage';
 
+/**
+ * Dynamic /dashboard router that strictly locks the user into their selected role.
+ */
+function DashboardRouter() {
+  const { user, isAuthenticated } = useAuth();
+
+  if (!isAuthenticated || !user) return <Navigate to="/login" replace />;
+  if (user.role === 'CLIENT') return <ClientLayout><ClientDashboard /></ClientLayout>;
+  if (user.role === 'DEVELOPER') return <DeveloperLayout><DevDashboard /></DeveloperLayout>;
+  if (user.role === 'ADMIN') return <Navigate to="/admin/dashboard" replace />;
+
+  return <Navigate to="/onboarding" replace />;
+}
+
 export default function AppRouter() {
   return (
     <Routes>
-      {/* Workspace App Shell Routes */}
-      <Route element={<DashboardLayout />}>
-        {/* Default Landing & Dashboard */}
-        <Route path="/" element={<DashboardOverviewPage />} />
-        <Route path="/dashboard" element={<DashboardOverviewPage />} />
+      {/* Public Pages */}
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/signup" element={<RegisterPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/auth/callback" element={<AuthCallbackPage />} />
+      <Route path="/terms" element={<TermsPage />} />
+      <Route path="/privacy" element={<PrivacyPage />} />
 
-        {/* Client Projects Routes */}
-        <Route path="/projects" element={<MyProjectsPage />} />
-        <Route path="/dashboard/projects" element={<MyProjectsPage />} />
-        <Route path="/projects/new" element={<PostProjectPage />} />
-        <Route path="/dashboard/projects/new" element={<PostProjectPage />} />
-        <Route path="/projects/:id/bids" element={<ProjectBidsPage />} />
-        <Route path="/dashboard/projects/:id/bids" element={<ProjectBidsPage />} />
+      {/* Onboarding Flow */}
+      <Route path="/onboarding" element={<RoleSelectionPage />} />
+      <Route path="/onboarding/client" element={<ClientOnboardingPage />} />
+      <Route path="/onboarding/developer" element={<DeveloperOnboardingPage />} />
 
-        {/* Developer Discovery & Bids Routes */}
-        <Route path="/browse" element={<BrowseProjectsPage />} />
-        <Route path="/dashboard/browse" element={<BrowseProjectsPage />} />
-        <Route path="/bids" element={<MyBidsPage />} />
-        <Route path="/dashboard/bids" element={<MyBidsPage />} />
-
-        {/* Active Engagement Workspace */}
-        <Route path="/engagement" element={<EngagementDetailPage />} />
-        <Route path="/engagements" element={<EngagementDetailPage />} />
-        <Route path="/dashboard/engagements/:bidId" element={<EngagementDetailPage />} />
-        <Route path="/milestones" element={<MilestonesPage />} />
-        <Route path="/dashboard/milestones" element={<MilestonesPage />} />
-        <Route path="/payments" element={<PaymentHistoryPage />} />
-        <Route path="/dashboard/payments" element={<PaymentHistoryPage />} />
-
-        {/* Notifications & Settings */}
-        <Route path="/notifications" element={<NotificationsPage />} />
-        <Route path="/dashboard/notifications" element={<NotificationsPage />} />
-        <Route path="/settings" element={<SettingsPage />} />
-        <Route path="/dashboard/settings" element={<SettingsPage />} />
-
-        {/* Profile Setup / Onboarding */}
-        <Route path="/dashboard/profile/setup/client" element={<ClientProfileSetupPage />} />
-        <Route path="/dashboard/profile/setup/developer" element={<DeveloperProfileSetupPage />} />
-
-        {/* Auth Pages */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+      {/* Dynamic Role-Locked Dashboard */}
+      <Route element={<ProtectedRoute allowedRoles={['CLIENT', 'DEVELOPER']} />}>
+        <Route path="/dashboard" element={<DashboardRouter />} />
       </Route>
 
-      {/* Admin Center Routes */}
-      <Route element={<AdminLayout />}>
-        <Route path="/admin" element={<AdminDashboardPage />} />
-        <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
-        <Route path="/admin/accounts" element={<ApproveAccountsPage />} />
-        <Route path="/admin/listings" element={<ModerateListingsPage />} />
-        <Route path="/admin/payouts" element={<ConfirmPayoutsPage />} />
-        <Route path="/admin/reports" element={<ReviewReportsPage />} />
-        <Route path="/admin/disputes" element={<DisputesPage />} />
-        <Route path="/admin/users" element={<UserModerationPage />} />
+      {/* Client-Only Routes */}
+      <Route element={<ProtectedRoute allowedRoles={['CLIENT', 'ADMIN']} />}>
+        <Route element={<ClientLayout />}>
+          <Route path="/client/dashboard" element={<ClientDashboard />} />
+          <Route path="/client/projects" element={<MyProjectsPage />} />
+          <Route path="/client/projects/new" element={<PostProjectPage />} />
+          <Route path="/client/projects/:id/bids" element={<ProjectBidsPage />} />
+          <Route path="/client/engagements/:bidId" element={<EngagementDetailPage />} />
+          <Route path="/client/settings" element={<SettingsPage />} />
+          <Route path="/client/notifications" element={<NotificationsPage />} />
+        </Route>
       </Route>
 
-      {/* Fallback */}
+      {/* Developer-Only Routes */}
+      <Route element={<ProtectedRoute allowedRoles={['DEVELOPER', 'ADMIN']} />}>
+        <Route element={<DeveloperLayout />}>
+          <Route path="/developer/dashboard" element={<DevDashboard />} />
+          <Route path="/projects" element={<BrowseProjectsPage />} />
+          <Route path="/browse" element={<BrowseProjectsPage />} />
+          <Route path="/bids" element={<MyBidsPage />} />
+          <Route path="/developer/engagements/:bidId" element={<EngagementDetailPage />} />
+          <Route path="/developer/payments" element={<EngagementDetailPage />} />
+          <Route path="/developer/settings" element={<SettingsPage />} />
+          <Route path="/developer/notifications" element={<NotificationsPage />} />
+        </Route>
+      </Route>
+
+      {/* Shared Authenticated Routes */}
+      <Route element={<ProtectedRoute allowedRoles={['CLIENT', 'DEVELOPER', 'ADMIN']} />}>
+        <Route path="/messages" element={<DashboardRouter />} />
+        <Route path="/messages/:bidId" element={<EngagementDetailPage />} />
+      </Route>
+
+      {/* Admin-Only Routes */}
+      <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
+        <Route element={<AdminLayout />}>
+          <Route path="/admin" element={<AdminDashboardPage />} />
+          <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+          <Route path="/admin/accounts" element={<ApproveAccountsPage />} />
+          <Route path="/admin/listings" element={<ModerateListingsPage />} />
+          <Route path="/admin/payouts" element={<ConfirmPayoutsPage />} />
+          <Route path="/admin/reports" element={<ReviewReportsPage />} />
+          <Route path="/admin/disputes" element={<DisputesPage />} />
+          <Route path="/admin/users" element={<UserModerationPage />} />
+        </Route>
+      </Route>
+
+      {/* Catch-all Fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
