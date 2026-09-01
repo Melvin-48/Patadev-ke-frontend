@@ -1,4 +1,4 @@
-﻿import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoute from '../components/common/ProtectedRoute';
 
 import ProjectDetailsPage from '../features/projects/pages/ProjectDetailsPage';
@@ -85,6 +85,7 @@ export default function AppRouter() {
       {/* Admin Routes */}
       <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
         <Route element={<AdminLayout />}>
+          <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
                     <Route path="/admin/disputes" element={<DisputesPage />} />
           <Route path="/admin/accounts" element={<AdminAccountsPage />} />
