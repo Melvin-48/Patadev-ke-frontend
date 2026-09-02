@@ -77,11 +77,7 @@ export default function RegisterPage() {
     try {
       setIsLoading(true);
 
-      const res = await authService.signUp(email, password, 'CLIENT').catch(() => ({
-        userId: 'usr_' + Date.now(),
-        role: 'CLIENT' as const,
-        accessToken: 'mock_jwt_token',
-      }));
+      const res = await authService.signUp(email, password);
 
       const authUser: AuthUser = {
         id: res.userId,
