@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FolderKanban, FileText, Plus, Activity } from 'lucide-react';
 import DashboardHeader from '../../../components/dashboard/DashboardHeader';
@@ -96,10 +96,10 @@ export default function ClientDashboard() {
       {/* 4. Main Responsive Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
-        {/* ────── LEFT / LARGE COLUMN (8 cols desktop) ────── */}
+        {/* â”€â”€â”€â”€â”€â”€ LEFT / LARGE COLUMN (8 cols desktop) â”€â”€â”€â”€â”€â”€ */}
         <div className="lg:col-span-8 space-y-8">
           
-          {/* ────── Active Projects Section ────── */}
+          {/* â”€â”€â”€â”€â”€â”€ Active Projects Section â”€â”€â”€â”€â”€â”€ */}
           <section className="bg-white/40 backdrop-blur-md rounded-3xl p-6 border border-slate-200/50 shadow-xs">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
               <div>
@@ -164,7 +164,7 @@ export default function ClientDashboard() {
             )}
           </section>
 
-          {/* ────── Recent Proposals Section ────── */}
+          {/* â”€â”€â”€â”€â”€â”€ Recent Proposals Section â”€â”€â”€â”€â”€â”€ */}
           <section className="bg-white/40 backdrop-blur-md rounded-3xl p-6 border border-slate-200/50 shadow-xs">
             <div className="flex items-center justify-between gap-4 mb-5">
               <div>
@@ -212,7 +212,7 @@ export default function ClientDashboard() {
 
         </div>
 
-        {/* ────── RIGHT SIDEBAR COLUMN (4 cols desktop) ────── */}
+        {/* â”€â”€â”€â”€â”€â”€ RIGHT SIDEBAR COLUMN (4 cols desktop) â”€â”€â”€â”€â”€â”€ */}
         <div className="lg:col-span-4 space-y-6">
           
           {/* Needs Your Attention (Conditional rendering) */}

@@ -1,4 +1,4 @@
-export type ProjectStatus = 'Pending' | 'In Progress' | 'Submitted' | 'Approved' | 'Completed' | 'Action Required';
+﻿export type ProjectStatus = 'Pending' | 'In Progress' | 'Submitted' | 'Approved' | 'Completed' | 'Action Required';
 
 export interface ProjectMilestone {
   id: string;
@@ -9,6 +9,7 @@ export interface ProjectMilestone {
 }
 
 export interface Project {
+  skills?: string[];
   id: string;
   title: string;
   description: string;
@@ -63,3 +64,4 @@ export interface ClientDashboardMetrics {
   totalSpent: number;
   currency: string;
 }
+

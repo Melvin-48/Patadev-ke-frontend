@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Save } from 'lucide-react';
 import { Card } from '../../../components/ui/Card';
@@ -24,9 +24,9 @@ export default function EditProjectPage() {
   const fetchProject = async () => {
     try {
       setLoading(true);
-      const project = await projectsService.getProjectById(id!);
+      const project = await projectsService.getById(id!);
       if (project) {
-        setFormData(project);
+        setFormData(project as unknown as Partial<Project>);
       }
     } catch (error) {
       console.error('Error fetching project:', error);
@@ -39,7 +39,7 @@ export default function EditProjectPage() {
     e.preventDefault();
     try {
       setSaving(true);
-      await projectsService.updateProject(id!, formData);
+      await projectsService.update(id!, formData);
       navigate('/projects');
       alert('Project updated successfully!');
     } catch (error) {
@@ -146,6 +146,10 @@ export default function EditProjectPage() {
     </div>
   );
 }
+
+
+
+
 
 
 

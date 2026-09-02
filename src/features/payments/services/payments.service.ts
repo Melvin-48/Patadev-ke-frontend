@@ -1,4 +1,4 @@
-import { apiClient } from '../../../lib/api/client';
+﻿import { apiClient } from '../../../lib/api/client';
 
 interface LedgerEntry {
   id: string;
@@ -12,4 +12,5 @@ interface LedgerEntry {
 export const paymentsService = {
   history: (bidId: string) => apiClient.get<LedgerEntry[]>(`/payments/bid/${bidId}`),
 };
+
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { useParams, useNavigate} from 'react-router-dom';
 import { 
   ArrowLeft, DollarSign, Clock, User, CheckCircle, 
@@ -38,10 +38,10 @@ export default function ProjectBidsViewPage() {
     try {
       setLoading(true);
       const [projectData, bidsData] = await Promise.all([
-        projectsService.getProjectById(projectId),
+        projectsService.getById(projectId),
         bidsService.getBidsForProject(projectId)
       ]);
-      setProject(projectData);
+      setProject(projectData as unknown as Project);
       setBids(bidsData);
       setFilteredBids(bidsData);
     } catch (error) {
@@ -248,7 +248,7 @@ export default function ProjectBidsViewPage() {
                         {bid.developer?.rating && (
                           <span className="flex items-center">
                             <ThumbsUp className="w-3 h-3 mr-1 text-green-500" />
-                            {bid.developer.rating}★
+                            {bid.developer.rating}â˜…
                           </span>
                         )}
                       </div>
@@ -290,7 +290,7 @@ export default function ProjectBidsViewPage() {
                     Message
                   </Button>
                   
-                  {project.status === 'OPEN' && bid.status === 'PENDING' && (
+                  {String(project.status) === 'OPEN' && bid.status === 'PENDING' && (
                     <>
                       <Button
                         size="sm"
@@ -320,6 +320,9 @@ export default function ProjectBidsViewPage() {
     </div>
   );
 }
+
+
+
 
 
 

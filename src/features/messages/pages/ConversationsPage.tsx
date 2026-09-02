@@ -1,4 +1,4 @@
-import EmptyState from '../../../components/common/EmptyState';
+﻿import EmptyState from '../../../components/common/EmptyState';
 // TODO: list accepted bids for the current user (client or developer) as
 // conversation threads - each links to /messages/:bidId.
 
@@ -13,3 +13,4 @@ export default function ConversationsPage() {
     </div>
   );
 }
+

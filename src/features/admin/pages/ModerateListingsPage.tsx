@@ -1,4 +1,4 @@
-import EmptyState from '../../../components/common/EmptyState';
+﻿import EmptyState from '../../../components/common/EmptyState';
 // TODO: list flagged/open projects with Approve/Remove actions ->
 // adminService.moderateListing(projectId, action).
 
@@ -10,3 +10,4 @@ export default function ModerateListingsPage() {
     </div>
   );
 }
+

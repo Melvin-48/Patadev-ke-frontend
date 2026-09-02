@@ -1,17 +1,45 @@
+﻿import type { ReactNode } from 'react';
+
 interface EmptyStateProps {
   title: string;
   description?: string;
-  action?: React.ReactNode;
+  action?: ReactNode;
+  icon?: ReactNode;
+  className?: string;
 }
 
-// Empty states are an invitation to act, not just an absence notice -
-// per the project's writing convention, always paired with what to do next.
-export function EmptyState({ title, description, action }: EmptyStateProps) {
+export function EmptyState({
+  title,
+  description,
+  action,
+  icon,
+  className = '',
+}: EmptyStateProps) {
   return (
-    <div className="text-center py-16 border border-dashed border-line rounded">
-      <p className="font-display font-semibold text-ink">{title}</p>
-      {description && <p className="text-slate text-sm mt-1">{description}</p>}
-      {action && <div className="mt-4">{action}</div>}
+    <div
+      className={`text-center py-16 border border-dashed border-line rounded ${className}`}
+    >
+      {icon && (
+        <div className="flex justify-center mb-4">
+          {icon}
+        </div>
+      )}
+
+      <p className="font-display font-semibold text-ink">
+        {title}
+      </p>
+
+      {description && (
+        <p className="text-slate text-sm mt-1">
+          {description}
+        </p>
+      )}
+
+      {action && (
+        <div className="mt-4">
+          {action}
+        </div>
+      )}
     </div>
   );
 }

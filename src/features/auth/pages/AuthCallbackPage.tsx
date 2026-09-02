@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+﻿import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../../lib/supabase/client';
 import { usersService } from '../../users/services/users.service';
@@ -58,3 +58,4 @@ export default function AuthCallbackPage() {
     </div>
   );
 }
+

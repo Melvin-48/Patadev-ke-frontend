@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom';
+﻿import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowUpRight, Star } from 'lucide-react';
 import PageHeader from '../../../components/dashboard/PageHeader';
 import Avatar from '../../../components/dashboard/Avatar';
@@ -49,7 +49,7 @@ export default function ProjectBidsPage() {
               <Avatar initials={developer.initials} color={developer.color} />
               <div>
                 <strong>{developer.name}</strong>
-                <span>{developer.role} · {developer.skills}</span>
+                <span>{developer.role} Â· {developer.skills}</span>
               </div>
               <span className="status-text matched"><Star size={11} /> {developer.rating}</span>
               <strong style={{ color: '#3f4e66', fontSize: 11, marginRight: 6 }}>{proposalAmounts[index]}</strong>

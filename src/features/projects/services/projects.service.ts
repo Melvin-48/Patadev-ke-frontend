@@ -1,4 +1,4 @@
-import { apiClient } from '../../../lib/api/client';
+﻿import { apiClient } from '../../../lib/api/client';
 import { Project } from '../../../types';
 import {
   Project as DashboardProject,
@@ -13,10 +13,11 @@ export const projectsService = {
     apiClient.get<{ items: Project[]; total: number }>(
       `/projects${filters ? '?' + new URLSearchParams(filters) : ''}`,
     ),
-  getById: (id: string) => apiClient.get<Project>(`/projects/${id}`),
+  getById: (id: string) => apiClient.get<Project>(`(/projects/)`),
   create: (data: Partial<Project>) => apiClient.post<Project>('/projects', data),
-  publish: (id: string) => apiClient.post(`/projects/${id}/publish`),
-  cancel: (id: string) => apiClient.post(`/projects/${id}/cancel`),
+  update: (id: string, data: unknown) => apiClient.patch<Project>(`/projects/${id}`, data),
+  publish: (id: string) => apiClient.post(`(/projects/)/publish`),
+  cancel: (id: string) => apiClient.post(`(/projects/)/cancel`),
 };
 
 // Dashboard aggregate service for Client / Developer views
@@ -144,3 +145,8 @@ export class ProjectsService {
 }
 
 export default ProjectsService;
+
+
+
+
+

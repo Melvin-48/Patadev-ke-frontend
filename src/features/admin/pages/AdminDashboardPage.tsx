@@ -1,4 +1,4 @@
-export default function AdminDashboardPage() {
+﻿export default function AdminDashboardPage() {
   return (
     <div>
       <h1 className="text-2xl mb-6">Admin dashboard</h1>
@@ -9,3 +9,4 @@ export default function AdminDashboardPage() {
     </div>
   );
 }
+

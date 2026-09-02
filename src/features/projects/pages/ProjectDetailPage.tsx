@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+﻿import { useParams } from 'react-router-dom';
 import Card from '../../../components/ui/Card';
 import Button from '../../../components/ui/Button';
 import { useAuth } from '../../../contexts/AuthContext';
@@ -37,3 +37,4 @@ export default function ProjectDetailPage() {
     </div>
   );
 }
+

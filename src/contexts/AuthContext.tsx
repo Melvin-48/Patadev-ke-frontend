@@ -1,6 +1,7 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+﻿import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { setToken, clearToken, apiClient } from '../lib/api/client';
 import { supabase } from '../lib/supabase/client';
+import type { AuthChangeEvent, Session } from '@supabase/supabase-js';
 
 export type Role = 'CLIENT' | 'DEVELOPER' | 'ADMIN' | 'SUPER_ADMIN';
 
@@ -58,7 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const { data: { session } } = await supabase.auth.getSession();
 
         if (!session) {
-          // No session at all – clear any stale state and stay unauthenticated
+          // No session at all â€“ clear any stale state and stay unauthenticated
           clearToken();
           localStorage.removeItem('patadev_user');
           if (mounted) {
@@ -105,7 +106,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           }
         }
       } catch (_err) {
-        // Supabase client error – treat as unauthenticated
+        // Supabase client error â€“ treat as unauthenticated
         if (mounted) setUser(null);
       } finally {
         if (mounted) setIsLoading(false);
@@ -116,7 +117,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     // Listen for Supabase auth state changes (OAuth callback, sign-out, token refresh, or sign-in)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      async (event: AuthChangeEvent, session: Session | null) => {
         if (!mounted) return;
 
         if (event === 'SIGNED_OUT' || !session) {
@@ -225,3 +226,7 @@ export function useAuth() {
   if (!ctx) throw new Error('useAuth must be used within AuthProvider');
   return ctx;
 }
+
+
+
+

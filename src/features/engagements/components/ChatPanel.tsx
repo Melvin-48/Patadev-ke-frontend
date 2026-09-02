@@ -1,4 +1,4 @@
-import { FormEvent } from 'react';
+﻿import { FormEvent } from 'react';
 import { Send } from 'lucide-react';
 import Avatar from '../../../components/dashboard/Avatar';
 import { mockChatMessages } from '../../../data/mock';
@@ -20,7 +20,7 @@ export default function ChatPanel({ notify }: { notify: (message: string) => voi
         <Avatar initials="AM" color="blue" small />
         <div>
           <strong>Alex Morgan</strong>
-          <span>Senior full-stack engineer · Shared workspace</span>
+          <span>Senior full-stack engineer Â· Shared workspace</span>
         </div>
         <span className="online-dot" /> Online
       </div>

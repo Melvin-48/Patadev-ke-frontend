@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ArrowUpRight, CalendarDays, Check, CircleDollarSign, WalletCards } from 'lucide-react';
 import PageHeader from '../../../components/dashboard/PageHeader';
@@ -41,7 +41,7 @@ export default function EngagementDetailPage() {
           <Avatar initials="AM" color="blue" />
           <div>
             <strong>Alex Morgan</strong>
-            <span>Senior full-stack engineer · Matched May 18, 2024</span>
+            <span>Senior full-stack engineer Â· Matched May 18, 2024</span>
           </div>
           <span className="online-dot" /> Online
         </div>

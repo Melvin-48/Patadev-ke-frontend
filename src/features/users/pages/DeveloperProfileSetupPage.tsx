@@ -1,4 +1,4 @@
-import Card from '../../../components/ui/Card';
+﻿import Card from '../../../components/ui/Card';
 import Input from '../../../components/ui/Input';
 import Button from '../../../components/ui/Button';
 
@@ -21,3 +21,4 @@ export default function DeveloperProfileSetupPage() {
     </div>
   );
 }
+

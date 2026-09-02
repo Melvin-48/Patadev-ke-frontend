@@ -1,6 +1,6 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BriefcaseBusiness, Building2, Filter, MoreHorizontal, Plus } from 'lucide-react';
+import { Briefcase, Building2, Filter, MoreHorizontal, Plus } from 'lucide-react';
 import PageHeader from '../../../components/dashboard/PageHeader';
 import StatusBadge from '../../../components/dashboard/StatusBadge';
 import { useToast, Toast } from '../../../components/dashboard/useToast';
@@ -24,7 +24,7 @@ export default function MyProjectsPage() {
 
   function openProject(project: (typeof mockProjects)[number]) {
     if (project.status === 'DRAFT') return navigate('/dashboard/projects/new');
-    if (project.status === 'OPEN') return navigate(`/dashboard/projects/${project.id}/bids`);
+    if (String(project.status) === 'OPEN') return navigate(`/dashboard/projects/${project.id}/bids`);
     return navigate(`/dashboard/engagements/${selectedBidId}`);
   }
 
@@ -75,7 +75,7 @@ export default function MyProjectsPage() {
               </span>
             </div>
             <StatusBadge status={project.status} />
-            <span>{project.bids || '—'}</span>
+            <span>{project.bids || 'â€”'}</span>
             <span>{project.budgetLabel}</span>
             <span>{project.updated}</span>
             <button
@@ -89,7 +89,7 @@ export default function MyProjectsPage() {
         ))}
         {filtered.length === 0 && (
           <div className="empty-state">
-            <BriefcaseBusiness size={25} />
+            <Briefcase size={25} />
             <strong>No projects here yet</strong>
             <span>Try a different filter to see more projects.</span>
           </div>
@@ -100,3 +100,4 @@ export default function MyProjectsPage() {
     </>
   );
 }
+

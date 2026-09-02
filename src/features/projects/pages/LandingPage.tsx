@@ -1,4 +1,4 @@
-import LandingNavbar from '../../../components/landing/LandingNavbar';
+﻿import LandingNavbar from '../../../components/landing/LandingNavbar';
 import HeroSection from '../../../components/landing/HeroSection';
 import PartnersCarousel from '../../../components/landing/PartnersCarousel';
 import StatsSection from '../../../components/landing/StatsSection';
@@ -13,7 +13,7 @@ import FinalCTA from '../../../components/landing/FinalCTA';
 import LandingFooter from '../../../components/landing/LandingFooter';
 
 /**
- * PataDev Ke — Complete Marketplace Landing Page (Clean, No Overlays)
+ * PataDev Ke â€” Complete Marketplace Landing Page (Clean, No Overlays)
  */
 export default function LandingPage() {
   return (

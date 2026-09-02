@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowUpRight, Check, LockKeyhole, Sparkles } from 'lucide-react';
 import PageHeader from '../../../components/dashboard/PageHeader';
@@ -7,7 +7,7 @@ import { useToast, Toast } from '../../../components/dashboard/useToast';
 export default function PostProjectPage() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [budget, setBudget] = useState('$8,000 – $12,000');
+  const [budget, setBudget] = useState('$8,000 â€“ $12,000');
   const navigate = useNavigate();
   const { toast, notify } = useToast();
 
@@ -22,7 +22,7 @@ export default function PostProjectPage() {
     <>
       <PageHeader
         eyebrow="NEW PROJECT"
-        title="Tell us what you’re building"
+        title="Tell us what youâ€™re building"
         description="Give great developers the context they need to bring your idea to life."
         action={
           <button className="button button-quiet" onClick={() => navigate('/dashboard/projects')}>
@@ -75,9 +75,9 @@ export default function PostProjectPage() {
             <label>
               Estimated budget
               <select value={budget} onChange={(event) => setBudget(event.target.value)}>
-                <option>$5,000 – $8,000</option>
-                <option>$8,000 – $12,000</option>
-                <option>$12,000 – $18,000</option>
+                <option>$5,000 â€“ $8,000</option>
+                <option>$8,000 â€“ $12,000</option>
+                <option>$12,000 â€“ $18,000</option>
                 <option>$20,000+</option>
               </select>
             </label>
@@ -107,3 +107,4 @@ export default function PostProjectPage() {
     </>
   );
 }
+

@@ -1,4 +1,4 @@
-import EmptyState from '../../../components/common/EmptyState';
+﻿import EmptyState from '../../../components/common/EmptyState';
 // TODO: list unverified users, each with an "Approve" button ->
 // adminService.approveAccount(userId).
 
@@ -10,3 +10,4 @@ export default function ApproveAccountsPage() {
     </div>
   );
 }
+

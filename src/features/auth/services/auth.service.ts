@@ -1,4 +1,4 @@
-import { apiClient } from '../../../lib/api/client';
+﻿import { apiClient } from '../../../lib/api/client';
 import { supabase } from '../../../lib/supabase/client';
 
 export interface AuthResponse {
@@ -33,3 +33,4 @@ export const authService = {
     };
   },
 };
+

@@ -1,6 +1,6 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Code2, BriefcaseBusiness, ArrowRight } from 'lucide-react';
+import { Code2, Briefcase, ArrowRight } from 'lucide-react';
 import { cn } from '../../../lib/utils';
 import { useAuth } from '../../../contexts/AuthContext';
 
@@ -97,7 +97,7 @@ export default function RoleSelectionPage() {
                     : 'bg-slate-100 text-slate-500'
                 )}
               >
-                <BriefcaseBusiness size={24} strokeWidth={2} />
+                <Briefcase size={24} strokeWidth={2} />
               </div>
               <h3 className={cn("font-bold text-lg mb-2", selectedRole === 'CLIENT' ? 'text-[#2563EB]' : 'text-[#0F172A]')}>
                 I'm a Client
@@ -128,3 +128,5 @@ export default function RoleSelectionPage() {
     </div>
   );
 }
+
+

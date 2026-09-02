@@ -1,4 +1,4 @@
-import { apiClient } from '../../../lib/api/client';
+﻿import { apiClient } from '../../../lib/api/client';
 
 export interface AdminListResponse<T> {
   items: T[];
@@ -8,7 +8,7 @@ export interface AdminListResponse<T> {
 }
 
 export const adminService = {
-  // ── Users ────────────────────────────────────────────────────────
+  // â”€â”€ Users â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   async getAccounts(params?: { role?: string; status?: string; search?: string }): Promise<AdminListResponse<any>> {
     const query = new URLSearchParams();
     if (params?.role) query.set('role', params.role);
@@ -25,7 +25,7 @@ export const adminService = {
     return apiClient.post('/admin/verify-developer', { userId, decision, rejectionReason });
   },
 
-  // ── Projects ─────────────────────────────────────────────────────
+  // â”€â”€ Projects â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   async getProjects(params?: { status?: string; search?: string }): Promise<AdminListResponse<any>> {
     const query = new URLSearchParams();
     if (params?.status) query.set('status', params.status);
@@ -44,14 +44,14 @@ export const adminService = {
     return apiClient.post('/admin/moderate-listing', { projectId, action });
   },
 
-  // ── Payouts ──────────────────────────────────────────────────────
+  // â”€â”€ Payouts â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   // Note: Backend does not currently provide a GET /admin/payouts endpoint.
   // We can only confirm payouts when we have a milestoneId.
   async confirmPayout(milestoneId: string): Promise<void> {
     return apiClient.post('/payments/confirm-payout', { milestoneId });
   },
 
-  // ── Disputes ─────────────────────────────────────────────────────
+  // â”€â”€ Disputes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   async getDisputes(params?: { status?: string }): Promise<AdminListResponse<any>> {
     const query = new URLSearchParams();
     if (params?.status) query.set('status', params.status);
@@ -62,10 +62,11 @@ export const adminService = {
     return apiClient.patch(`/admin/disputes/${disputeId}`, { decision, resolutionNote });
   },
 
-  // ── Stats ────────────────────────────────────────────────────────
+  // â”€â”€ Stats â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   async getFinancialReport(): Promise<any> {
     return apiClient.get('/admin/financial-report');
   }
 };
 
 export default adminService;
+

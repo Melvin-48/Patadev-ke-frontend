@@ -1,4 +1,4 @@
-import LegalPageLayout, { TOCItem } from '../../../components/layout/LegalPageLayout';
+﻿import LegalPageLayout, { TOCItem } from '../../../components/layout/LegalPageLayout';
 
 const TOC: TOCItem[] = [
   { id: 'introduction', title: '1. Introduction' },
@@ -192,3 +192,4 @@ export default function TermsPage() {
     </LegalPageLayout>
   );
 }
+

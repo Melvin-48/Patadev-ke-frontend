@@ -1,4 +1,4 @@
-import { mockLedger } from '../../../data/mock';
+﻿import { mockLedger } from '../../../data/mock';
 
 // Ledger view - HELD / COMMISSION / PAYOUT / REFUND entries for an accepted
 // bid. Used inside the engagement detail (Payments tab) and standalone.

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { useParams, useNavigate} from 'react-router-dom';
 import { 
   ArrowLeft, Calendar, DollarSign, Clock, CheckCircle,
@@ -39,10 +39,10 @@ export default function EngagementsMilestonesPage() {
       setLoading(true);
       // Fetch  details and milestones
       const [, milestonesData] = await Promise.all([
-        bidsService.getBidById(id),
+        bidsService.getById(id),
         milestonesService.getMilestonesForBid(id)
       ]);
-      setMilestones(milestonesData);
+      setMilestones(milestonesData as unknown as Milestone[]);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -316,6 +316,9 @@ export default function EngagementsMilestonesPage() {
     </div>
   );
 }
+
+
+
 
 
 

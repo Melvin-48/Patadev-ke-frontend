@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ArrowUpRight,
@@ -24,7 +24,7 @@ export default function BrowseProjectsPage() {
   const isDeveloper = user?.role === 'DEVELOPER';
 
   const browseProjects = mockProjects.filter(
-    (project) => project.status === 'OPEN' || project.status === 'DRAFT',
+    (project) => String(project.status) === 'OPEN' || project.status === 'DRAFT',
   );
   const results = browseProjects.filter(
     (project) =>
@@ -87,7 +87,7 @@ export default function BrowseProjectsPage() {
               <p>{project.description}</p>
               <div className="browse-card-footer">
                 <span><CircleDollarSign size={15} />{project.budgetLabel}</span>
-                <span><Clock3 size={15} />8–12 weeks</span>
+                <span><Clock3 size={15} />8â€“12 weeks</span>
                 <span><UsersRound size={15} />{project.bids + 4} proposals</span>
               </div>
               <div className="browse-card-action">
@@ -127,3 +127,4 @@ export default function BrowseProjectsPage() {
     </>
   );
 }
+

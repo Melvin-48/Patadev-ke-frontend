@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, AlertCircle, Loader2 } from 'lucide-react';
 import { useAuth, AuthUser } from '../../../contexts/AuthContext';
@@ -76,7 +76,7 @@ export default function LoginPage() {
           return;
         }
       } catch {
-        // /users/me failed – likely a backend error, not a missing profile.
+        // /users/me failed ΓÇô likely a backend error, not a missing profile.
         // Use the role from the auth response.
       }
 
@@ -84,7 +84,7 @@ export default function LoginPage() {
       if (res.role) {
         navigate('/dashboard', { replace: true });
       } else {
-        // No role – new user, needs to complete registration
+        // No role ΓÇô new user, needs to complete registration
         navigate('/onboarding', { replace: true });
       }
     } catch (err: unknown) {
@@ -231,3 +231,4 @@ export default function LoginPage() {
     </AuthLayout>
   );
 }
+

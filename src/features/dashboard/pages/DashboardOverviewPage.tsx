@@ -1,8 +1,8 @@
-import { useNavigate } from 'react-router-dom';
+﻿import { useNavigate } from 'react-router-dom';
 import {
   ArrowUpRight,
   Bell,
-  BriefcaseBusiness,
+  Briefcase,
   ChevronRight,
   CircleDollarSign,
   FileCheck2,
@@ -37,14 +37,14 @@ export default function DashboardOverviewPage() {
 
   function openProject(project: (typeof mockProjects)[number]) {
     if (project.status === 'DRAFT') return navigate('/dashboard/projects/new');
-    if (project.status === 'OPEN') return navigate(`/dashboard/projects/${project.id}/bids`);
+    if (String(project.status) === 'OPEN') return navigate(`/dashboard/projects/${project.id}/bids`);
     return navigate(`/dashboard/engagements/${selectedBidId}`);
   }
 
   const opportunities = [
-    { title: 'Fintech dashboard redesign', skills: 'React, Node.js, PostgreSQL', price: 'KES 840K – KES 1.2M', bids: 6 },
-    { title: 'Inventory management app', skills: 'TypeScript, AWS, Python', price: 'KES 500K – KES 720K', bids: 9 },
-    { title: 'B2B customer portal', skills: 'Figma, Next.js, Tailwind', price: 'KES 1.1M – KES 1.4M', bids: 3 },
+    { title: 'Fintech dashboard redesign', skills: 'React, Node.js, PostgreSQL', price: 'KES 840K â€“ KES 1.2M', bids: 6 },
+    { title: 'Inventory management app', skills: 'TypeScript, AWS, Python', price: 'KES 500K â€“ KES 720K', bids: 9 },
+    { title: 'B2B customer portal', skills: 'Figma, Next.js, Tailwind', price: 'KES 1.1M â€“ KES 1.4M', bids: 3 },
   ];
 
   return (
@@ -52,10 +52,10 @@ export default function DashboardOverviewPage() {
       <div className="welcome-row">
         <div>
           <p className="greeting">{today}</p>
-          <h1>Good morning <span className="wave">✦</span></h1>
+          <h1>Good morning <span className="wave">âœ¦</span></h1>
           <p className="welcome-sub">
             {isClient
-              ? 'Here’s the latest on your projects and the people building them.'
+              ? 'Hereâ€™s the latest on your projects and the people building them.'
               : 'Your next great project is closer than you think.'}
           </p>
         </div>
@@ -73,7 +73,7 @@ export default function DashboardOverviewPage() {
           label={isClient ? 'Active projects' : 'Active bids'}
           value={isClient ? '3' : '7'}
           trend="+2 this month"
-          icon={<BriefcaseBusiness size={18} />}
+          icon={<Briefcase size={18} />}
           tone="blue"
         />
         <MetricCard
@@ -154,14 +154,14 @@ export default function DashboardOverviewPage() {
             <Activity
               icon={<FileCheck2 size={15} />}
               title={isClient ? 'New bid received' : 'New project match'}
-              detail={isClient ? 'Real POS System · 8 bids' : 'Inventory Management'}
+              detail={isClient ? 'Real POS System Â· 8 bids' : 'Inventory Management'}
               time="2 hrs ago"
               color="green"
             />
             <Activity
               icon={<ShieldCheck size={15} />}
               title="Payment released"
-              detail={isClient ? 'Milestone · KES 228,000' : 'Milestone · KES 60,000'}
+              detail={isClient ? 'Milestone Â· KES 228,000' : 'Milestone Â· KES 60,000'}
               time="Yesterday"
               color="coral"
             />
@@ -189,3 +189,4 @@ export default function DashboardOverviewPage() {
     </>
   );
 }
+

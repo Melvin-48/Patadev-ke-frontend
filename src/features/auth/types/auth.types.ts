@@ -1,1 +1,1 @@
-// TODO: Define AuthRequest, AuthResponse, User types
+﻿// TODO: Define AuthRequest, AuthResponse, User types

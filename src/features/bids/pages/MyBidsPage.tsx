@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ArrowUpRight, FileCheck2, MoreHorizontal, Plus } from 'lucide-react';
 import PageHeader from '../../../components/dashboard/PageHeader';
@@ -20,7 +20,7 @@ export default function MyBidsPage() {
     Boolean((location.state as { openBidForm?: boolean } | null)?.openBidForm),
   );
   const [amount, setAmount] = useState('');
-  const [timeline, setTimeline] = useState('10–12 weeks');
+  const [timeline, setTimeline] = useState('10â€“12 weeks');
   const [message, setMessage] = useState('');
 
   function toggleForm() {
@@ -50,7 +50,7 @@ export default function MyBidsPage() {
       <PageHeader
         eyebrow="DEVELOPER WORKSPACE"
         title="My bids"
-        description="Track proposals, conversations, and the work that’s moving forward."
+        description="Track proposals, conversations, and the work thatâ€™s moving forward."
         action={
           <button className="button button-primary" onClick={toggleForm}>
             <Plus size={17} /> {showForm ? 'Close form' : 'Place a bid'}
@@ -72,9 +72,9 @@ export default function MyBidsPage() {
             <label>
               Estimated timeline
               <select value={timeline} onChange={(event) => setTimeline(event.target.value)}>
-                <option>10–12 weeks</option>
-                <option>12–16 weeks</option>
-                <option>16–20 weeks</option>
+                <option>10â€“12 weeks</option>
+                <option>12â€“16 weeks</option>
+                <option>16â€“20 weeks</option>
               </select>
             </label>
           </div>
@@ -84,7 +84,7 @@ export default function MyBidsPage() {
               rows={4}
               value={message}
               onChange={(event) => setMessage(event.target.value)}
-              placeholder="Tell the client why you’re a strong fit..."
+              placeholder="Tell the client why youâ€™re a strong fit..."
             />
           </label>
           <div className="form-footer">

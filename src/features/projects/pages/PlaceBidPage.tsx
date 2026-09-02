@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { useParams, useNavigate} from 'react-router-dom';
 import { 
   ArrowLeft, DollarSign, Clock,
@@ -37,8 +37,8 @@ export default function PlaceBidPage() {
   const fetchProject = async (projectId: string) => {
     try {
       setLoading(true);
-      const data = await projectsService.getProjectById(projectId);
-      setProject(data);
+      const data = await projectsService.getById(projectId);
+      setProject(data as unknown as Project);
     } catch (error) {
       console.error('Error fetching project:', error);
       setError('Failed to load project details');
@@ -60,7 +60,7 @@ export default function PlaceBidPage() {
       
       await bidsService.createBid({
         projectId: id,
-        amount: parseFloat(formData.amount),
+        proposedAmount: parseFloat(formData.amount),
         message: formData.message || undefined,
       });
       
@@ -255,7 +255,7 @@ export default function PlaceBidPage() {
               
               <div>
                 <p className="text-sm text-gray-500">Status</p>
-                <Badge className={project?.status === 'OPEN' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}>
+                <Badge className={String(project?.status) === 'OPEN' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}>
                   {project?.status}
                 </Badge>
               </div>
@@ -286,6 +286,10 @@ export default function PlaceBidPage() {
     </div>
   );
 }
+
+
+
+
 
 
 

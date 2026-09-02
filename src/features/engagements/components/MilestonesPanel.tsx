@@ -1,4 +1,4 @@
-import { Check, Plus } from 'lucide-react';
+﻿import { Check, Plus } from 'lucide-react';
 import { mockMilestones } from '../../../data/mock';
 
 // Full milestone list used both inside the engagement detail (Milestones tab)

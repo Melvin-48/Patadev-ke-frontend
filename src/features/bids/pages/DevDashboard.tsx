@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
 import {
   Compass,
   FileCheck2,
@@ -19,25 +19,25 @@ export default function DevDashboard() {
     {
       id: 'opp-1',
       title: 'Fintech Dashboard Redesign',
-      category: 'Fintech · React, Node.js',
-      budget: 'KES 840,000 – KES 1,200,000',
-      timeline: '8–12 weeks',
+      category: 'Fintech Â· React, Node.js',
+      budget: 'KES 840,000 â€“ KES 1,200,000',
+      timeline: '8â€“12 weeks',
       proposals: 6,
     },
     {
       id: 'opp-2',
       title: 'Inventory & POS System',
-      category: 'Retail · TypeScript, Next.js',
-      budget: 'KES 500,000 – KES 720,000',
-      timeline: '6–8 weeks',
+      category: 'Retail Â· TypeScript, Next.js',
+      budget: 'KES 500,000 â€“ KES 720,000',
+      timeline: '6â€“8 weeks',
       proposals: 9,
     },
     {
       id: 'opp-3',
       title: 'B2B Customer Portal & API',
-      category: 'SaaS · PostgreSQL, NestJS',
-      budget: 'KES 1,100,000 – KES 1,400,000',
-      timeline: '12–16 weeks',
+      category: 'SaaS Â· PostgreSQL, NestJS',
+      budget: 'KES 1,100,000 â€“ KES 1,400,000',
+      timeline: '12â€“16 weeks',
       proposals: 3,
     },
   ];
@@ -140,12 +140,12 @@ export default function DevDashboard() {
                   <h3 className="text-base font-extrabold text-[#07152F]">{opp.title}</h3>
                   <div className="flex items-center gap-4 text-xs text-slate-500 font-medium mt-2">
                     <span className="font-bold text-[#07152F]">{opp.budget}</span>
-                    <span>•</span>
+                    <span>â€¢</span>
                     <span className="inline-flex items-center gap-1">
                       <Clock3 size={13} className="text-slate-400" />
                       {opp.timeline}
                     </span>
-                    <span>•</span>
+                    <span>â€¢</span>
                     <span>{opp.proposals} proposals</span>
                   </div>
                 </div>
@@ -202,7 +202,7 @@ export default function DevDashboard() {
               type="button"
               className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-[#1769FF] hover:underline"
             >
-              Contact Support →
+              Contact Support â†’
             </button>
           </div>
         </aside>
